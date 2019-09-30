@@ -11,6 +11,7 @@ namespace Apaapi\operations;
 
 use Apaapi\lib\Operation;
 use Apaapi\interfaces\OperationInterface;
+use Apaapi\resources\BrowseNodes;
 
 /**
  * Basic Paapi5 GetBrowseNodes Operation

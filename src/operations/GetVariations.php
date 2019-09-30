@@ -11,6 +11,12 @@ namespace Apaapi\operations;
 
 use Apaapi\lib\Operation;
 use Apaapi\interfaces\OperationInterface;
+use Apaapi\resources\BrowseNodeInfo;
+use Apaapi\resources\Images;
+use Apaapi\resources\ItemInfo;
+use Apaapi\resources\Offers;
+use Apaapi\resources\VariationSummary;
+use Apaapi\resources\ParentASIN;
 
 /**
  * Basic Paapi5 GetVariations Operation

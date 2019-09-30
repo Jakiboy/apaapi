@@ -16,6 +16,11 @@ use Apaapi\interfaces\OperationInterface;
  */
 class OperationProvider
 {
+    /**
+     * @access public
+     * @param OperationInterface $operation
+     * @return JSON
+     */
     static public function generate(OperationInterface $operation)
     {
     	$wrapper = [];
@@ -23,5 +28,15 @@ class OperationProvider
     		$wrapper[ucfirst($key)] = $value;
     	}
         return json_encode($wrapper);
+    }
+
+    /**
+     * @access public
+     * @param OperationInterface $operation
+     * @return string
+     */
+    static public function getName(OperationInterface $operation)
+    {
+    	return str_replace('Apaapi\operations\\','',get_class($operation));
     }
 }
