@@ -1,0 +1,24 @@
+{
+  "name": "jakiboy/apaapi",
+  "version" : "1.0.0",
+  "type": "library",
+  "description": "Amazon Product Advertising API v5",
+  "keywords": ["php","amazon","product","api","apaapi","paapi5"],
+  "homepage": "https://jakiboy.github.io/apaapi/",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Jihad Sinnaour",
+      "email": "mail@jihadsinnaour.com",
+      "role": "Founder"
+    }
+  ],
+  "require": {
+    "php": ">=5.6"
+  },
+  "autoload": {
+    "psr-4" : {
+      "Apaapi\\" : "src/"
+    }
+  }
+}
