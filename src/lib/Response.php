@@ -17,19 +17,25 @@ use Apaapi\interfaces\RequestInterface;
  */
 class Response implements ResponseInterface
 {
-	public $body;
+    /**
+     * @access public
+     * @var JSON|False $body, Amazon API Response
+     */
+	public $body = false;
 
+    /**
+     * @param RequestInterface $request
+     * @return void
+     */
 	public function __construct(RequestInterface $request)
 	{
 		$stream = stream_context_create($request->params);
 		$data = @fopen("https://{$request->endpoint}", 'rb', false, $stream);
-		if ( !$data ) {
-		    throw new Exception( "Exception Occured" );
+		if ($data) {
+			$response = @stream_get_contents($data);
+			if ($response !== false) {
+				$this->body = $response;
+			}
 		}
-		$response = @stream_get_contents($data);
-		if ($response === false) {
-		    throw new Exception( "Exception Occured" );
-		}
-		$this->body = $response;
 	}
 }

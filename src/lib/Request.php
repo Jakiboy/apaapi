@@ -124,7 +124,7 @@ implements RequestInterface
      */
     public function setPayload(OperationInterface $operation)
     {
-        $target = get_class($operation);
+        $target = OperationProvider::getName($operation);
         $this->path = $this->path.strtolower($target);
         $target = "com.amazon.paapi5.v1.ProductAdvertisingAPIv1.{$target}";
         $this->host = "{$this->host}.{$this->region}";
