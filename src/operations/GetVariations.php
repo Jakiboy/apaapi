@@ -1,6 +1,6 @@
 <?php
 /**
- * @package Amazon Product Advertising API v5
+ * @package Amazon Product Advertising API
  * @copyright Copyright (c) 2019 Jakiboy
  * @author Jihad Sinnaour <mail@jihadsinnaour.com>
  * @link https://jakiboy.github.io/apaapi/
@@ -9,7 +9,7 @@
 
 namespace Apaapi\operations;
 
-use Apaapi\lib\Operation;
+use Apaapi\lib\ItemOperation;
 use Apaapi\interfaces\OperationInterface;
 use Apaapi\resources\BrowseNodeInfo;
 use Apaapi\resources\Images;
@@ -19,12 +19,27 @@ use Apaapi\resources\VariationSummary;
 use Apaapi\resources\ParentASIN;
 
 /**
- * Basic Paapi5 GetVariations Operation
+ * Basic Apaapi GetVariations Operation
  * @see https://webservices.amazon.com/paapi5/documentation/get-variations.html
  */
-class GetVariations extends Operation 
+class GetVariations extends ItemOperation 
 implements OperationInterface
 {
+	/**
+	 * @access public
+     *
+	 * @var null|string $ASIN
+	 * @var int $variationCount
+	 * @var int $variationPage
+	 */
+	public $ASIN = null;
+	public $variationCount = 10;
+	public $variationPage = 1;
+
+	/**
+	 * @param void
+	 * @return void
+	 */
 	public function __construct()
 	{
 		$this->resources = [
@@ -36,4 +51,34 @@ implements OperationInterface
 			new ParentASIN
 		];
 	}
+
+	/**
+	 * @param string $ASIN
+	 * @return object
+	 */
+    public function setASIN($ASIN)
+    {
+    	$this->ASIN = $ASIN;
+    	return $this;
+    }
+
+	/**
+	 * @param int $variationCount
+	 * @return object
+	 */
+    public function setVariationCount($variationCount)
+    {
+    	$this->variationCount = $variationCount;
+    	return $this;
+    }
+
+	/**
+	 * @param int $variationPage
+	 * @return object
+	 */
+    public function setVariationPage($variationPage)
+    {
+    	$this->variationPage = $variationPage;
+    	return $this;
+    }
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * @package Amazon Product Advertising API v5
+ * @package Amazon Product Advertising API
  * @copyright Copyright (c) 2019 Jakiboy
  * @author Jihad Sinnaour <mail@jihadsinnaour.com>
  * @link https://jakiboy.github.io/apaapi/
@@ -10,7 +10,7 @@
 namespace Apaapi\lib;
 
 /**
- * Basic Paapi5 Operation Wrapper Class
+ * Basic Apaapi All Operation Wrapper Class
  */
 class Operation
 {
@@ -18,16 +18,16 @@ class Operation
 	 * @access public
      *
 	 * @var string $partnerType
-	 * @var string $partnerTag
-	 * @var string $keywords
-	 * @var string $searchIndex
 	 * @var array $resources
+	 * @var null|string $partnerTag
+     * @var null|array $marketplace
+     * @var null|array $languagesOfPreference
 	 */
     public $partnerType = 'Associates';
-    public $partnerTag;
-    public $keywords;
-    public $searchIndex = 'All';
     public $resources = [];
+    public $partnerTag = null;
+    public $marketplace = null;
+    public $languagesOfPreference = [];
 
 	/**
 	 * @param string $type
@@ -50,26 +50,6 @@ class Operation
     }
 
 	/**
-	 * @param string $keywords
-	 * @return object
-	 */
-    public function setKeywords($keywords)
-    {
-    	$this->keywords = $keywords;
-    	return $this;
-    }
-
-	/**
-	 * @param string $index
-	 * @return object
-	 */
-    public function setSearchIndex($index)
-    {
-    	$this->searchIndex = $index;
-    	return $this;
-    }
-
-	/**
 	 * @param array $resources
 	 * @return object
      * @todo Parse & Validate Ressources
@@ -78,5 +58,26 @@ class Operation
     public function setResources($resources)
     {
         $this->resources = $resources;
+        return $this;
+    }
+
+    /**
+     * @param array $languagesOfPreference
+     * @return object
+     */
+    public function setLanguages($languagesOfPreference)
+    {
+        $this->languagesOfPreference = $languagesOfPreference;
+        return $this;
+    }
+
+    /**
+     * @param string $marketplace
+     * @return object
+     */
+    public function setMarketplace($marketplace)
+    {
+        $this->marketplace = $marketplace;
+        return $this;
     }
 }

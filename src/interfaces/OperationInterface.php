@@ -1,6 +1,6 @@
 <?php
 /**
- * @package Amazon Product Advertising API v5
+ * @package Amazon Product Advertising API
  * @copyright Copyright (c) 2019 Jakiboy
  * @author Jihad Sinnaour <mail@jihadsinnaour.com>
  * @link https://jakiboy.github.io/apaapi/
@@ -10,7 +10,7 @@
 namespace Apaapi\interfaces;
 
 /**
- * Basic Paapi5 Operation Interface
+ * Interface Group All Operations
  */
 interface OperationInterface
 {
@@ -21,10 +21,10 @@ interface OperationInterface
     public function setPartnerTag($tag);
 
 	/**
-	 * @param string $keywords
+	 * @param string $type
 	 * @return object
 	 */
-    public function setKeywords($keywords);
+    public function setPartnerType($type);
 
 	/**
 	 * @param array $resources

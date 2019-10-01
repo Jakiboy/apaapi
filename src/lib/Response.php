@@ -1,6 +1,6 @@
 <?php
 /**
- * @package Amazon Product Advertising API v5
+ * @package Amazon Product Advertising API
  * @copyright Copyright (c) 2019 Jakiboy
  * @author Jihad Sinnaour <mail@jihadsinnaour.com>
  * @link https://jakiboy.github.io/apaapi/
@@ -13,7 +13,7 @@ use Apaapi\interfaces\ResponseInterface;
 use Apaapi\interfaces\RequestInterface;
 
 /**
- * Basic Paapi5 Response Wrapper Class
+ * Basic Apaapi Response Wrapper Class
  */
 class Response implements ResponseInterface
 {
