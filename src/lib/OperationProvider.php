@@ -1,6 +1,6 @@
 <?php
 /**
- * @package Amazon Product Advertising API v5
+ * @package Amazon Product Advertising API
  * @copyright Copyright (c) 2019 Jakiboy
  * @author Jihad Sinnaour <mail@jihadsinnaour.com>
  * @link https://jakiboy.github.io/apaapi/
@@ -12,7 +12,7 @@ namespace Apaapi\lib;
 use Apaapi\interfaces\OperationInterface;
 
 /**
- * Basic Paapi5 Request Provider
+ * Basic Apaapi Request Provider (Parser)
  */
 class OperationProvider
 {
@@ -25,7 +25,9 @@ class OperationProvider
     {
     	$wrapper = [];
     	foreach ($operation as $key => $value) {
-    		$wrapper[ucfirst($key)] = $value;
+            if ($value) {
+                $wrapper[ucfirst($key)] = $value;
+            }
     	}
         return json_encode($wrapper);
     }

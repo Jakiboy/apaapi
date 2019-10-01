@@ -1,6 +1,6 @@
 <?php
 /**
- * @package Amazon Product Advertising API v5
+ * @package Amazon Product Advertising API
  * @copyright Copyright (c) 2019 Jakiboy
  * @author Jihad Sinnaour <mail@jihadsinnaour.com>
  * @link https://jakiboy.github.io/apaapi/
@@ -15,7 +15,7 @@ use Apaapi\lib\SignatureRequest;
 use Apaapi\lib\OperationProvider;
 
 /**
- * Basic Paapi5 Request Wrapper Class
+ * Basic Apaapi Request Wrapper Class
  */
 class Request extends SignatureRequest 
 implements RequestInterface
