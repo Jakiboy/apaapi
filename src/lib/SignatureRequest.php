@@ -181,7 +181,6 @@ abstract class SignatureRequest
 	 */
     protected function getTimeStamp()
     {
-        date_default_timezone_set('Europe/Paris');
         return gmdate("Ymd\THis\Z");
     }
 
@@ -192,7 +191,6 @@ abstract class SignatureRequest
 	 */
     protected function getDate()
     {
-        date_default_timezone_set('Europe/Paris');
         return gmdate("Ymd");
     }
 }

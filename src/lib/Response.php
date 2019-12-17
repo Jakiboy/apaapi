@@ -13,7 +13,7 @@ use Apaapi\interfaces\ResponseInterface;
 use Apaapi\interfaces\RequestInterface;
 
 /**
- * Basic Apaapi Response Wrapper Class
+ * Basic Apaapi ResponseCurl Wrapper Class
  */
 class Response implements ResponseInterface
 {
@@ -29,12 +29,22 @@ class Response implements ResponseInterface
      */
 	public function __construct(RequestInterface $request)
 	{
-		$stream = stream_context_create($request->params);
-		$data = @fopen("https://{$request->endpoint}", 'rb', false, $stream);
+		$handler = curl_init();
+		$header = explode("\n", $request->params["http"]["header"]);
+
+		curl_setopt($handler, CURLOPT_URL, "https://{$request->endpoint}");
+		curl_setopt($handler, CURLOPT_POSTFIELDS, ($request->params["http"]["content"]));
+		curl_setopt($handler, CURLOPT_HTTPHEADER, $header);
+		curl_setopt($handler, CURLOPT_POST, true);
+		curl_setopt($handler, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($handler, CURLOPT_SSL_VERIFYHOST, false);
+		curl_setopt($handler, CURLOPT_SSL_VERIFYPEER, false);
+
+		$data = curl_exec($handler);
+
 		if ($data) {
-			$response = @stream_get_contents($data);
-			if ($response !== false) {
-				$this->body = $response;
+			if ($data !== false && strpos($data, 'Errors') === false) {
+				$this->body = $data;
 			}
 		}
 	}
