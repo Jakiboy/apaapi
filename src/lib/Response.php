@@ -14,6 +14,7 @@ use Apaapi\interfaces\RequestInterface;
 
 /**
  * Basic Apaapi ResponseCurl Wrapper Class
+ * @todo Use PSR-7
  */
 class Response implements ResponseInterface
 {
@@ -30,10 +31,10 @@ class Response implements ResponseInterface
 	public function __construct(RequestInterface $request)
 	{
 		$handler = curl_init();
-		$header = explode("\n", $request->params["http"]["header"]);
+		$header = explode("\n", $request->params['http']['header']);
 
 		curl_setopt($handler, CURLOPT_URL, "https://{$request->endpoint}");
-		curl_setopt($handler, CURLOPT_POSTFIELDS, ($request->params["http"]["content"]));
+		curl_setopt($handler, CURLOPT_POSTFIELDS, ($request->params['http']['content']));
 		curl_setopt($handler, CURLOPT_HTTPHEADER, $header);
 		curl_setopt($handler, CURLOPT_POST, true);
 		curl_setopt($handler, CURLOPT_RETURNTRANSFER, true);
@@ -45,6 +46,10 @@ class Response implements ResponseInterface
 		if ($data) {
 			if ($data !== false && strpos($data, 'Errors') === false) {
 				$this->body = $data;
+			}
+			else if (strpos($data, 'Errors') !== true) {
+				$data = json_decode($data);
+				$this->error = $data->Errors[0]->Message;
 			}
 		}
 	}
