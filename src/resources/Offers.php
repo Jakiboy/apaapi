@@ -1,7 +1,7 @@
 <?php
 /**
  * @package Amazon Product Advertising API
- * @copyright Copyright (c) 2019 Jakiboy
+ * @copyright (c) 2019 - 2020 Jakiboy
  * @author Jihad Sinnaour <mail@jihadsinnaour.com>
  * @link https://jakiboy.github.io/apaapi/
  * @license MIT

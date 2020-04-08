@@ -1,7 +1,7 @@
 <?php
 /**
  * @package Amazon Product Advertising API
- * @copyright Copyright (c) 2019 Jakiboy
+ * @copyright (c) 2019 - 2020 Jakiboy
  * @author Jihad Sinnaour <mail@jihadsinnaour.com>
  * @link https://jakiboy.github.io/apaapi/
  * @license MIT
@@ -13,16 +13,17 @@ use Apaapi\interfaces\ResponseInterface;
 use Apaapi\interfaces\RequestInterface;
 
 /**
- * Basic Apaapi ResponseCurl Wrapper Class
- * @todo Use PSR-7
+ * Basic Apaapi Response Wrapper Class
  */
 class Response implements ResponseInterface
 {
     /**
      * @access public
-     * @var JSON|False $body, Amazon API Response
+     * @var mixed $body Amazon API Response
+     * @var mixed $error Response Error
      */
-	public $body = false;
+	public $body  = false;
+	public $error = false;
 
     /**
      * @param RequestInterface $request
@@ -30,27 +31,11 @@ class Response implements ResponseInterface
      */
 	public function __construct(RequestInterface $request)
 	{
-		$handler = curl_init();
-		$header = explode("\n", $request->params['http']['header']);
-
-		curl_setopt($handler, CURLOPT_URL, "https://{$request->endpoint}");
-		curl_setopt($handler, CURLOPT_POSTFIELDS, ($request->params['http']['content']));
-		curl_setopt($handler, CURLOPT_HTTPHEADER, $header);
-		curl_setopt($handler, CURLOPT_POST, true);
-		curl_setopt($handler, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($handler, CURLOPT_SSL_VERIFYHOST, false);
-		curl_setopt($handler, CURLOPT_SSL_VERIFYPEER, false);
-
-		$data = curl_exec($handler);
-
-		if ($data) {
-			if ($data !== false && strpos($data, 'Errors') === false) {
-				$this->body = $data;
-			}
-			else if (strpos($data, 'Errors') !== true) {
-				$data = json_decode($data);
-				$this->error = $data->Errors[0]->Message;
-			}
+		$response = new RequestClient($request);
+		$response->getBody();
+		if ($response->error) {
+			$this->error = $response->error;
 		}
+		$this->body = $response->body;
 	}
 }
