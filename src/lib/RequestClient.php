@@ -60,6 +60,7 @@ class RequestClient
 		curl_setopt($this->handler, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($this->handler, CURLOPT_SSL_VERIFYHOST, $this->forceSSL);
 		curl_setopt($this->handler, CURLOPT_SSL_VERIFYPEER, $this->forceSSL);
+		curl_setopt($this->handler, CURLOPT_TIMEOUT, 10);
 		$this->setHeader();
 	}
 
