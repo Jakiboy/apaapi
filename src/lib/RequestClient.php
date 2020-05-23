@@ -48,6 +48,7 @@ class RequestClient
 	}
 
     /**
+     * @access private
      * @param void
      * @return void
      */
@@ -65,6 +66,7 @@ class RequestClient
 	}
 
     /**
+     * @access private
      * @param void
      * @return void
      */
@@ -74,6 +76,7 @@ class RequestClient
 	}
 
     /**
+     * @access private
      * @param void
      * @return void
      */
@@ -84,6 +87,7 @@ class RequestClient
 	}
 
     /**
+     * @access private
      * @param void
      * @return boolean
      */
@@ -96,6 +100,7 @@ class RequestClient
 	}
 
     /**
+     * @access private
      * @param void
      * @return int
      */
@@ -105,6 +110,7 @@ class RequestClient
 	}
 
     /**
+     * @access private
      * @param void
      * @return string
      */
@@ -114,6 +120,7 @@ class RequestClient
 	}
 
     /**
+     * @access private
      * @param void
      * @return void
      */
@@ -125,7 +132,7 @@ class RequestClient
 		} elseif ( $this->getHttpCode() == 401 ) {
 			$this->error = 'The Access Key ID or security token included in the request is invalid';
 
-		}  elseif ( $this->getHttpCode() == 403 ) {
+		}  elseif ( $this->getHttpCode() == 403 || $this->getHttpCode() == 429 ) {
 			$this->error = 'Your access key is not mapped to Primary of approved associate store';
 
 		} else {
@@ -134,6 +141,7 @@ class RequestClient
 	}
 
     /**
+     * @access public
      * @param void
      * @return void
      */

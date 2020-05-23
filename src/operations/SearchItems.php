@@ -83,6 +83,7 @@ implements ItemOperationInterface
 	}
 
     /**
+     * @access public
      * @param string $keywords
      * @return object
      */
@@ -93,6 +94,7 @@ implements ItemOperationInterface
     }
 
     /**
+     * @access public
      * @param string $actor
      * @return object
      */
@@ -103,6 +105,7 @@ implements ItemOperationInterface
     }
 
     /**
+     * @access public
      * @param string $artist
      * @return object
      */
@@ -113,6 +116,7 @@ implements ItemOperationInterface
     }
 
     /**
+     * @access public
      * @param string $author
      * @return object
      */
@@ -123,6 +127,7 @@ implements ItemOperationInterface
     }
 
     /**
+     * @access public
      * @param string $availability
      * @return object
      */
@@ -133,6 +138,7 @@ implements ItemOperationInterface
     }
 
     /**
+     * @access public
      * @param string $brand
      * @return object
      */
@@ -143,6 +149,7 @@ implements ItemOperationInterface
     }
 
     /**
+     * @access public
      * @param string $browseNodeId
      * @return object
      */
@@ -153,6 +160,7 @@ implements ItemOperationInterface
     }
 
     /**
+     * @access public
      * @param array $deliveryFlags
      * @return object
      */
@@ -163,6 +171,7 @@ implements ItemOperationInterface
     }
 
     /**
+     * @access public
      * @param int $itemCount
      * @return object
      */
@@ -173,6 +182,7 @@ implements ItemOperationInterface
     }
 
     /**
+     * @access public
      * @param int $itemPage
      * @return object
      */
@@ -183,6 +193,7 @@ implements ItemOperationInterface
     }
 
     /**
+     * @access public
      * @param int $maxPrice
      * @return object
      */
@@ -193,6 +204,7 @@ implements ItemOperationInterface
     }
 
     /**
+     * @access public
      * @param int $minPrice
      * @return object
      */
@@ -203,6 +215,7 @@ implements ItemOperationInterface
     }
 
     /**
+     * @access public
      * @param int $minReviewsRating
      * @return object
      */
@@ -213,6 +226,7 @@ implements ItemOperationInterface
     }
 
     /**
+     * @access public
      * @param int $minSavingPercent
      * @return object
      */
@@ -223,6 +237,7 @@ implements ItemOperationInterface
     }
 
     /**
+     * @access public
      * @param json $properties
      * @return object
      */
@@ -233,6 +248,7 @@ implements ItemOperationInterface
     }
 
     /**
+     * @access public
      * @param string $sortBy
      * @return object
      */
@@ -243,6 +259,7 @@ implements ItemOperationInterface
     }
 
     /**
+     * @access public
      * @param string $title
      * @return object
      */
@@ -253,6 +270,7 @@ implements ItemOperationInterface
     }
 
     /**
+     * @access public
      * @param string $index
      * @return object
      */

@@ -19,12 +19,11 @@ interface RequestInterface
 	 * @param string $secretAccessKey
 	 * @return void
 	 */
-	public function __construct($accessKeyID, $secretAccessKey);
+	function __construct($accessKeyID, $secretAccessKey);
 
     /**
-     * @access public
      * @param string $region
      * @return object
      */
-    public function setRegion($region);
+    function setRegion($region);
 }

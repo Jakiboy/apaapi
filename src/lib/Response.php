@@ -11,31 +11,82 @@ namespace Apaapi\lib;
 
 use Apaapi\interfaces\ResponseInterface;
 use Apaapi\interfaces\RequestInterface;
+use Apaapi\interfaces\ResponseTypeInterface;
 
 /**
  * Basic Apaapi Response Wrapper Class
+ * Based on the Product Advertising API 5.0 Scratchpad
+ * @see https://webservices.amazon.com/paapi5/scratchpad/index.html
  */
 class Response implements ResponseInterface
 {
     /**
-     * @access public
+     * @access private
      * @var mixed $body Amazon API Response
      * @var mixed $error Response Error
      */
-	public $body  = false;
-	public $error = false;
+	private $body  = false;
+	private $error = false;
 
     /**
      * @param RequestInterface $request
      * @return void
      */
-	public function __construct(RequestInterface $request)
+	public function __construct(RequestInterface $request, ResponseTypeInterface $type = null)
 	{
 		$response = new RequestClient($request);
 		$response->getBody();
-		if ($response->error) {
+		if ( $response->error ) {
 			$this->error = $response->error;
 		}
-		$this->body = $response->body;
+		// Response Format
+		if ($type) {
+			$this->body = $type->format($response->body);
+		} else {
+			$this->body = $response->body;
+		}
+	}
+
+    /**
+     * @access public
+     * @param void
+     * @return mixed
+     */
+	public function get()
+	{
+		return $this->body;
+	}
+
+    /**
+     * Check Response Has Any Error
+     * @access public
+     * @param void
+     * @return boolean
+     */
+	public function hasError()
+	{
+		// Has Global Error
+		if ($this->error) {
+			return true;
+		}
+		// Has Body Error
+		$body = (object)$this->body;
+		if ( isset($body->Errors) ) {
+			$error = (object)$body->Errors[0];
+			$this->error = $error->Message;
+			return true;
+		}
+		return false;
+	}
+
+    /**
+     * Get Response Error
+     * @access public
+     * @param void
+     * @return string
+     */
+	public function getError()
+	{
+		return $this->error;
 	}
 }

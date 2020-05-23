@@ -13,7 +13,7 @@ use Apaapi\lib\Response;
 
 /**
  * @see With Three Easy Steps, 
- * You can Achieve Connection to API
+ * You can Achieve Connection to Amazon API
  */
 
 // Set Operation
@@ -25,6 +25,8 @@ $operation->setPartnerTag('{Your-partner-tag}')->setKeywords('{Your-keywords}')
 $request = new Request('{Your-key-id}','{Your-secrect-key}');
 $request->setRegion('{your-region}')->setPayload($operation);
 
-// Send Request & Get Response : JSON
+// Send Request & Get Response : JSON ready to be parsed
 $response = new Response($request);
 echo $response->body;
+
+// Hope you found this useful, any suggestions are welcome !

@@ -22,7 +22,6 @@ implements OperationInterface
 {
 	/**
 	 * @access public
-     *
 	 * @var array $browseNodeIds
 	 */
 	public $browseNodeIds = [];
@@ -39,6 +38,7 @@ implements OperationInterface
 	}
 
 	/**
+	 * @access public
 	 * @param string $browseNodeIds
 	 * @return object
 	 */

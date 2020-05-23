@@ -14,5 +14,9 @@ namespace Apaapi\lib;
  */
 class Resource
 {
+    /**
+     * @access public
+     * @var array $child
+     */
 	public $child;
 }

@@ -18,19 +18,17 @@ interface OperationInterface
 	 * @param string $tag
 	 * @return object
 	 */
-    public function setPartnerTag($tag);
+    function setPartnerTag($tag);
 
 	/**
 	 * @param string $type
 	 * @return object
 	 */
-    public function setPartnerType($type);
+    function setPartnerType($type);
 
 	/**
 	 * @param array $resources
 	 * @return object
-     * @todo Parse & Validate Ressources
-     * @todo Set Default Ressources
 	 */
-    public function setResources($resources);
+    function setResources($resources);
 }

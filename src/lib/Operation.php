@@ -30,6 +30,7 @@ class Operation
     public $languagesOfPreference = [];
 
 	/**
+     * @access public
 	 * @param string $type
 	 * @return object
 	 */
@@ -40,6 +41,7 @@ class Operation
     }
 
 	/**
+     * @access public
 	 * @param string $tag
 	 * @return object
 	 */
@@ -50,6 +52,7 @@ class Operation
     }
 
 	/**
+     * @access public
 	 * @param array $resources
 	 * @return object
      * @todo Parse & Validate Ressources
@@ -62,6 +65,7 @@ class Operation
     }
 
     /**
+     * @access public
      * @param array $languagesOfPreference
      * @return object
      */
@@ -72,6 +76,7 @@ class Operation
     }
 
     /**
+     * @access public
      * @param string $marketplace
      * @return object
      */

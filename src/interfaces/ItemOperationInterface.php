@@ -20,23 +20,23 @@ interface ItemOperationInterface extends OperationInterface
      * @param string $condition
      * @return object
      */
-    public function setCondition($condition);
+    function setCondition($condition);
 
     /**
      * @param string $currencyOfPreference
      * @return object
      */
-    public function setCurrency($currencyOfPreference);
+    function setCurrency($currencyOfPreference);
 
     /**
      * @param string $merchant
      * @return object
      */
-    public function setMerchant($merchant);
+    function setMerchant($merchant);
 
     /**
      * @param string $offerCount
      * @return object
      */
-    public function setOfferCount($offerCount);
+    function setOfferCount($offerCount);
 }

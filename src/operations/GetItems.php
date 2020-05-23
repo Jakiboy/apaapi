@@ -26,7 +26,6 @@ implements OperationInterface
 {
 	/**
 	 * @access public
-     *
 	 * @var string $itemIdType
 	 * @var array $itemIds
 	 */
@@ -49,6 +48,7 @@ implements OperationInterface
 	}
 
 	/**
+	 * @access public
 	 * @param string $idType
 	 * @return object
 	 */
@@ -59,6 +59,7 @@ implements OperationInterface
     }
 
 	/**
+	 * @access public
 	 * @param array $itemIds
 	 * @return object
 	 */
