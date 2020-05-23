@@ -30,6 +30,7 @@ class ItemOperation extends Operation
     public $merchant = 'All';
 
     /**
+     * @access public
      * @param string $condition
      * @return object
      */
@@ -40,6 +41,7 @@ class ItemOperation extends Operation
     }
 
     /**
+     * @access public
      * @param string $currencyOfPreference
      * @return object
      */
@@ -50,6 +52,7 @@ class ItemOperation extends Operation
     }
 
     /**
+     * @access public
      * @param string $merchant
      * @return object
      */
@@ -60,6 +63,7 @@ class ItemOperation extends Operation
     }
 
     /**
+     * @access public
      * @param string $offerCount
      * @return object
      */

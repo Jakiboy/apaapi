@@ -21,7 +21,7 @@ class OperationProvider
      * @param OperationInterface $operation
      * @return JSON
      */
-    static public function generate(OperationInterface $operation)
+    public static function generate(OperationInterface $operation)
     {
     	$wrapper = [];
     	foreach ($operation as $key => $value) {
@@ -37,7 +37,7 @@ class OperationProvider
      * @param OperationInterface $operation
      * @return string
      */
-    static public function getName(OperationInterface $operation)
+    public static function getName(OperationInterface $operation)
     {
     	return str_replace('Apaapi\operations\\','',get_class($operation));
     }

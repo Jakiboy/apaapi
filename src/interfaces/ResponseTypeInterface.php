@@ -12,12 +12,17 @@ namespace Apaapi\interfaces;
 /**
  * Basic Apaapi Response Interface
  */
-interface ResponseInterface
+interface ResponseTypeInterface
 {
     /**
-     * @param RequestInterface $request
-     * @param ResponseTypeInterface $type
+     * @param string $type
      * @return void
      */
-	function __construct(RequestInterface $request, ResponseTypeInterface $type = null);
+	function __construct($type = 'Object');
+
+    /**
+     * @param string $response
+     * @return mixed
+     */
+	function format($response);
 }

@@ -53,6 +53,7 @@ implements OperationInterface
 	}
 
 	/**
+	 * @access public
 	 * @param string $ASIN
 	 * @return object
 	 */
@@ -63,6 +64,7 @@ implements OperationInterface
     }
 
 	/**
+	 * @access public
 	 * @param int $variationCount
 	 * @return object
 	 */
@@ -73,6 +75,7 @@ implements OperationInterface
     }
 
 	/**
+	 * @access public
 	 * @param int $variationPage
 	 * @return object
 	 */
