@@ -27,6 +27,6 @@ $request->setRegion('{your-region}')->setPayload($operation);
 
 // Send Request & Get Response : JSON ready to be parsed
 $response = new Response($request);
-echo $response->body;
+echo $response->get();
 
 // Hope you found this useful, any suggestions are welcome !
