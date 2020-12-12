@@ -147,15 +147,15 @@ class RequestClient
 	public function getBody()
 	{
 		// Exec Curl
-		$reponse = curl_exec($this->handler);
+		$response = curl_exec($this->handler);
 		// Validate curl response
 		if ( $this->isValid() ) {
 			// merge Amazon JSON and http response
 			$httpJson = array( 'Http' => array( 'ResponseCode' => $this->getHttpCode() ) );
-			$this->body = json_encode( array_merge( json_decode($reponse, true), $httpJson) );
+			$this->body = json_encode( array_merge( json_decode($response, true), $httpJson) );
 			// Amazon JSON only if merge failed
 			if (JSON_ERROR_NONE !== json_last_error()) {
-				$this->body = $reponse;
+				$this->body = $response;
 			}
 			
 			if ( $this->getHttpCode() != 200 ) {
