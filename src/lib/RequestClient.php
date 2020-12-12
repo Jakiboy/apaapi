@@ -131,7 +131,7 @@ class RequestClient
 			case 401:
 			case 403:
 			case 429:
-				$this->error = $this->body;		// alternative: $this->error = $this->getHttpCode() ." " . $this->body;
+				$this->error = $this->body;
 				$this->body=false;
 				break;
 			default:
