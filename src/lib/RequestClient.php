@@ -126,17 +126,16 @@ class RequestClient
      */
 	private function setHttpError()
 	{
- 		if ( $this->getHttpCode() == 400 ) {
-			$this->error = 'The partner tag is not mapped to a valid associate store with your access key';
-
-		} elseif ( $this->getHttpCode() == 401 ) {
-			$this->error = 'The Access Key ID or security token included in the request is invalid';
-
-		}  elseif ( $this->getHttpCode() == 403 || $this->getHttpCode() == 429 ) {
-			$this->error = 'Your access key is not mapped to Primary of approved associate store';
-
-		} else {
-			$this->error = 'Unestablished Server Connection';
+		switch ( $this->getHttpCode() ) {
+			case 400:
+			case 401:
+			case 403:
+			case 429:
+				$this->error = $this->body;
+				$this->body=false;
+				break;
+			default:
+				$this->error = 'Unestablished Server Connection';
 		}
 	}
 
@@ -148,13 +147,18 @@ class RequestClient
 	public function getBody()
 	{
 		// Exec Curl
-		$reponse = curl_exec($this->handler);
+		$response = curl_exec($this->handler);
 		// Validate curl response
 		if ( $this->isValid() ) {
-			// Get Amazon JSON response
-			if ( $this->getHttpCode() == 200 ) {
-				$this->body = $reponse;
-			} else {
+			// merge Amazon JSON and http response
+			$httpJson = array( 'Http' => array( 'ResponseCode' => $this->getHttpCode() ) );
+			$this->body = json_encode( array_merge( json_decode($response, true), $httpJson) );
+			// Amazon JSON only if merge failed
+			if (JSON_ERROR_NONE !== json_last_error()) {
+				$this->body = $response;
+			}
+			
+			if ( $this->getHttpCode() != 200 ) {
 				// Set Amazon API errors
 				$this->setHttpError();
 			}
