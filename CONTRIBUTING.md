@@ -25,7 +25,7 @@ Contributions are made to this repo via Issues and Pull Requests (PRs). A few ge
 - We work hard to makes sure issues are handled in a timely manner but, depending on the impact, it could take a while to investigate the root cause. A friendly ping in the comment thread to the submitter or a contributor can help draw attention if your issue is blocking.
 - If you've never contributed before, see [the first timer's guide on our blog](https://apaapi.org/blog/) for resources and tips on how to get started.
 
-## Coding standards
+### Coding standards
 
 * Apaapi uses the [PSR](https://www.php-fig.org/) Coding standards (As possible).
 
