@@ -1,29 +1,30 @@
 <?php
 /**
- * @package Amazon Product Advertising API
- * @version 1.0.7
- * @copyright (c) 2019 - 2020 Jakiboy
- * @author Jihad Sinnaour <mail@jihadsinnaour.com>
- * @link https://jakiboy.github.io/apaapi/
- * @license MIT
+ * @author    : JIHAD SINNAOUR
+ * @package   : Apaapi
+ * @version   : 1.0.8
+ * @copyright : (c) 2019 - 2021 Jihad Sinnaour <mail@jihadsinnaour.com>
+ * @link      : https://jakiboy.github.io/apaapi/
+ * @license   : MIT
+ *
+ * This file if a part of Apaapi Lib
  */
 
 namespace Apaapi\operations;
 
 use Apaapi\lib\ItemOperation;
-use Apaapi\interfaces\OperationInterface;
 use Apaapi\resources\BrowseNodeInfo;
 use Apaapi\resources\Images;
 use Apaapi\resources\ItemInfo;
 use Apaapi\resources\Offers;
 use Apaapi\resources\ParentASIN;
+use Apaapi\includes\ResourceParser;
 
 /**
  * Basic Apaapi GetItems Operation
  * @see https://webservices.amazon.com/paapi5/documentation/get-items.html
  */
-class GetItems extends ItemOperation 
-implements OperationInterface
+final class GetItems extends ItemOperation
 {
 	/**
 	 * @access public
@@ -39,34 +40,34 @@ implements OperationInterface
 	 */
 	public function __construct()
 	{
-		$this->resources = [
+		$this->resources = ResourceParser::toString([
 			new BrowseNodeInfo,
 			new Images,
 			new ItemInfo,
 			new Offers,
-			new ParentASIN,
-		];
+			new ParentASIN
+		]);
 	}
 
 	/**
 	 * @access public
-	 * @param string $idType
+	 * @param array|string $type
 	 * @return object
 	 */
-    public function setItemIdType($idType)
+    public function setItemIdType($type)
     {
-    	$this->itemIdType = $idType;
+    	$this->itemIdType = (array)$type;
     	return $this;
     }
 
 	/**
 	 * @access public
-	 * @param array $itemIds
+	 * @param array|string $itemIds
 	 * @return object
 	 */
     public function setItemIds($itemIds)
     {
-    	$this->itemIds = $itemIds;
+    	$this->itemIds = (array)$itemIds;
     	return $this;
     }
 }

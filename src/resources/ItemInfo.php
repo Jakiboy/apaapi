@@ -1,11 +1,13 @@
 <?php
 /**
- * @package Amazon Product Advertising API
- * @version 1.0.7
- * @copyright (c) 2019 - 2020 Jakiboy
- * @author Jihad Sinnaour <mail@jihadsinnaour.com>
- * @link https://jakiboy.github.io/apaapi/
- * @license MIT
+ * @author    : JIHAD SINNAOUR
+ * @package   : Apaapi
+ * @version   : 1.0.8
+ * @copyright : (c) 2019 - 2021 Jihad Sinnaour <mail@jihadsinnaour.com>
+ * @link      : https://jakiboy.github.io/apaapi/
+ * @license   : MIT
+ *
+ * This file if a part of Apaapi Lib
  */
 
 namespace Apaapi\resources;
@@ -16,7 +18,7 @@ use Apaapi\lib\Resource;
  * ItemInfo : High Level Resource
  * @see https://webservices.amazon.com/paapi5/documentation/item-info.html
  */
-class ItemInfo extends Resource
+final class ItemInfo extends Resource
 {
 	/**
 	 * @param void
@@ -24,18 +26,18 @@ class ItemInfo extends Resource
 	 */
 	public function __construct()
 	{
-		$this->child = [
-			'ByLineInfo'      => ['Brand','Contributors','Manufacturer'],
-			'Classifications' => ['Binding','ProductGroup'],
-			'ContentInfo'     => ['Edition','Languages','PagesCount','PublicationDate'],
-			'ContentRating'   => ['AudienceRating'],
-			'ExternalIds'     => ['EANs','ISBNs','UPCs'],
-			'ManufactureInfo' => ['ItemPartNumber','Model','Warranty'],
-			'ProductInfo'     => ['Color','IsAdultProduct','ItemDimensions','ReleaseDate','Size','UnitCount'],
-			'TechnicalInfo'   => ['Formats'],
-			'TradeInInfo'     => ['IsEligibleForTradeIn','Price'],
-			'Features',
-			'Title'
+		$this->items = [
+	        'ByLineInfo',
+	        'ContentInfo',
+	        'ContentRating',
+	        'Classifications',
+	        'ExternalIds',
+	        'Features',
+	        'ManufactureInfo',
+	        'ProductInfo',
+	        'TechnicalInfo',
+	        'Title',
+	        'TradeInInfo'
 		];
 	}
 }

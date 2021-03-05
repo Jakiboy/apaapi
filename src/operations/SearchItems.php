@@ -1,39 +1,39 @@
 <?php
 /**
- * @package Amazon Product Advertising API
- * @version 1.0.7
- * @copyright (c) 2019 - 2020 Jakiboy
- * @author Jihad Sinnaour <mail@jihadsinnaour.com>
- * @link https://jakiboy.github.io/apaapi/
- * @license MIT
+ * @author    : JIHAD SINNAOUR
+ * @package   : Apaapi
+ * @version   : 1.0.8
+ * @copyright : (c) 2019 - 2021 Jihad Sinnaour <mail@jihadsinnaour.com>
+ * @link      : https://jakiboy.github.io/apaapi/
+ * @license   : MIT
+ *
+ * This file if a part of Apaapi Lib
  */
 
 namespace Apaapi\operations;
 
 use Apaapi\lib\ItemOperation;
-use Apaapi\interfaces\ItemOperationInterface;
 use Apaapi\resources\BrowseNodeInfo;
 use Apaapi\resources\Images;
 use Apaapi\resources\ItemInfo;
 use Apaapi\resources\Offers;
 use Apaapi\resources\SearchRefinements;
 use Apaapi\resources\ParentASIN;
+use Apaapi\includes\ResourceParser;
 
 /**
  * Basic Apaapi SearchItems Operation
  * @see https://webservices.amazon.com/paapi5/documentation/search-items.html
  */
-class SearchItems extends ItemOperation 
-implements ItemOperationInterface
+final class SearchItems extends ItemOperation
 {
     /**
      * @access public
-     *
      * @var string $searchIndex
      * @var string $availability
      * @var int $itemCount
      * @var int $itemPage
-     * @var null|array $deliveryFlags
+     * @var array $deliveryFlags
      * @var string $keywords
      * @var string $browseNodeId
      * @var string $actor
@@ -44,7 +44,6 @@ implements ItemOperationInterface
      * @var int $minPrice
      * @var int $minReviewsRating
      * @var int $minSavingPercent
-     * @var json $properties
      * @var string $sortBy
      * @var string $title
      */
@@ -63,7 +62,6 @@ implements ItemOperationInterface
     public $minPrice = null;
     public $minReviewsRating = null;
     public $minSavingPercent = null;
-    public $properties = null;
     public $sortBy = null;
     public $title = null;
 
@@ -73,23 +71,26 @@ implements ItemOperationInterface
      */
 	public function __construct()
 	{
-		$this->resources = [
+		$this->resources = ResourceParser::toString([
 			new BrowseNodeInfo,
 			new Images,
 			new ItemInfo,
 			new Offers,
-			new SearchRefinements,
-			new ParentASIN
-		];
+			new ParentASIN,
+			new SearchRefinements
+		]);
 	}
 
     /**
      * @access public
-     * @param string $keywords
+     * @param string|array $keywords
      * @return object
      */
     public function setKeywords($keywords)
     {
+        if ( is_array($keywords) ) {
+            $keywords = implode(',', $keywords);
+        }
         $this->keywords = $keywords;
         return $this;
     }
@@ -167,7 +168,7 @@ implements ItemOperationInterface
      */
     public function setDeliveryFlags($deliveryFlags)
     {
-        $this->deliveryFlags = $deliveryFlags;
+        $this->deliveryFlags = (array)$deliveryFlags;
         return $this;
     }
 
@@ -178,7 +179,7 @@ implements ItemOperationInterface
      */
     public function setItemCount($itemCount)
     {
-        $this->itemCount = $itemCount;
+        $this->itemCount = (int)$itemCount;
         return $this;
     }
 
@@ -189,7 +190,7 @@ implements ItemOperationInterface
      */
     public function setItemPage($itemPage)
     {
-        $this->itemPage = $itemPage;
+        $this->itemPage = (int)$itemPage;
         return $this;
     }
 
@@ -200,7 +201,7 @@ implements ItemOperationInterface
      */
     public function setMaxPrice($maxPrice)
     {
-        $this->maxPrice = $maxPrice;
+        $this->maxPrice = (int)$maxPrice;
         return $this;
     }
 
@@ -211,7 +212,7 @@ implements ItemOperationInterface
      */
     public function setMinPrice($minPrice)
     {
-        $this->minPrice = $minPrice;
+        $this->minPrice = (int)$minPrice;
         return $this;
     }
 
@@ -222,7 +223,7 @@ implements ItemOperationInterface
      */
     public function setMinReviewsRating($minReviewsRating)
     {
-        $this->minReviewsRating = $minReviewsRating;
+        $this->minReviewsRating = (int)$minReviewsRating;
         return $this;
     }
 
@@ -233,18 +234,7 @@ implements ItemOperationInterface
      */
     public function setMinSavingPercent($minSavingPercent)
     {
-        $this->minSavingPercent = $minSavingPercent;
-        return $this;
-    }
-
-    /**
-     * @access public
-     * @param json $properties
-     * @return object
-     */
-    public function setProperties($properties)
-    {
-        $this->properties = $properties;
+        $this->minSavingPercent = (int)$minSavingPercent;
         return $this;
     }
 

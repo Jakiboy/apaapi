@@ -1,16 +1,19 @@
 <?php
 /**
- * @package Amazon Product Advertising API
- * @version 1.0.7
- * @copyright (c) 2019 - 2020 Jakiboy
- * @author Jihad Sinnaour <mail@jihadsinnaour.com>
- * @link https://jakiboy.github.io/apaapi/
- * @license MIT
+ * @author    : JIHAD SINNAOUR
+ * @package   : Apaapi
+ * @version   : 1.0.8
+ * @copyright : (c) 2019 - 2021 Jihad Sinnaour <mail@jihadsinnaour.com>
+ * @link      : https://jakiboy.github.io/apaapi/
+ * @license   : MIT
+ *
+ * This file if a part of Apaapi Lib
  */
 
 namespace Apaapi\lib;
 
-use Apaapi\interfaces\OperationInterface;
+use Apaapi\interfaces\ParsableInterface;
+use Apaapi\interfaces\RequestClientInterface;
 
 /**
  * Basic Apaapi Amazon Signature Request Wrapper Class
@@ -19,55 +22,96 @@ abstract class SignatureRequest
 {
     /**
      * @access protected
-     *
-     * @var string $path, API Service (API Source)
-     * @var string $regionName, API Region Namespace (limit)
-     * @var string $serviceName, API Service (Default)
-     * @var string $serviceTarget, API Service Source (Default)
-     * @var string $httpMethodName, HTTP Method
-     * @var string $HMACAlgorithm, HTTP Request Hash
-     * @var array $queryParametes, HTTP Queries
-     * @var string $request, HTTP Request Method
+     * @var string $path, API path
+     * @var string $locale, API region locale
+     * @var string $region, API region name
+     * @var string $target, API request target
      * @var array $headers, HTTP Headers
-     * @var json $payload, HTTP Request content
+     * @var string $payload, HTTP request content
+     * @var string $accessKeyID, Amazon API Key ID
+     * @var string $secretAccessKey, API Secret Key
+     * @var string $timestamp, API request timestamp
+     * @var string $currentDate, API request current date
      */
     protected $path = '/paapi5/';
-    protected $regionName = 'us-east-1';
-    protected $serviceName = 'ProductAdvertisingAPI';
-    protected $httpMethodName = 'POST';
-    protected $HMACAlgorithm = 'AWS4-HMAC-SHA256';
-    protected $request = 'aws4_request';
-    protected $queryParametes = [];
+    protected $locale = 'com';
+    protected $region = 'us-east-1';
+    protected $target = 'com.amazon.paapi5.v1.ProductAdvertisingAPIv1';
     protected $headers = [];
     protected $payload;
+    protected $accessKeyID;
+    protected $secretAccessKey;
+    protected $timestamp;
+    protected $currentDate;
 
     /**
      * @access private
+     * @var string $serviceName, API service name
+     * @var string $httpMethodName, HTTP method
+     * @var string $HMACAlgorithm, HTTP Request Hash
+     * @var string $request, HTTP Request Method
+     * @var string $strSignedHeader
      */
-    private $strSignedHeader = null;
+    private $serviceName = 'ProductAdvertisingAPI';
+    private $httpMethodName = 'POST';
+    private $HMACAlgorithm = 'AWS4-HMAC-SHA256';
+    private $request = 'aws4_request';
+    private $strSignedHeader;
 
     /**
      * @access public
-     */
-    public $params = [];
-    public $endpoint = [];
-
-    /**
-     * @access public
-     * @param OperationInterface $operation
+     * @param ParsableInterface $operation
      * @return void
      */
-    abstract public function setPayload(OperationInterface $operation);
+    abstract public function setPayload(ParsableInterface $operation);
+
+    /**
+     * @access public
+     * @param RequestClientInterface $client
+     * @return void
+     */
+    abstract public function setClient(RequestClientInterface $client = null);
+
+    /**
+     * @access public
+     * @param string $timestamp
+     * @return object
+     */
+    abstract public function setTimeStamp($timestamp = null);
+
+    /**
+     * @access public
+     * @param string $date
+     * @return object
+     */
+    abstract public function setDate($date = null);
+
+    /**
+     * @access protected
+     * @param void
+     * @return array
+     */
+    protected function getHeaders()
+    {
+        ksort($this->headers);
+        $canonicalUrl = $this->prepareCanonicalRequest();
+        $stringToSign = $this->prepareStringToSign($canonicalUrl);
+        if ( ($signature = $this->calculateSignature($stringToSign)) ) {
+            $this->headers['Authorization'] = $this->buildAuthorizationString($signature);
+        }
+        return $this->headers;
+    }
 
 	/**
-	 * @access protected
+     * Prepare canonical request
+     *
+	 * @access private
 	 * @param void
 	 * @return string
 	 */
-    protected function prepareCanonicalRequest()
+    private function prepareCanonicalRequest()
     {
-        $canonicalUrl  = '';
-        $canonicalUrl .= "{$this->httpMethodName}\n";
+        $canonicalUrl  = "{$this->httpMethodName}\n";
         $canonicalUrl .= "{$this->path}\n\n";
         $signedHeaders = '';
         foreach ( $this->headers as $key => $value ) {
@@ -75,123 +119,93 @@ abstract class SignatureRequest
             $canonicalUrl  .= "{$key}:{$value}\n";
         }
         $canonicalUrl .= "\n";
-        $this->strSignedHeader = substr( $signedHeaders, 0, - 1 );
+        $this->strSignedHeader = substr($signedHeaders,0,-1);
         $canonicalUrl .= "{$this->strSignedHeader}\n";
-        $canonicalUrl .= $this->generateHex( $this->payload );
+        $canonicalUrl .= $this->generateHex($this->payload);
         return $canonicalUrl;
     }
 
 	/**
-	 * @access protected
-	 * @param string $canonicalURL
+     * Prepare string to be signed
+     *
+	 * @access private
+	 * @param string $canonicalUrl
 	 * @return string
 	 */
-    protected function prepareStringToSign($canonicalURL)
+    private function prepareStringToSign($canonicalUrl)
     {
-        $stringToSign  = '';
-        $stringToSign .= $this->HMACAlgorithm . "\n";
-        $stringToSign .= $this->date . "\n";
-        $stringToSign .= $this->currentDate . "/" . $this->regionName . "/";
-        $stringToSign .= $this->serviceName . "/" . $this->request . "\n";
-        $stringToSign .= $this->generateHex ( $canonicalURL );
-        return $stringToSign;
+        $string  = "{$this->HMACAlgorithm}\n";
+        $string .= "{$this->timestamp}\n";
+        $string .= "{$this->currentDate}/{$this->region}/";
+        $string .= "{$this->serviceName}/{$this->request}\n";
+        $string .= $this->generateHex($canonicalUrl);
+        return $string;
     }
 
 	/**
-	 * @access protected
+     * Calculate signature
+     *
+	 * @access private
 	 * @param string $stringToSign
 	 * @return string
 	 */
-    protected function calculateSignature($stringToSign)
+    private function calculateSignature($stringToSign)
     {
-        $signatureKey = $this->getSignatureKey( $this->secretAccessKey, $this->currentDate, $this->regionName, $this->serviceName );
-        $signature = hash_hmac('sha256', $stringToSign, $signatureKey, true );
-        $strHexSignature = strtolower( bin2hex($signature) );
+        $signatureKey = $this->getSignatureKey(
+            $this->secretAccessKey,
+            $this->currentDate,
+            $this->region,
+            $this->serviceName
+        );
+        $signature = hash_hmac('sha256',$stringToSign,$signatureKey,true);
+        $strHexSignature = strtolower(bin2hex($signature));
         return $strHexSignature;
     }
 
 	/**
-	 * @access protected
+	 * @access private
 	 * @param string $strSignature
 	 * @return string
 	 */
-    protected function buildAuthorizationString($strSignature)
+    private function buildAuthorizationString($strSignature)
     {
     	$auth  = "{$this->HMACAlgorithm} ";
     	$auth .= "Credential={$this->accessKeyID}/";
-    	$auth .= "{$this->getDate()}/";
-    	$auth .= "{$this->regionName}/";
+    	$auth .= "{$this->currentDate}/";
+    	$auth .= "{$this->region}/";
         $auth .= "{$this->serviceName}/";
     	$auth .= "{$this->request},";
     	$auth .= "SignedHeaders={$this->strSignedHeader},";
     	$auth .= "Signature={$strSignature}";
-
     	return $auth;
     }
 
 	/**
-	 * @access protected
+     * Generate Hex
+     *
+	 * @access private
 	 * @param string $data
 	 * @return string
 	 */
-    protected function generateHex($data)
+    private function generateHex($data)
     {
-        return strtolower(bin2hex(hash('sha256', $data, true)));
+        return strtolower(bin2hex(hash('sha256',$data,true)));
     }
 
 	/**
-	 * @access protected
+	 * @access private
 	 * @param string $key
 	 * @param string $date
-	 * @param string $regionName
+	 * @param string $region
 	 * @param string $serviceName
 	 * @return string
 	 */
-    protected function getSignatureKey($key, $date, $regionName, $serviceName)
+    private function getSignatureKey($key, $date, $region, $serviceName)
     {
-        $kSecret = "AWS4" . $key;
-        $kDate = hash_hmac( "sha256", $date, $kSecret, true );
-        $kRegion = hash_hmac( "sha256", $regionName, $kDate, true );
-        $kService = hash_hmac( "sha256", $serviceName, $kRegion, true );
-        $kSigning = hash_hmac( "sha256", $this->request, $kService, true );
-
-        return $kSigning;
-    }
-
-    /**
-     * @access protected
-     * @param void
-     * @return array|void
-     */
-    protected function getHeaders()
-    {
-        ksort($this->headers);
-        $canonicalURL = $this->prepareCanonicalRequest();
-        $stringToSign = $this->prepareStringToSign($canonicalURL);
-        $signature = $this->calculateSignature($stringToSign);
-        if ( $signature ) {
-            $this->headers['Authorization'] = $this->buildAuthorizationString($signature);
-            return $this->headers;
-        }
-    }
-
-	/**
-	 * @access protected
-	 * @param void
-	 * @return TimeStamp
-	 */
-    protected function getTimeStamp()
-    {
-        return gmdate("Ymd\THis\Z");
-    }
-
-	/**
-	 * @access protected
-	 * @param void
-	 * @return Date
-	 */
-    protected function getDate()
-    {
-        return gmdate("Ymd");
+        $kSecret = "AWS4{$key}";
+        $kDate = hash_hmac('sha256',$date,$kSecret,true);
+        $kRegion = hash_hmac('sha256',$region,$kDate,true);
+        $kService = hash_hmac('sha256',$serviceName,$kRegion,true);
+        return hash_hmac('sha256',$this->request,$kService,true);
     }
 }

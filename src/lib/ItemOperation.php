@@ -1,34 +1,38 @@
 <?php
 /**
- * @package Amazon Product Advertising API
- * @version 1.0.7
- * @copyright (c) 2019 - 2020 Jakiboy
- * @author Jihad Sinnaour <mail@jihadsinnaour.com>
- * @link https://jakiboy.github.io/apaapi/
- * @license MIT
+ * @author    : JIHAD SINNAOUR
+ * @package   : Apaapi
+ * @version   : 1.0.8
+ * @copyright : (c) 2019 - 2021 Jihad Sinnaour <mail@jihadsinnaour.com>
+ * @link      : https://jakiboy.github.io/apaapi/
+ * @license   : MIT
+ *
+ * This file if a part of Apaapi Lib
  */
 
 namespace Apaapi\lib;
 
-use Apaapi\lib\Operation;
+use Apaapi\interfaces\ItemOperationInterface;
 
 /**
  * Basic Apaapi Grouped Item Operation Wrapper Class
  */
 class ItemOperation extends Operation
+implements ItemOperationInterface
 {
     /**
      * @access public
-     *
      * @var string $condition
-     * @var null|string $CurrencyOfPreference
-     * @var int $offerCount
+     * @var string $currencyOfPreference
      * @var string $merchant
+     * @var int $offerCount
+     * @var string $properties
      */
     public $condition = 'Any';
     public $currencyOfPreference = null;
-    public $offerCount = 1;
     public $merchant = 'All';
+    public $offerCount = 1;
+    public $properties = null;
 
     /**
      * @access public
@@ -71,6 +75,17 @@ class ItemOperation extends Operation
     public function setOfferCount($offerCount)
     {
         $this->offerCount = $offerCount;
+        return $this;
+    }
+
+    /**
+     * @access public
+     * @param string $properties
+     * @return object
+     */
+    public function setProperties($properties)
+    {
+        $this->properties = $properties;
         return $this;
     }
 }

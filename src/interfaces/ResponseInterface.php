@@ -1,11 +1,13 @@
 <?php
 /**
- * @package Amazon Product Advertising API
- * @version 1.0.7
- * @copyright (c) 2019 - 2020 Jakiboy
- * @author Jihad Sinnaour <mail@jihadsinnaour.com>
- * @link https://jakiboy.github.io/apaapi/
- * @license MIT
+ * @author    : JIHAD SINNAOUR
+ * @package   : Apaapi
+ * @version   : 1.0.8
+ * @copyright : (c) 2019 - 2021 Jihad Sinnaour <mail@jihadsinnaour.com>
+ * @link      : https://jakiboy.github.io/apaapi/
+ * @license   : MIT
+ *
+ * This file if a part of Apaapi Lib
  */
 
 namespace Apaapi\interfaces;
@@ -18,7 +20,8 @@ interface ResponseInterface
     /**
      * @param RequestInterface $request
      * @param ResponseTypeInterface $type
+     * @param bool $parse
      * @return void
      */
-	function __construct(RequestInterface $request, ResponseTypeInterface $type = null);
+	public function __construct(RequestInterface $request, ResponseTypeInterface $type = null, $parse = null);
 }
