@@ -1,6 +1,6 @@
 # APAAPI
 
-![Amazon Product Advertising API](https://raw.githubusercontent.com/Jakiboy/apaapi/master/amazon.svg)
+<img src="https://raw.githubusercontent.com/Jakiboy/apaapi/master/amazon.svg" width="100" alt="Amazon Product Advertising API PHP">
 
 Amazon Product Advertising API 5.0 [Without Amazon SDK] v1.0.8.
 This repository contains a PHP Wrapper Lib that allows you accessing the [Amazon Product Advertising API](https://webservices.amazon.com/paapi5/documentation/index.html) from your PHP App, Quickly & easily.
