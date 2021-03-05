@@ -10,12 +10,9 @@
  * This file if a part of Apaapi Lib
  */
 
-namespace Apaapi\resources;
-
-use Apaapi\lib\Resource;
+namespace Apaapi\interfaces;
 
 /**
- * ParentASIN : High Level Resource
- * @see https://webservices.amazon.com/paapi5/documentation/parent-asin.html
+ * Basic Apaapi Resource Interface
  */
-final class ParentASIN extends Resource {}
+interface ResourceInterface extends ParsableInterface {}

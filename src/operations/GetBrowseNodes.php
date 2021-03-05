@@ -1,25 +1,26 @@
 <?php
 /**
- * @package Amazon Product Advertising API
- * @version 1.0.7
- * @copyright (c) 2019 - 2020 Jakiboy
- * @author Jihad Sinnaour <mail@jihadsinnaour.com>
- * @link https://jakiboy.github.io/apaapi/
- * @license MIT
+ * @author    : JIHAD SINNAOUR
+ * @package   : Apaapi
+ * @version   : 1.0.8
+ * @copyright : (c) 2019 - 2021 Jihad Sinnaour <mail@jihadsinnaour.com>
+ * @link      : https://jakiboy.github.io/apaapi/
+ * @license   : MIT
+ *
+ * This file if a part of Apaapi Lib
  */
 
 namespace Apaapi\operations;
 
 use Apaapi\lib\Operation;
-use Apaapi\interfaces\OperationInterface;
 use Apaapi\resources\BrowseNodes;
+use Apaapi\includes\ResourceParser;
 
 /**
  * Basic Apaapi GetBrowseNodes Operation
  * @see https://webservices.amazon.com/paapi5/documentation/getbrowsenodes.html
  */
-class GetBrowseNodes extends Operation 
-implements OperationInterface
+final class GetBrowseNodes extends Operation
 {
 	/**
 	 * @access public
@@ -33,19 +34,19 @@ implements OperationInterface
 	 */
 	public function __construct()
 	{
-		$this->resources = [
+		$this->resources = ResourceParser::toString([
 			new BrowseNodes
-		];
+		]);
 	}
 
 	/**
 	 * @access public
-	 * @param string $browseNodeIds
+	 * @param array|string $browseNodeIds
 	 * @return object
 	 */
     public function setBrowseNodeIds($browseNodeIds)
     {
-    	$this->browseNodeIds = $browseNodeIds;
+    	$this->browseNodeIds = (array)$browseNodeIds;
     	return $this;
     }
 }

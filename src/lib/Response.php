@@ -1,11 +1,13 @@
 <?php
 /**
- * @package Amazon Product Advertising API
- * @version 1.0.7
- * @copyright (c) 2019 - 2020 Jakiboy
- * @author Jihad Sinnaour <mail@jihadsinnaour.com>
- * @link https://jakiboy.github.io/apaapi/
- * @license MIT
+ * @author    : JIHAD SINNAOUR
+ * @package   : Apaapi
+ * @version   : 1.0.8
+ * @copyright : (c) 2019 - 2021 Jihad Sinnaour <mail@jihadsinnaour.com>
+ * @link      : https://jakiboy.github.io/apaapi/
+ * @license   : MIT
+ *
+ * This file if a part of Apaapi Lib
  */
 
 namespace Apaapi\lib;
@@ -13,42 +15,70 @@ namespace Apaapi\lib;
 use Apaapi\interfaces\ResponseInterface;
 use Apaapi\interfaces\RequestInterface;
 use Apaapi\interfaces\ResponseTypeInterface;
+use Apaapi\includes\ResponseType;
 
 /**
  * Basic Apaapi Response Wrapper Class
  * Based on the Product Advertising API 5.0 Scratchpad
  * @see https://webservices.amazon.com/paapi5/scratchpad/index.html
  */
-class Response implements ResponseInterface
+final class Response implements ResponseInterface
 {
     /**
-     * @access private
-     * @var mixed $body Amazon API Response
-     * @var mixed $error Response Error
+     * @access public
      */
-	private $body  = false;
+	const PARSE = true;
+
+    /**
+     * @access private
+     * @var object $client, Request client
+     * @var int $statusCode, Response status code
+     * @var mixed $body, Response body
+     * @var bool $error, Data error
+     */
+	private $client;
+	private $statusCode = 200;
+	private $body = false;
 	private $error = false;
 
     /**
      * @param RequestInterface $request
+     * @param ResponseTypeInterface $type
+     * @param bool $parse
      * @return void
      */
-	public function __construct(RequestInterface $request, ResponseTypeInterface $type = null)
+	public function __construct(RequestInterface $request, ResponseTypeInterface $type = null, $parse = null)
 	{
-		$response = new RequestClient($request);
-		$response->getBody();
-		if ( $response->error ) {
-			$this->error = $response->error;
+		// Set HTTP client
+		$request->setClient(); // default
+		$this->client = $request->getClient();
+
+		// Set response body
+		$this->body = $this->client->getResponse();
+
+		// Set response status code
+		$this->statusCode = $this->client->getCode();
+
+		// Close HTTP client
+		$this->client->close();
+
+		// Set data error on status 200
+		if ( $this->hasDataError() ) {
+			$this->error = true;
 		}
-		// Response Format
-		if ($type) {
-			$this->body = $type->format($response->body);
-		} else {
-			$this->body = $response->body;
+
+		// Apply response format on success
+		if ( !$this->hasError() && $type ) {
+			if ( $parse ) {
+				$this->body = $type->parse($this->body,$request->getOperation());
+			}
+			$this->body = $type->format($this->body);
 		}
 	}
 
     /**
+     * Get response body
+     *
      * @access public
      * @param void
      * @return mixed
@@ -59,35 +89,57 @@ class Response implements ResponseInterface
 	}
 
     /**
-     * Check Response Has Any Error
+     * Get response error
+     *
+     * @see https://webservices.amazon.com/paapi5/documentation/troubleshooting/error-messages.html
+     * @access public
+     * @param bool $single
+     * @return mixed
+     */
+	public function getError($single = false)
+	{
+		$error = false;
+		if ( $this->hasError() ) {
+			$response = ResponseType::decode((string)$this->body);
+			foreach ($response->Errors as $err) {
+				if ( $single ) {
+					return $err->Message;
+				}
+				$error[] = $err->Message;
+			}
+		}
+		return $error;
+	}
+
+    /**
+     * Check if response has any error (>=400)
+     *
      * @access public
      * @param void
      * @return boolean
      */
 	public function hasError()
 	{
-		// Has Global Error
-		if ($this->error) {
+		if ( !$this->statusCode || $this->statusCode >= 400 ) {
 			return true;
-		}
-		// Has Body Error
-		$body = (object)$this->body;
-		if ( isset($body->Errors) ) {
-			$error = (object)$body->Errors[0];
-			$this->error = $error->Message;
+		} elseif ( $this->statusCode == 200 && $this->error ) {
 			return true;
 		}
 		return false;
 	}
 
     /**
-     * Get Response Error
-     * @access public
+     * Check if response has data error (==200)
+     *
+     * @access private
      * @param void
-     * @return string
+     * @return boolean
      */
-	public function getError()
+	private function hasDataError()
 	{
-		return $this->error;
+		if ( strpos($this->body,'#ErrorData') !== false ) {
+			return true;
+		}
+		return false;
 	}
 }

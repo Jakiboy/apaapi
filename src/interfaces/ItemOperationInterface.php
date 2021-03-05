@@ -1,21 +1,21 @@
 <?php
 /**
- * @package Amazon Product Advertising API
- * @version 1.0.7
- * @copyright (c) 2019 - 2020 Jakiboy
- * @author Jihad Sinnaour <mail@jihadsinnaour.com>
- * @link https://jakiboy.github.io/apaapi/
- * @license MIT
+ * @author    : JIHAD SINNAOUR
+ * @package   : Apaapi
+ * @version   : 1.0.8
+ * @copyright : (c) 2019 - 2021 Jihad Sinnaour <mail@jihadsinnaour.com>
+ * @link      : https://jakiboy.github.io/apaapi/
+ * @license   : MIT
+ *
+ * This file if a part of Apaapi Lib
  */
 
 namespace Apaapi\interfaces;
 
-use Apaapi\interfaces\OperationInterface;
-
 /**
  * Interface Group Items Operations
  */
-interface ItemOperationInterface extends OperationInterface
+interface ItemOperationInterface
 {
     /**
      * @param string $condition
@@ -40,4 +40,10 @@ interface ItemOperationInterface extends OperationInterface
      * @return object
      */
     function setOfferCount($offerCount);
+
+    /**
+     * @param string $properties
+     * @return object
+     */
+    function setProperties($properties);
 }

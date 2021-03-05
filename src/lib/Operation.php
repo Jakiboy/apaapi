@@ -1,29 +1,33 @@
 <?php
 /**
- * @package Amazon Product Advertising API
- * @version 1.0.7
- * @copyright (c) 2019 - 2020 Jakiboy
- * @author Jihad Sinnaour <mail@jihadsinnaour.com>
- * @link https://jakiboy.github.io/apaapi/
- * @license MIT
+ * @author    : JIHAD SINNAOUR
+ * @package   : Apaapi
+ * @version   : 1.0.8
+ * @copyright : (c) 2019 - 2021 Jihad Sinnaour <mail@jihadsinnaour.com>
+ * @link      : https://jakiboy.github.io/apaapi/
+ * @license   : MIT
+ *
+ * This file if a part of Apaapi Lib
  */
 
 namespace Apaapi\lib;
 
+use Apaapi\exceptions\OperationException;
+use Apaapi\interfaces\OperationInterface;
+
 /**
  * Basic Apaapi All Operation Wrapper Class
  */
-class Operation
+class Operation implements OperationInterface
 {
 	/**
-	 * @access public
-     *
-	 * @var string $partnerType
-	 * @var array $resources
-	 * @var null|string $partnerTag
-     * @var null|array $marketplace
-     * @var null|array $languagesOfPreference
-	 */
+     * @access public
+     * @var string $partnerType
+     * @var array $resources
+     * @var string $partnerTag
+     * @var array $marketplace
+     * @var array $languagesOfPreference
+     */
     public $partnerType = 'Associates';
     public $resources = [];
     public $partnerTag = null;
@@ -41,27 +45,32 @@ class Operation
     	return $this;
     }
 
-	/**
+    /**
      * @access public
-	 * @param string $tag
-	 * @return object
-	 */
+     * @param string $tag
+     * @return object
+     */
     public function setPartnerTag($tag)
     {
-    	$this->partnerTag = $tag;
-    	return $this;
+        $this->partnerTag = $tag;
+        return $this;
     }
 
 	/**
      * @access public
 	 * @param array $resources
 	 * @return object
-     * @todo Parse & Validate Ressources
-     * @todo Set Default Ressources
 	 */
-    public function setResources($resources)
+    public function setResources($resources = [])
     {
-        $this->resources = $resources;
+        try {
+            if ( ($ressource = $this->isValidResources($resources)) !== true ) {
+                throw new OperationException($ressource);
+            }
+        } catch (OperationException $e) {
+            die($e->get(1));
+        }
+        $this->resources = !empty($resources) ? $resources : $this->resources;
         return $this;
     }
 
@@ -72,7 +81,7 @@ class Operation
      */
     public function setLanguages($languagesOfPreference)
     {
-        $this->languagesOfPreference = $languagesOfPreference;
+        $this->languagesOfPreference = (array)$languagesOfPreference;
         return $this;
     }
 
@@ -85,5 +94,20 @@ class Operation
     {
         $this->marketplace = $marketplace;
         return $this;
+    }
+
+    /**
+     * @access private
+     * @param array $resources
+     * @return mixed
+     */
+    private function isValidResources($resources = [])
+    {
+        foreach ((array)$resources as $resource) {
+            if ( !in_array($resource,$this->resources) ) {
+                return $resource;
+            }
+        }
+        return true;
     }
 }

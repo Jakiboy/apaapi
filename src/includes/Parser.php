@@ -10,18 +10,22 @@
  * This file if a part of Apaapi Lib
  */
 
-namespace Apaapi\lib;
+namespace Apaapi\includes;
 
-use Apaapi\interfaces\ResourceInterface;
+use Apaapi\interfaces\ParsableInterface;
 
 /**
- * Basic Apaapi Resource Wrapper Class
+ * Basic Apaapi Request Parser
  */
-class Resource implements ResourceInterface
+class Parser
 {
     /**
      * @access public
-     * @var array $items
+     * @param ParsableInterface $resource
+     * @return string
      */
-	public $items = false;
+    public static function getName(ParsableInterface $resource)
+    {
+        return basename(get_class($resource));
+    }
 }

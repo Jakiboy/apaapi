@@ -1,6 +1,6 @@
 {
   "name": "jakiboy/apaapi",
-  "version" : "1.0.7",
+  "version" : "1.0.8",
   "type": "library",
   "description": "Easy connection to Amazon Product Advertising API v5",
   "keywords": ["php","amazon","product","api","apaapi","paapi5","jakiboy"],
@@ -16,6 +16,10 @@
       "name": "Softgine",
       "email": "e-mailing@soft-gine.com",
       "role": "Developer"
+    },
+    {
+      "name": "Kay Marquardt",
+      "role": "Contributor"
     }
   ],
   "require": {

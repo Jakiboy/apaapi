@@ -15,7 +15,7 @@ namespace Apaapi\exceptions;
 /**
  * Basic Apaapi Operation Exception Class
  */
-final class ResponseTypeException extends MainException
+final class RequestException extends MainException
 {
 	/**
 	 * @access protected
@@ -27,7 +27,7 @@ final class ResponseTypeException extends MainException
 		$code = intval($code);
 		switch ($code) {
 			case 1:
-				return 'Invalid Response Type Format [Object/Array/Serialized]';
+				return 'Invalid Request Locale';
 				break;
 		}
 	}

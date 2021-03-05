@@ -1,35 +1,35 @@
 <?php
 /**
- * @package Amazon Product Advertising API
- * @version 1.0.7
- * @copyright (c) 2019 - 2020 Jakiboy
- * @author Jihad Sinnaour <mail@jihadsinnaour.com>
- * @link https://jakiboy.github.io/apaapi/
- * @license MIT
+ * @author    : JIHAD SINNAOUR
+ * @package   : Apaapi
+ * @version   : 1.0.8
+ * @copyright : (c) 2019 - 2021 Jihad Sinnaour <mail@jihadsinnaour.com>
+ * @link      : https://jakiboy.github.io/apaapi/
+ * @license   : MIT
+ *
+ * This file if a part of Apaapi Lib
  */
 
 namespace Apaapi\operations;
 
 use Apaapi\lib\ItemOperation;
-use Apaapi\interfaces\OperationInterface;
 use Apaapi\resources\BrowseNodeInfo;
 use Apaapi\resources\Images;
 use Apaapi\resources\ItemInfo;
 use Apaapi\resources\Offers;
 use Apaapi\resources\VariationSummary;
 use Apaapi\resources\ParentASIN;
+use Apaapi\includes\ResourceParser;
 
 /**
  * Basic Apaapi GetVariations Operation
  * @see https://webservices.amazon.com/paapi5/documentation/get-variations.html
  */
-class GetVariations extends ItemOperation 
-implements OperationInterface
+final class GetVariations extends ItemOperation 
 {
 	/**
 	 * @access public
-     *
-	 * @var null|string $ASIN
+	 * @var string $ASIN
 	 * @var int $variationCount
 	 * @var int $variationPage
 	 */
@@ -43,14 +43,14 @@ implements OperationInterface
 	 */
 	public function __construct()
 	{
-		$this->resources = [
+		$this->resources = ResourceParser::toString([
 			new BrowseNodeInfo,
 			new Images,
 			new ItemInfo,
 			new Offers,
 			new VariationSummary,
 			new ParentASIN
-		];
+		]);
 	}
 
 	/**

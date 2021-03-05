@@ -10,12 +10,17 @@
  * This file if a part of Apaapi Lib
  */
 
-namespace Apaapi\resources;
-
-use Apaapi\lib\Resource;
+namespace Apaapi\interfaces;
 
 /**
- * ParentASIN : High Level Resource
- * @see https://webservices.amazon.com/paapi5/documentation/parent-asin.html
+ * Basic Apaapi Response Interface
  */
-final class ParentASIN extends Resource {}
+interface ResponseParseInterface
+{
+    /**
+     * @param RequestInterface $request
+     * @param array $params
+     * @return void
+     */
+	function __construct(RequestInterface $request, $params = []);
+}
