@@ -24,24 +24,24 @@ class ResponseType implements ResponseTypeInterface
      * @access private
      * @var string $type
      */
-	private $type;
+    private $type;
 
     /**
      * @param string $type
      * @return void
      */
-	public function __construct($type = 'object')
-	{
-		$this->type = strtolower($type);
-	}
+    public function __construct($type = 'object')
+    {
+        $this->type = strtolower($type);
+    }
 
     /**
      * @access public
      * @param string $response
      * @return mixed
      */
-	public function format($response)
-	{
+    public function format($response)
+    {
         try {
             if ( $this->isValidFormat() !== true ) {
                 throw new ResponseTypeException((string)$this->type);
@@ -51,17 +51,17 @@ class ResponseType implements ResponseTypeInterface
         }
 
         switch ($this->type) {
-        	case 'array':
-        		return self::decode($response,true);
-        		break;
-        	case 'object':
-        		return self::decode($response);
-        		break;
-        	case 'serialized':
-        		return serialize(self::decode($response));
-        		break;
+            case 'array':
+                return self::decode($response,true);
+                break;
+            case 'object':
+                return self::decode($response);
+                break;
+            case 'serialized':
+                return serialize(self::decode($response));
+                break;
         }
-	}
+    }
 
     /**
      * @access public
@@ -71,6 +71,9 @@ class ResponseType implements ResponseTypeInterface
      */
     public function parse($response, $operation)
     {
+        // JSON Decode
+        $response = self::decode($response);
+
         if ( $operation == 'GetItems' ) {
             $response = isset($response->ItemsResult->Items)
             ? $response->ItemsResult->Items : [];
@@ -87,7 +90,8 @@ class ResponseType implements ResponseTypeInterface
             $response = isset($response->BrowseNodesResult->BrowseNodes)
             ? $response->BrowseNodesResult->BrowseNodes : [];
         }
-
+        
+        // JSON Encode for format
         return self::encode($response);
     }
 
@@ -99,7 +103,7 @@ class ResponseType implements ResponseTypeInterface
      */
     public static function decode($json, $object = false)
     {
-    	return json_decode((string)$json,$object);
+        return json_decode((string)$json,$object);
     }
 
     /**
