@@ -100,12 +100,13 @@ final class Response implements ResponseInterface
 	{
 		$error = false;
 		if ( $this->hasError() ) {
-			$response = ResponseType::decode((string)$this->body);
-			foreach ($response->Errors as $err) {
-				if ( $single ) {
-					return $err->Message;
+			if ( ($response = ResponseType::decode((string)$this->body)) ) {
+				foreach ($response->Errors as $err) {
+					if ( $single ) {
+						return $err->Message;
+					}
+					$error[] = $err->Message;
 				}
-				$error[] = $err->Message;
 			}
 		}
 		return $error;
