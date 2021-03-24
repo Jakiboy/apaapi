@@ -21,11 +21,11 @@ class Parser
 {
     /**
      * @access public
-     * @param ParsableInterface $resource
+     * @param ParsableInterface $parsable
      * @return string
      */
-    public static function getName(ParsableInterface $resource)
+    public static function getName(ParsableInterface $parsable)
     {
-        return basename(get_class($resource));
+        return basename(str_replace('\\','/',get_class($parsable)));
     }
 }
