@@ -2,24 +2,75 @@
 
 <img src="https://raw.githubusercontent.com/Jakiboy/apaapi/master/amazon.svg" width="100" alt="Amazon Product Advertising API PHP">
 
-Amazon Product Advertising API 5.0 [Without Amazon SDK] v1.0.9.
-This repository contains a PHP Wrapper Lib that allows you accessing the [Amazon Product Advertising API](https://webservices.amazon.com/paapi5/documentation/index.html) from your PHP App, Quickly & easily.
+Amazon Product Advertising API 5.0 (**Without Amazon SDK**).  
+This repository contains a PHP Lightweight Wrapper Lib (**v1.1.0**)  
+Allows you accessing the [Amazon Product Advertising API 5.0](https://webservices.amazon.com/paapi5/documentation/index.html){target="_blank"} from your PHP App, Quickly & easily!
 
-## Installing :
+-- Become an Amazon Affiliate With PHP --
+
+## 🔧 Installing:
+
+#### Using Composer:
 
 ```
 composer require jakiboy/apaapi
 ```
 
-## Upgrade :
+#### Without Composer?
 
-:grey_exclamation: **See changes before migrate** : This version includes Error reporting (All & com.amazon.paapi#ErrorData with status 200 & Client errors), Response parsing, Throws exceptions if locale (Region) is invalid or ressources are invalid (Instead of no response), And had many improvements : Use default ressources for each operation, Clean ecosystem, Extendable HTTP Client.
 
-## Getting Started :
+* **1** - [Download repository ZIP](https://github.com/Jakiboy/apaapi/archive/refs/heads/master.zip) (*Latest version*).
+* **2** - Extract ZIP (*apaapi-master*).
+* **3** - Include this lines beelow (*apaapi self-autoloader*).
 
-### Quickstart :
+
+```
+include('apaapi-master/src/Autoloader.php');
+\apaapi\Autoloader::init();
+```
+
+* **4** - You can now use the [Quickstart examples](#quickstart).
+
+## 🔨 Upgrade :
+
+**See changes before migrate**: 
+
+This version includes:<br>
+
+* Error reporting (Including errors with **status 200** & **HTTP Client Errors**), [See more here](https://webservices.amazon.com/paapi5/documentation/troubleshooting/processing-of-errors.html#processing-of-errors){target="_blank"}. 
+* Response parsing (*object|array|serialized*).
+* Throws exceptions if Locale (*Region/TLD*) is invalid, [See more here](https://webservices.amazon.fr/paapi5/documentation/locale-reference.html){target="_blank"}. 
+
+And had many improvements: 
+
+
+* Uses Default [Ressources](https://webservices.amazon.fr/paapi5/documentation/resources.html){target="_blank"} for each [Operation](https://webservices.amazon.fr/paapi5/documentation/operations.html){target="_blank"}. 
+* Clean ecosystem.
+* [Extendable HTTP Client](#advanced-custom-http-request-client).
+
+
+## ⚡ Getting Started:
+
+### Variables (Basics):
+
+* "{Your-partner-tag}" : From your Amazon Associates (*your locale*), [See more here](https://webservices.amazon.com/paapi5/documentation/troubleshooting/sign-up-as-an-associate.html){target="_blank"}. 
+* "{Your-secrect-key}" : From your Amazon Associates (*your locale*), [See more here](https://affiliate-program.amazon.com/help/node/topic/GTPNVFFUV2GQ8AZV){target="_blank"}. 
+* "{Your-key-id}" : From your Amazon Associates (*your locale*), [See more here](https://affiliate-program.amazon.com/help/node/topic/GTPNVFFUV2GQ8AZV){target="_blank"}. 
+* "{Your-keywords}" : What you are looking for (*Products*), [See more here](https://webservices.amazon.com/paapi5/documentation/search-items.html){target="_blank"}. 
+* "{Your-region}" : **TLD** of the target (*your locale*) to which you are sending requests (*com | fr | de*), [Get TLD from here](https://webservices.amazon.com/paapi5/documentation/common-request-parameters.html#host-and-region){target="_blank"}. 
+* "{ASIN}" : Amazon Standard Identification Number (*your locale*) (*B0XXXXXXXX*), [See more here](https://webservices.amazon.com/paapi5/documentation/get-items.html#ItemLookup-rp){target="_blank"}. 
+
+
+### Quickstart:
+
 
 ```php
+
+
+/**
+ * @see You can use Composer, 
+ * Or include Apaapi Autoloader Here.
+ */
 
 use Apaapi\operations\SearchItems;
 use Apaapi\lib\Request;
@@ -27,7 +78,8 @@ use Apaapi\lib\Response;
 
 /**
  * @see With Three Easy Steps,
- * You can Achieve Connection to Amazon Product Advertising API
+ * You can Achieve Quick Connection to Amazon Affiliate Program, 
+ * Via Amazon Product Advertising API Library.
  */
 
 // (1) Set Operation
@@ -36,7 +88,7 @@ $operation->setPartnerTag('{Your-partner-tag}')->setKeywords('{Your-keywords}');
 
 // (2) Prapere Request
 $request = new Request('{Your-key-id}','{Your-secrect-key}');
-$request->setLocale('{your-region}')->setPayload($operation);
+$request->setLocale('{Your-region}')->setPayload($operation);
 
 // (3) Get Response
 $response = new Response($request);
@@ -44,7 +96,7 @@ echo $response->get(); // JSON ready for parsing
 
 ```
 
-### Operations :
+### Operations:
 
 ```php
 
@@ -54,7 +106,7 @@ use Apaapi\operations\GetVariations;
 use Apaapi\operations\GetBrowseNodes;
 
 /**
- * @see 4 Operations
+ * @see 4 Operations.
  * @see https://webservices.amazon.com/paapi5/documentation/operations.html
  */
 
@@ -80,23 +132,23 @@ $operation->setPartnerTag('{Your-partner-tag}')
 
 ```
 
-### Advanced (Custom ressources) :
+### Advanced (Custom ressources):
 
 ```php
 
 /**
  * @see Using setResources() method to set custom ressources,
- * Instead of default ressources.
+ * Instead of default ressources,
  * This can improve response time.
  */
 
 // Set Operation
 $operation->setPartnerTag('{Your-partner-tag}')->setKeywords('{Your-keywords}')
-->setResources(['Images.Primary.Small','ItemInfo.Title','Offers.Listings.Price']);
+->setResources(['Images.Primary.Small','ItemInfo.Title','Offers.Listings.Price','Offers.Listings.SavingBasis']);
 
 ```
 
-### Advanced (Custom Request Client) :
+### Advanced (Custom HTTP Request Client):
 
 ```php
 
@@ -139,7 +191,7 @@ echo $response->get(); // JSON ready for parsing
 use Apaapi\includes\ResponseType;
 
 /**
- * @see Helps generating quick decoded response
+ * @see Helps generating quick decoded response.
  * @param object|array|serialized
  */
 
@@ -154,7 +206,7 @@ return $response->get(); // Array ready to be used
 use Apaapi\includes\ResponseType;
 
 /**
- * @see Helps parsing response
+ * @see Helps parsing response.
  * @param Response::PARSE
  */
 
@@ -168,7 +220,7 @@ return $response->get(); // Object ready to be used
 ```php
 
 /**
- * @see Error catching
+ * @see Error catching.
  */
 
 // Get Response
@@ -185,26 +237,30 @@ if ( $response->hasError() ) {
 ```
 
 
-## Contributing :
+## Contributing:
 
 Please read [CONTRIBUTING.md](https://github.com/Jakiboy/apaapi/blob/master/CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
 
-## Versioning :
+## Versioning:
 
 We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/Jakiboy/apaapi/tags). 
 
-## Authors :
+## Authors:
 
 * **Jihad Sinnaour** - [Jakiboy](https://github.com/Jakiboy) (*Initial work*)
 * **Kay Marquardt** - [gnadelwartz](https://github.com/gnadelwartz)
 
 See also the full list of [contributors](https://github.com/Jakiboy/apaapi/contributors) who participated in this project.
 
-## License :
+## License:
 
-This project is licensed under the MIT License - see the [LICENSE.txt](https://github.com/Jakiboy/apaapi/blob/master/LICENSE.txt) file for details
+This project is licensed under the MIT License - see the [LICENSE.txt](https://github.com/Jakiboy/apaapi/blob/master/LICENSE.txt) file for details.
 
-## Notice : 
+## ⭐ Support:
 
-* *The Amazon logo included in top of this page refers only to the [Amazon Product Advertising API](https://webservices.amazon.com/paapi5/documentation/index.html)*
-* *All available use case examples located in /examples*
+Please give it a Star if you like the project.
+
+## 💡 Notice:
+
+* *The Amazon logo included in top of this page refers only to the [Amazon Product Advertising API V5](https://webservices.amazon.com/paapi5/documentation/index.html)*.
+* *All available use case examples located in [/examples](https://github.com/Jakiboy/apaapi/tree/master/examples)*.

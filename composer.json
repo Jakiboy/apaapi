@@ -1,9 +1,9 @@
 {
   "name": "jakiboy/apaapi",
-  "version" : "1.0.9",
+  "version" : "1.1.0",
   "type": "library",
-  "description": "Easy connection to Amazon Product Advertising API v5",
-  "keywords": ["php","amazon","product","api","apaapi","paapi5","jakiboy"],
+  "description": "Quick connection to Amazon Affiliate Program using Amazon Product Advertising API v5 Library (APAAPI)",
+  "keywords": ["php","amazon","amazon-affiliate-program","product","api","apaapi","paapi5","jakiboy"],
   "homepage": "https://jakiboy.github.io/apaapi/",
   "license": "MIT",
   "authors": [

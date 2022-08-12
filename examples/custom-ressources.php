@@ -2,12 +2,17 @@
 /**
  * @author    : JIHAD SINNAOUR
  * @package   : Apaapi | Amazon Product Advertising API v5 Example
- * @version   : 1.0.8
+ * @version   : 1.1.0
  * @copyright : (c) 2019 - 2021 Jihad Sinnaour <mail@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
  *
  * This file if a part of Apaapi Lib
+ */
+
+/**
+ * @see You can use Composer, 
+ * Or include Apaapi Autoloader Here.
  */
 
 use Apaapi\operations\SearchItems;
@@ -21,7 +26,7 @@ $operation->setPartnerTag('{Your-partner-tag}')->setKeywords('{Your-keywords}')
 
 // Prapere Request
 $request = new Request('{Your-key-id}','{Your-secrect-key}');
-$request->setLocale('{your-locale}')->setPayload($operation);
+$request->setLocale('{Your-locale}')->setPayload($operation);
 
 // Get Response
 $response = new Response($request);
