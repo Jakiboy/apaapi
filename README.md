@@ -2,8 +2,8 @@
 
 <img src="https://raw.githubusercontent.com/Jakiboy/apaapi/master/amazon.svg" width="100" alt="Amazon Product Advertising API PHP">
 
-Amazon Product Advertising API 5.0 (**Without Amazon SDK**).  
-This repository contains a PHP Lightweight Wrapper Lib (**v1.1.0**), Allows you accessing the [Amazon Product Advertising API 5.0](https://webservices.amazon.com/paapi5/documentation/index.html) from your PHP App, Quickly & easily!
+Amazon Product Advertising API V5.0 (**Without Amazon SDK**).  
+This repository contains a PHP Lightweight Wrapper Lib (**v1.1.0**), Allows you accessing the [Amazon Product Advertising API V5.0](https://webservices.amazon.com/paapi5/documentation/index.html) from your PHP App, Quickly & easily!
 
 -- Become an Amazon Affiliate With PHP --
 
@@ -36,9 +36,9 @@ include('apaapi-master/src/Autoloader.php');
 
 This version includes:  
 
-* Error reporting (Including errors with **status 200** & **HTTP Client Errors**), [See more here](https://webservices.amazon.com/paapi5/documentation/troubleshooting/processing-of-errors.html#processing-of-errors). 
+* Error reporting (Including errors with **status 200** & **HTTP Client Errors**), [More](https://webservices.amazon.com/paapi5/documentation/troubleshooting/processing-of-errors.html#processing-of-errors). 
 * Response parsing (*object|array|serialized*).
-* Throws exceptions if Locale (*Region/TLD*) is invalid, [See more here](https://webservices.amazon.fr/paapi5/documentation/locale-reference.html). 
+* Throws exceptions if Locale (*Region/TLD*) is invalid, [More](https://webservices.amazon.fr/paapi5/documentation/locale-reference.html). 
 
 And had many improvements: 
 
@@ -52,12 +52,12 @@ And had many improvements:
 
 ### Variables (Basics):
 
-* "{Your-partner-tag}" : From your Amazon Associates (*your locale*), [See more here](https://webservices.amazon.com/paapi5/documentation/troubleshooting/sign-up-as-an-associate.html). 
-* "{Your-secrect-key}" : From your Amazon Associates (*your locale*), [See more here](https://affiliate-program.amazon.com/help/node/topic/GTPNVFFUV2GQ8AZV). 
-* "{Your-key-id}" : From your Amazon Associates (*your locale*), [See more here](https://affiliate-program.amazon.com/help/node/topic/GTPNVFFUV2GQ8AZV). 
-* "{Your-keywords}" : What you are looking for (*Products*), [See more here](https://webservices.amazon.com/paapi5/documentation/search-items.html). 
-* "{Your-region}" : **TLD** of the target (*your locale*) to which you are sending requests (*com | fr | de*), [Get TLD from here](https://webservices.amazon.com/paapi5/documentation/common-request-parameters.html#host-and-region). 
-* "{ASIN}" : Amazon Standard Identification Number (*your locale*), [See more here](https://webservices.amazon.com/paapi5/documentation/get-items.html#ItemLookup-rp). 
+* "{Your-partner-tag}" : From your Amazon Associates (*your locale*), [More](https://webservices.amazon.com/paapi5/documentation/troubleshooting/sign-up-as-an-associate.html). 
+* "{Your-secrect-key}" : From your Amazon Associates (*your locale*), [More](https://affiliate-program.amazon.com/help/node/topic/GTPNVFFUV2GQ8AZV). 
+* "{Your-key-id}" : From your Amazon Associates (*your locale*), [More](https://affiliate-program.amazon.com/help/node/topic/GTPNVFFUV2GQ8AZV). 
+* "{Your-keywords}" : What you are looking for (*Products*), [More](https://webservices.amazon.com/paapi5/documentation/search-items.html). 
+* "{Your-region}" : **TLD** of the target to which you are sending requests (*com | fr | de*), [Get TLD](https://webservices.amazon.com/paapi5/documentation/common-request-parameters.html#host-and-region). 
+* "{ASIN}" : Amazon Standard Identification Number (*your locale*), [More](https://webservices.amazon.com/paapi5/documentation/get-items.html#ItemLookup-rp). 
 
 
 ### Quickstart:
