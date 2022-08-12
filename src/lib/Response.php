@@ -2,12 +2,12 @@
 /**
  * @author    : JIHAD SINNAOUR
  * @package   : Apaapi
- * @version   : 1.0.9
- * @copyright : (c) 2019 - 2021 Jihad Sinnaour <mail@jihadsinnaour.com>
+ * @version   : 1.1.0
+ * @copyright : (c) 2019 - 2022 Jihad Sinnaour <mail@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
  *
- * This file if a part of Apaapi Lib
+ * This file if a part of Apaapi Lib.
  */
 
 namespace Apaapi\lib;
@@ -45,7 +45,6 @@ final class Response implements ResponseInterface
      * @param RequestInterface $request
      * @param ResponseTypeInterface $type
      * @param bool $parse
-     * @return void
      */
 	public function __construct(RequestInterface $request, ResponseTypeInterface $type = null, $parse = null)
 	{

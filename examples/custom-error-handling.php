@@ -10,6 +10,11 @@
  * This file if a part of Apaapi Lib
  */
 
+/**
+ * @see You can use Composer, 
+ * Or include Apaapi Autoloader Here.
+ */
+
 use Apaapi\operations\SearchItems;
 use Apaapi\lib\Request;
 use Apaapi\lib\Response;
@@ -21,7 +26,7 @@ $operation->setPartnerTag('{Your-partner-tag}')->setKeywords('{Your-keywords}')
 
 // Prapere Request
 $request = new Request('{Your-key-id}','{Your-secrect-key}');
-$request->setLocale('{your-locale}')->setPayload($operation);
+$request->setLocale('{Your-locale}')->setPayload($operation);
 
 // Get Response
 $response = new Response($request);
