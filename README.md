@@ -37,7 +37,7 @@ include('apaapi-master/src/Autoloader.php');
 This version includes:  
 
 * Error reporting (Including errors with **status 200** & **HTTP Client Errors**), [More](https://webservices.amazon.com/paapi5/documentation/troubleshooting/processing-of-errors.html#processing-of-errors). 
-* Response parsing (*object|array|serialized*).
+* Response parsing (*object/array/serialized*).
 * Throws exceptions if Locale (*Region/TLD*) is invalid, [More](https://webservices.amazon.fr/paapi5/documentation/locale-reference.html). 
 
 And had many improvements: 
@@ -56,7 +56,7 @@ And had many improvements:
 * "{Your-secrect-key}" : From your Amazon Associates (*your locale*), [More](https://affiliate-program.amazon.com/help/node/topic/GTPNVFFUV2GQ8AZV). 
 * "{Your-key-id}" : From your Amazon Associates (*your locale*), [More](https://affiliate-program.amazon.com/help/node/topic/GTPNVFFUV2GQ8AZV). 
 * "{Your-keywords}" : What you are looking for (*Products*), [More](https://webservices.amazon.com/paapi5/documentation/search-items.html). 
-* "{Your-region}" : **TLD** of the target to which you are sending requests (*com | fr | de*), [Get TLD](https://webservices.amazon.com/paapi5/documentation/common-request-parameters.html#host-and-region). 
+* "{Your-region}" : **TLD** of the target to which you are sending requests (*com/fr/de*), [Get TLD](https://webservices.amazon.com/paapi5/documentation/common-request-parameters.html#host-and-region). 
 * "{ASIN}" : Amazon Standard Identification Number (*your locale*), [More](https://webservices.amazon.com/paapi5/documentation/get-items.html#ItemLookup-rp). 
 
 
