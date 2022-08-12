@@ -3,8 +3,7 @@
 <img src="https://raw.githubusercontent.com/Jakiboy/apaapi/master/amazon.svg" width="100" alt="Amazon Product Advertising API PHP">
 
 Amazon Product Advertising API 5.0 (**Without Amazon SDK**).  
-This repository contains a PHP Lightweight Wrapper Lib (**v1.1.0**)  
-Allows you accessing the [Amazon Product Advertising API 5.0](https://webservices.amazon.com/paapi5/documentation/index.html){target="_blank"} from your PHP App, Quickly & easily!
+This repository contains a PHP Lightweight Wrapper Lib (**v1.1.0**), Allows you accessing the [Amazon Product Advertising API 5.0](https://webservices.amazon.com/paapi5/documentation/index.html) from your PHP App, Quickly & easily!
 
 -- Become an Amazon Affiliate With PHP --
 
@@ -35,16 +34,16 @@ include('apaapi-master/src/Autoloader.php');
 
 **See changes before migrate**: 
 
-This version includes:<br>
+This version includes:  
 
-* Error reporting (Including errors with **status 200** & **HTTP Client Errors**), [See more here](https://webservices.amazon.com/paapi5/documentation/troubleshooting/processing-of-errors.html#processing-of-errors){target="_blank"}. 
+* Error reporting (Including errors with **status 200** & **HTTP Client Errors**), [See more here](https://webservices.amazon.com/paapi5/documentation/troubleshooting/processing-of-errors.html#processing-of-errors). 
 * Response parsing (*object|array|serialized*).
-* Throws exceptions if Locale (*Region/TLD*) is invalid, [See more here](https://webservices.amazon.fr/paapi5/documentation/locale-reference.html){target="_blank"}. 
+* Throws exceptions if Locale (*Region/TLD*) is invalid, [See more here](https://webservices.amazon.fr/paapi5/documentation/locale-reference.html). 
 
 And had many improvements: 
 
 
-* Uses Default [Ressources](https://webservices.amazon.fr/paapi5/documentation/resources.html){target="_blank"} for each [Operation](https://webservices.amazon.fr/paapi5/documentation/operations.html){target="_blank"}. 
+* Uses Default [Ressources](https://webservices.amazon.fr/paapi5/documentation/resources.html) for each [Operation](https://webservices.amazon.fr/paapi5/documentation/operations.html). 
 * Clean ecosystem.
 * [Extendable HTTP Client](#advanced-custom-http-request-client).
 
@@ -53,12 +52,12 @@ And had many improvements:
 
 ### Variables (Basics):
 
-* "{Your-partner-tag}" : From your Amazon Associates (*your locale*), [See more here](https://webservices.amazon.com/paapi5/documentation/troubleshooting/sign-up-as-an-associate.html){target="_blank"}. 
-* "{Your-secrect-key}" : From your Amazon Associates (*your locale*), [See more here](https://affiliate-program.amazon.com/help/node/topic/GTPNVFFUV2GQ8AZV){target="_blank"}. 
-* "{Your-key-id}" : From your Amazon Associates (*your locale*), [See more here](https://affiliate-program.amazon.com/help/node/topic/GTPNVFFUV2GQ8AZV){target="_blank"}. 
-* "{Your-keywords}" : What you are looking for (*Products*), [See more here](https://webservices.amazon.com/paapi5/documentation/search-items.html){target="_blank"}. 
-* "{Your-region}" : **TLD** of the target (*your locale*) to which you are sending requests (*com | fr | de*), [Get TLD from here](https://webservices.amazon.com/paapi5/documentation/common-request-parameters.html#host-and-region){target="_blank"}. 
-* "{ASIN}" : Amazon Standard Identification Number (*your locale*) (*B0XXXXXXXX*), [See more here](https://webservices.amazon.com/paapi5/documentation/get-items.html#ItemLookup-rp){target="_blank"}. 
+* "{Your-partner-tag}" : From your Amazon Associates (*your locale*), [See more here](https://webservices.amazon.com/paapi5/documentation/troubleshooting/sign-up-as-an-associate.html). 
+* "{Your-secrect-key}" : From your Amazon Associates (*your locale*), [See more here](https://affiliate-program.amazon.com/help/node/topic/GTPNVFFUV2GQ8AZV). 
+* "{Your-key-id}" : From your Amazon Associates (*your locale*), [See more here](https://affiliate-program.amazon.com/help/node/topic/GTPNVFFUV2GQ8AZV). 
+* "{Your-keywords}" : What you are looking for (*Products*), [See more here](https://webservices.amazon.com/paapi5/documentation/search-items.html). 
+* "{Your-region}" : **TLD** of the target (*your locale*) to which you are sending requests (*com | fr | de*), [Get TLD from here](https://webservices.amazon.com/paapi5/documentation/common-request-parameters.html#host-and-region). 
+* "{ASIN}" : Amazon Standard Identification Number (*your locale*), [See more here](https://webservices.amazon.com/paapi5/documentation/get-items.html#ItemLookup-rp). 
 
 
 ### Quickstart:
