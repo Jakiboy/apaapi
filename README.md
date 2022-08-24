@@ -247,7 +247,6 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 ## Authors:
 
 * **Jihad Sinnaour** - [Jakiboy](https://github.com/Jakiboy) (*Initial work*)
-* **Kay Marquardt** - [gnadelwartz](https://github.com/gnadelwartz)
 
 See also the full list of [contributors](https://github.com/Jakiboy/apaapi/contributors) who participated in this project.
 
