@@ -15,7 +15,7 @@ namespace Apaapi\includes;
 use Apaapi\interfaces\RequestClientInterface;
 
 /**
- * Basic Apaapi Curl Wrapper Class
+ * Basic Apaapi Curl Wrapper Class.
  */
 class RequestClient implements RequestClientInterface
 {
@@ -24,25 +24,22 @@ class RequestClient implements RequestClientInterface
      * @var object $endpoint Curl
      * @var object $handler Curl
      * @var object $response
-     * @var bool $verifySSL
      */
     protected $endpoint;
     protected $handler;
     protected $response;
-    protected $verifySSL;
 
     /**
      * @param string $endpoint
      * @param array $params
      */
-	public function __construct($endpoint, $params)
-	{
+    public function __construct($endpoint, $params)
+    {
         $this->endpoint = $endpoint;
         $this->params = $params;
-        $this->verifySSL = ($this->isHttps()) ? true : false;
         $this->init();
         $this->setHeader();
-	}
+    }
 
     /**
      * Get Curl response, Includes Curl error
@@ -51,14 +48,14 @@ class RequestClient implements RequestClientInterface
      * @param void
      * @return mixed
      */
-	public function getResponse()
-	{
+    public function getResponse()
+    {
         $this->send();
         if ( $this->hasError() ) {
-        	return $this->getError();
+            return $this->getError();
         }
         return $this->response;
-	}
+    }
 
     /**
      * Return Curl error status
@@ -128,16 +125,16 @@ class RequestClient implements RequestClientInterface
      * @param void
      * @return void
      */
-	protected function init()
-	{
-		$this->handler = curl_init();
-		curl_setopt($this->handler, CURLOPT_URL, $this->endpoint);
-		curl_setopt($this->handler, CURLOPT_POSTFIELDS, $this->params['http']['content']);
-		curl_setopt($this->handler, CURLOPT_POST, true);
-		curl_setopt($this->handler, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($this->handler, CURLOPT_SSL_VERIFYPEER, $this->verifySSL);
-		curl_setopt($this->handler, CURLOPT_TIMEOUT, 30);
-	}
+    protected function init()
+    {
+        $this->handler = curl_init();
+        curl_setopt($this->handler, CURLOPT_URL, $this->endpoint);
+        curl_setopt($this->handler, CURLOPT_POSTFIELDS, $this->params['http']['content']);
+        curl_setopt($this->handler, CURLOPT_POST, true);
+        curl_setopt($this->handler, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($this->handler, CURLOPT_SSL_VERIFYPEER, $this->isSSL());
+        curl_setopt($this->handler, CURLOPT_TIMEOUT, 30);
+    }
 
     /**
      * Execute Curl
@@ -146,10 +143,10 @@ class RequestClient implements RequestClientInterface
      * @param void
      * @return void
      */
-	protected function send()
-	{
-		$this->response = curl_exec($this->handler);
-	}
+    protected function send()
+    {
+        $this->response = curl_exec($this->handler);
+    }
 
     /**
      * Set Curl header
@@ -158,22 +155,28 @@ class RequestClient implements RequestClientInterface
      * @param void
      * @return void
      */
-	protected function setHeader()
-	{
-		$header = explode("\n", $this->params['http']['header']);
-		curl_setopt($this->handler, CURLOPT_HTTPHEADER, $header);
-	}
+    protected function setHeader()
+    {
+        $header = explode("\n", $this->params['http']['header']);
+        curl_setopt($this->handler, CURLOPT_HTTPHEADER, $header);
+    }
 
     /**
      * @access protected
      * @param void
      * @return bool
      */
-    protected function isHttps()
+    protected function isSSL()
     {
-        if ( isset($_SERVER['HTTPS'])
-            && !empty($_SERVER['HTTPS']) 
-            && $_SERVER['HTTPS'] !== 'off' ) {
+        if ( isset($_SERVER['HTTPS']) ) {
+            if ( strtolower($_SERVER['HTTPS']) === 'on' ) {
+                return true;
+            }
+            if ( $_SERVER['HTTPS'] == '1' ) {
+                return true;
+            }
+        } elseif ( isset($_SERVER['SERVER_PORT']) 
+            && ( $_SERVER['SERVER_PORT'] == '443' ) ) {
             return true;
         }
         return false;

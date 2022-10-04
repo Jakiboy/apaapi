@@ -13,7 +13,7 @@
 namespace Apaapi\interfaces;
 
 /**
- * Basic Apaapi Request Client Interface
+ * Basic Apaapi Request Client Interface.
  */
 interface RequestClientInterface
 {
