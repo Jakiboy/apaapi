@@ -1,13 +1,13 @@
 <?php
 /**
  * @author    : JIHAD SINNAOUR
- * @package   : Apaapi | Amazon Product Advertising API v5 Example
- * @version   : 1.0.8
- * @copyright : (c) 2019 - 2021 Jihad Sinnaour <mail@jihadsinnaour.com>
+ * @package   : Apaapi | Amazon Product Advertising API Library (v5) Example
+ * @version   : 1.1.1
+ * @copyright : (c) 2019 - 2022 Jihad Sinnaour <mail@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
  *
- * This file if a part of Apaapi Lib
+ * This file if a part of Apaapi Lib.
  */
 
 /**
@@ -39,4 +39,4 @@ if ( $response->hasError() ) {
 	echo $response->getError(true); // Parsed error
 }
 
-// Hope you found this useful, any suggestions (Pulls) are welcome !
+// Hope you found this useful, any suggestions (Pull requests) are welcome!
