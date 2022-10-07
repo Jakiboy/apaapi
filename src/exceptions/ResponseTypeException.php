@@ -24,8 +24,7 @@ final class ResponseTypeException extends MainException
 	 */
 	protected function getError($code)
 	{
-		$code = intval($code);
-		switch ($code) {
+		switch ((int)$code) {
 			case 1:
 				return 'Invalid Response Type Format [Object/Array/Serialized]';
 				break;

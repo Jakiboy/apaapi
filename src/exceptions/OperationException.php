@@ -24,8 +24,7 @@ final class OperationException extends MainException
 	 */
 	protected function getError($code)
 	{
-		$code = intval($code);
-		switch ($code) {
+		switch ((int)$code) {
 			case 1:
 				return 'Invalid Operation Ressources';
 				break;
