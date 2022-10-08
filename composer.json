@@ -1,6 +1,6 @@
 {
   "name": "jakiboy/apaapi",
-  "version" : "1.1.1",
+  "version" : "1.1.2",
   "type": "library",
   "description": "Quick connection to Amazon Affiliate Program using Amazon Product Advertising API v5 Library (APAAPI)",
   "keywords": ["php","amazon","amazon-affiliate-program","product","api","apaapi","paapi5","jakiboy"],

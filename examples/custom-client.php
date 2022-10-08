@@ -2,7 +2,7 @@
 /**
  * @author    : JIHAD SINNAOUR
  * @package   : Apaapi | Amazon Product Advertising API Library (v5) Example
- * @version   : 1.1.1
+ * @version   : 1.1.2
  * @copyright : (c) 2019 - 2022 Jihad Sinnaour <mail@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
@@ -20,17 +20,20 @@ use Apaapi\lib\Request;
 use Apaapi\lib\Response;
 use Apaapi\includes\RequestClient;
 
-// Create Custom Client
+/**
+ * Create Custom Request Client Class.
+ */
 class MyRequestClient extends RequestClient
 {
 	public function init()
 	{
 		$this->handler = curl_init();
 		curl_setopt($this->handler, CURLOPT_URL, $this->endpoint);
-		curl_setopt($this->handler, CURLOPT_POSTFIELDS, $this->params['http']['content']);
+		curl_setopt($this->handler, CURLOPT_HTTPHEADER, $this->getRequestHeader());
+		curl_setopt($this->handler, CURLOPT_POSTFIELDS, $this->getRequestContent());
 		curl_setopt($this->handler, CURLOPT_POST, true);
-		curl_setopt($this->handler, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($this->handler, CURLOPT_SSL_VERIFYPEER, 1); // Force SSL instead of Auto
+		curl_setopt($this->handler, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($this->handler, CURLOPT_SSL_VERIFYPEER, true);// Force SSL instead of Auto
 		curl_setopt($this->handler, CURLOPT_TIMEOUT, 10); // Custom Timeout instead of 30
 	}
 }
