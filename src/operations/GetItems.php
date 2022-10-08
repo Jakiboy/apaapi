@@ -2,7 +2,7 @@
 /**
  * @author    : JIHAD SINNAOUR
  * @package   : Apaapi | Amazon Product Advertising API Library (v5)
- * @version   : 1.1.1
+ * @version   : 1.1.2
  * @copyright : (c) 2019 - 2022 Jihad Sinnaour <mail@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
@@ -21,7 +21,7 @@ use Apaapi\resources\ParentASIN;
 use Apaapi\includes\ResourceParser;
 
 /**
- * Basic Apaapi GetItems Operation
+ * Basic Apaapi GetItems Operation.
  * @see https://webservices.amazon.com/paapi5/documentation/get-items.html
  */
 final class GetItems extends ItemOperation

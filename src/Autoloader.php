@@ -2,7 +2,7 @@
 /**
  * @author    : JIHAD SINNAOUR
  * @package   : Apaapi | Amazon Product Advertising API Library (v5)
- * @version   : 1.1.1
+ * @version   : 1.1.2
  * @copyright : (c) 2019 - 2022 Jihad Sinnaour <mail@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
@@ -12,6 +12,9 @@
 
 namespace Apaapi;
 
+/**
+ * Apaapi Standalone Autoloader.
+ */
 final class Autoloader
 {
 	/**
@@ -62,6 +65,7 @@ final class Autoloader
 	/**
 	 * Autoloader method.
 	 * @see https://www.php-fig.org/psr/psr-0/
+	 * @see https://www.php-fig.org/psr/psr-4/
 	 * 
 	 * @access private
 	 * @param string $class __CLASS__

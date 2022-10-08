@@ -2,7 +2,7 @@
 /**
  * @author    : JIHAD SINNAOUR
  * @package   : Apaapi | Amazon Product Advertising API Library (v5)
- * @version   : 1.1.1
+ * @version   : 1.1.2
  * @copyright : (c) 2019 - 2022 Jihad Sinnaour <mail@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
@@ -18,8 +18,8 @@ use Apaapi\interfaces\ResponseTypeInterface;
 use Apaapi\includes\ResponseType;
 
 /**
- * Basic Apaapi Response Wrapper Class
- * Based on the Product Advertising API 5.0 Scratchpad
+ * Basic Apaapi Response Wrapper Class.
+ * Based on the Product Advertising API 5.0 Scratchpad.
  * @see https://webservices.amazon.com/paapi5/scratchpad/index.html
  */
 final class Response implements ResponseInterface
@@ -32,12 +32,12 @@ final class Response implements ResponseInterface
     /**
      * @access private
      * @var object $client, Request client
-     * @var int $statusCode, Response status code
+     * @var int $code, Response status code
      * @var mixed $body, Response body
      * @var bool $error, Data error
      */
 	private $client;
-	private $statusCode = 200;
+	private $code = 200;
 	private $body = false;
 	private $error = false;
 
@@ -56,7 +56,7 @@ final class Response implements ResponseInterface
 		$this->body = $this->client->getResponse();
 
 		// Set response status code
-		$this->statusCode = $this->client->getCode();
+		$this->code = $this->client->getCode();
 
 		// Close HTTP client
 		$this->client->close();
@@ -76,7 +76,7 @@ final class Response implements ResponseInterface
 	}
 
     /**
-     * Get response body
+     * Get response body.
      *
      * @access public
      * @param void
@@ -88,7 +88,7 @@ final class Response implements ResponseInterface
 	}
 
     /**
-     * Get response error
+     * Get response error.
      *
      * @see https://webservices.amazon.com/paapi5/documentation/troubleshooting/error-messages.html
      * @access public
@@ -112,28 +112,29 @@ final class Response implements ResponseInterface
 	}
 
     /**
-     * Check if response has any error (>=400)
+     * Check if response has any error (>=400).
      *
      * @access public
      * @param void
-     * @return boolean
+     * @return bool
      */
 	public function hasError()
 	{
-		if ( !$this->statusCode || $this->statusCode >= 400 ) {
+		if ( !$this->code || $this->code >= 400 ) {
 			return true;
-		} elseif ( $this->statusCode == 200 && $this->error ) {
+
+		} elseif ( $this->code == 200 && $this->error ) {
 			return true;
 		}
 		return false;
 	}
 
     /**
-     * Check if response has data error (==200)
+     * Check if response has data error (==200).
      *
      * @access private
      * @param void
-     * @return boolean
+     * @return bool
      */
 	private function hasDataError()
 	{
