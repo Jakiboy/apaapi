@@ -2,7 +2,7 @@
 /**
  * @author    : JIHAD SINNAOUR
  * @package   : Apaapi | Amazon Product Advertising API Library (v5)
- * @version   : 1.1.1
+ * @version   : 1.1.2
  * @copyright : (c) 2019 - 2022 Jihad Sinnaour <mail@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
@@ -25,19 +25,13 @@ interface RequestClientInterface
 
     /**
      * @param void
-     * @return void
+     * @return mixed
      */
 	function getResponse();
 
     /**
      * @param void
-     * @return bool
-     */
-    function hasError();
-
-    /**
-     * @param void
-     * @return void
+     * @return int
      */
     function getCode();
     

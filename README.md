@@ -157,7 +157,7 @@ use Apaapi\lib\Response;
 use Apaapi\includes\RequestClient;
 
 /**
- * @see Extending RequestClient: Allows Overriding Curl Settings,
+ * @see Extending RequestClient: Allows Overriding cURL|Stream Settings,
  * Or Using Other Stream Instead.
  */
 class MyRequestClient extends RequestClient
