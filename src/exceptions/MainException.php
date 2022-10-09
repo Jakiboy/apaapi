@@ -28,8 +28,7 @@ class MainException extends Exception
 	{
 		$trace = $this->getTrace()[0];
 		$class = basename($trace['class']);
-		$message  = "[{$class}Exception][{$code}] Error : {$this->getError($code)}";
-
+		$message  = "[{$class}Exception] Error[{$code}] : {$this->getError($code)}";
         if ( defined('APAAPI_DISPLAY_EXCEPTION_LINE')
         	&& APAAPI_DISPLAY_EXCEPTION_LINE === true ) {
 			$message .= "<br>Line : {$trace['line']} in {$trace['file']}";
