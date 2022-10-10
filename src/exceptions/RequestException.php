@@ -2,7 +2,7 @@
 /**
  * @author    : JIHAD SINNAOUR
  * @package   : Apaapi | Amazon Product Advertising API Library (v5)
- * @version   : 1.1.2
+ * @version   : 1.1.3
  * @copyright : (c) 2019 - 2022 Jihad Sinnaour <mail@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
@@ -13,24 +13,17 @@
 namespace Apaapi\exceptions;
 
 /**
- * Basic Apaapi Operation Exception Class.
+ * Basic Apaapi Request Exception Class.
  */
-final class RequestException extends MainException
+final class RequestException extends \Exception
 {
-	/**
-	 * @access protected
-	 * @var int $code
-	 * @return string
-	 */
-	protected function getError($code)
+	public static function invalidRequestClientMessage()
 	{
-		switch ((int)$code) {
-			case 0:
-				return 'Cannot Send Request (Missing cURL and Stream Functions)';
-				break;
-			case 1:
-				return 'Invalid Request Locale';
-				break;
-		}
+		return 'Could not send request (Missing cURL and Stream functions)';
+	}
+
+	public static function invalidRequestLocaleMessage($local = null)
+	{
+		return "Invalid request locale '{$local}'";
 	}
 }

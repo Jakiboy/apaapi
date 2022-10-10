@@ -3,7 +3,7 @@
 <img src="https://raw.githubusercontent.com/Jakiboy/apaapi/master/amazon.svg" width="100" alt="Amazon Product Advertising API PHP">
 
 Amazon Product Advertising API V5.0 (**Without Amazon SDK**).  
-This repository contains a PHP Lightweight Wrapper Lib (**v1.1.0**), Allows you accessing the [Amazon Product Advertising API V5.0](https://webservices.amazon.com/paapi5/documentation/index.html) from your PHP App, Quickly & easily!
+This repository contains a PHP Lightweight Wrapper Lib (**v1.1.3**), Allows you accessing the [Amazon Product Advertising API V5.0](https://webservices.amazon.com/paapi5/documentation/index.html) from your PHP App, Quickly & easily!
 
 -- Become an Amazon Affiliate With PHP --
 
@@ -36,14 +36,17 @@ include('apaapi-master/src/Autoloader.php');
 
 This version includes:  
 
-* Error reporting (Including errors with **status 200** & **HTTP Client Errors**), [More](https://webservices.amazon.com/paapi5/documentation/troubleshooting/processing-of-errors.html#processing-of-errors). 
+* Support for **disabled cURL** (*Used Stream*).
+* Throws exception if **cURL** AND **Stream** are disabled.
+* Error reporting (Including semantic errors with **status 200** & **HTTP Client Errors**), [More](https://webservices.amazon.com/paapi5/documentation/troubleshooting/processing-of-errors.html#processing-of-errors). 
+* HTTP Client helpers (*RequestClient::hasCurl() & RequestClient::hasStream()*).
 * Response parsing (*object/array/serialized*).
-* Throws exceptions if Locale (*Region/TLD*) is invalid, [More](https://webservices.amazon.fr/paapi5/documentation/locale-reference.html). 
+* Throws exception if Locale (*Region/TLD*) is invalid, [More](https://webservices.amazon.fr/paapi5/documentation/locale-reference.html).
+* Throws exception if Resource (*e.g. Images.Primary.Large*) is invalid, [More](https://webservices.amazon.fr/paapi5/documentation/resources.html).
 
 And had many improvements: 
 
-
-* Uses Default [Ressources](https://webservices.amazon.fr/paapi5/documentation/resources.html) for each [Operation](https://webservices.amazon.fr/paapi5/documentation/operations.html). 
+* Uses default [Ressources](https://webservices.amazon.fr/paapi5/documentation/resources.html) for each [Operation](https://webservices.amazon.fr/paapi5/documentation/operations.html). 
 * Clean ecosystem.
 * [Extendable HTTP Client](#advanced-custom-http-request-client).
 
