@@ -2,7 +2,7 @@
 /**
  * @author    : JIHAD SINNAOUR
  * @package   : Apaapi | Amazon Product Advertising API Library (v5)
- * @version   : 1.1.2
+ * @version   : 1.1.3
  * @copyright : (c) 2019 - 2022 Jihad Sinnaour <mail@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
@@ -15,19 +15,10 @@ namespace Apaapi\exceptions;
 /**
  * Basic Apaapi Operation Exception Class.
  */
-final class OperationException extends MainException
+final class OperationException extends \Exception
 {
-	/**
-	 * @access protected
-	 * @var int $code
-	 * @return string
-	 */
-	protected function getError($code)
+	public static function invalidOperationRessource($ressource = null)
 	{
-		switch ((int)$code) {
-			case 1:
-				return 'Invalid Operation Ressources';
-				break;
-		}
+		return "Invalid operation ressource '{$ressource}'";
 	}
 }

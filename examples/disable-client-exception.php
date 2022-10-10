@@ -27,33 +27,11 @@ use Apaapi\includes\RequestClient;
  */
 class MyRequestClient extends RequestClient
 {
-	protected function init()
-	{
-		if ( self::hasCurl() ) {
-
-			// cURL override example
-			$this->handler = curl_init();
-			curl_setopt($this->handler, CURLOPT_URL, $this->endpoint);
-			curl_setopt($this->handler, CURLOPT_HTTPHEADER, $this->getRequestHeader());
-			curl_setopt($this->handler, CURLOPT_POSTFIELDS, $this->getRequestContent());
-			curl_setopt($this->handler, CURLOPT_POST, true);
-			curl_setopt($this->handler, CURLOPT_RETURNTRANSFER, true);
-			curl_setopt($this->handler, CURLOPT_SSL_VERIFYPEER, true); // Force SSL instead of Auto
-			curl_setopt($this->handler, CURLOPT_TIMEOUT, 10); // Custom Timeout instead of 30
-
-		} elseif ( self::hasStream() ) {
-
-			// Stream override example
-            $this->handler = [
-                'http' => [
-                    'method'  => 'POST',
-                    'header'  => $this->getRequestHeader(),
-                    'content' => $this->getRequestContent(),
-                    'timeout' => 10 // Custom Timeout instead of 30
-                ]
-            ];
-		}
-	}
+    public function __construct($endpoint, $params)
+    {
+        // Disable request client exception when both cURL & Stream functions are disabled
+    	parent::__construct($endpoint,$params,false);
+    }
 }
 
 // Set Operation
@@ -72,6 +50,15 @@ $request->setClient(
 
 // Get Response
 $response = new Response($request);
-echo $response->get(); // JSON ready to be parsed
+$data = $response->get(); // JSON error ready for parsing
+
+// Get formated error without exception handling
+if ( $response->hasError() ) {
+	/**
+	 * @param bool $single error
+	 * @return string|array
+	 */
+	echo $response->getError(true); // Parsed error
+}
 
 // Hope you found this useful, any suggestions (Pull requests) are welcome!

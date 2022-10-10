@@ -2,7 +2,7 @@
 /**
  * @author    : JIHAD SINNAOUR
  * @package   : Apaapi | Amazon Product Advertising API Library (v5)
- * @version   : 1.1.2
+ * @version   : 1.1.3
  * @copyright : (c) 2019 - 2022 Jihad Sinnaour <mail@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
@@ -33,7 +33,7 @@ class RequestClient implements RequestClientInterface
     protected $endpoint;
     protected $params;
     protected $handler;
-    protected $method = 'curl';
+    protected $method;
     protected $response = false;
     protected $error = false;
     protected $code = 200;
@@ -41,15 +41,23 @@ class RequestClient implements RequestClientInterface
     /**
      * @param string $endpoint
      * @param array $params
+     * @param bool $throwClientException
+     * @throws bool RequestException
      */
-    public function __construct($endpoint, $params)
+    public function __construct($endpoint, $params, $throwClientException = true)
     {
-        try {
-            if ( !self::hasCurl() && !self::hasStream() ) {
-                throw new RequestException();
+        if ( !self::hasCurl() && !self::hasStream() ) {
+            if ( $throwClientException ) {
+                throw new RequestException(
+                    RequestException::invalidRequestClientMessage()
+                );
+            } else {
+                $this->code = 0;
+                $this->error = $this->setError(
+                    'HTTP Client',
+                    RequestException::invalidRequestClientMessage()
+                );
             }
-        } catch (RequestException $e) {
-            die($e->get(0));
         }
 
         $this->endpoint = $endpoint;
@@ -158,21 +166,12 @@ class RequestClient implements RequestClientInterface
             curl_setopt($this->handler, CURLOPT_TIMEOUT, 30);
 
         } elseif ( $this->method == 'stream' ) {
-            /**
-             * Secured stream.
-             * @see https://www.php.net/manual/en/context.ssl.php
-             */
             $this->handler = [
                 'http' => [
                     'method'  => 'POST',
                     'header'  => $this->getRequestHeader(),
                     'content' => $this->getRequestContent(),
                     'timeout' => 30
-                ],
-                'ssl' => [
-                    'verify_peer'      => $this->isSSL(),
-                    'verify_peer_name' => $this->isSSL(),
-                    'verify_depth'     => 0
                 ]
             ];
         }
@@ -284,10 +283,6 @@ class RequestClient implements RequestClientInterface
      */
     protected function isSSL()
     {
-        if ( defined('APAAPI_FORCE_DISABLE_SSL')
-        && APAAPI_FORCE_DISABLE_SSL === true ) {
-           return false;
-        }
         if ( isset($_SERVER['HTTPS']) ) {
             if ( strtolower($_SERVER['HTTPS']) === 'on' ) {
                 return true;
@@ -311,7 +306,8 @@ class RequestClient implements RequestClientInterface
      */
     protected function getRequestContent()
     {
-        return $this->params['http']['content'] ?? '';
+        return isset($this->params['http']['content'])
+        ? $this->params['http']['content'] : '';
     }
 
     /**
@@ -323,7 +319,8 @@ class RequestClient implements RequestClientInterface
      */
     protected function getRequestHeader()
     {
-        $header = $this->params['http']['header'] ?? [];
+        $header = isset($this->params['http']['header'])
+        ? $this->params['http']['header'] : [];
         return explode("\n",$header);
     }
 }

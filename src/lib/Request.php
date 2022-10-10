@@ -2,7 +2,7 @@
 /**
  * @author    : JIHAD SINNAOUR
  * @package   : Apaapi | Amazon Product Advertising API Library (v5)
- * @version   : 1.1.2
+ * @version   : 1.1.3
  * @copyright : (c) 2019 - 2022 Jihad Sinnaour <mail@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
@@ -40,7 +40,7 @@ implements RequestInterface
      */
     private $params = [];
     private $endpoint = [];
-    private $client = null;
+    private $client;
     private $operation;
 
     /**
@@ -56,7 +56,7 @@ implements RequestInterface
     }
 
     /**
-     * Set payload
+     * Set request payload.
      *
      * @access public
      * @param ParsableInterface $operation
@@ -94,45 +94,65 @@ implements RequestInterface
     }
 
     /**
+     * Set request client.
+     * 
      * @access public
      * @param RequestClientInterface $client
      * @return void
      */
     public function setClient(RequestClientInterface $client = null)
     {
-        if ( !$this->client ) {
-            if ( !( $this->client = $client) ) {
-                $this->client = new RequestClient(
-                    $this->getEndpoint(),
-                    $this->getParams()
-                );
-            }
+        if ( !($this->client = $client) ) {
+            $this->client = new RequestClient(
+                $this->getEndpoint(),
+                $this->getParams()
+            );
         }
     }
-    
+
     /**
+     * Check request has valid client.
+     * 
+     * @access public
+     * @param void
+     * @return bool
+     */
+    public function hasClient()
+    {
+        return is_object($this->client);
+    }
+
+    /**
+     * Set request timestamp.
+     *
      * @access public
      * @param string $timestamp
      * @return object
      */
     public function setTimeStamp($timestamp = null)
     {
-        $this->timestamp = ($timestamp) ? $timestamp : gmdate('Ymd\THis\Z');
+        $this->timestamp = ($timestamp) 
+        ? $timestamp : gmdate('Ymd\THis\Z');
         return $this;
     }
 
     /**
+     * Set request date.
+     *
      * @access public
      * @param string $date
      * @return object
      */
     public function setDate($date = null)
     {
-        $this->currentDate = ($date) ? $date : gmdate('Ymd');
+        $this->currentDate = ($date) 
+        ? $date : gmdate('Ymd');
         return $this;
     }
 
     /**
+     * Get request client.
+     *
      * @access public
      * @param void
      * @return object
@@ -143,6 +163,8 @@ implements RequestInterface
     }
 
     /**
+     * Get request endpoint.
+     *
      * @access public
      * @param void
      * @return string
@@ -153,6 +175,8 @@ implements RequestInterface
     }
 
     /**
+     * Get request parameters.
+     *
      * @access public
      * @param void
      * @return array
@@ -163,6 +187,8 @@ implements RequestInterface
     }
 
     /**
+     * Get request operation.
+     *
      * @access public
      * @param void
      * @return string
@@ -173,7 +199,7 @@ implements RequestInterface
     }
 
     /**
-     * Set request header
+     * Set request header.
      *
      * @access public
      * @param string $name
@@ -186,14 +212,15 @@ implements RequestInterface
     }
 
     /**
-     * Set locale
+     * Set request locale.
      *
      * @access public
      * @param string $locale
      * @return object
+     * @throws RequestException
      * @see https://webservices.amazon.fr/paapi5/documentation/locale-reference.html
      */
-    public function setLocale($locale = 'com')
+    public function setLocale($locale)
     {
         $locale = strtolower($locale);
         foreach ($this->getRegions() as $name => $value) {
@@ -205,18 +232,16 @@ implements RequestInterface
                 $this->locale = false;
             }
         }
-        try {
-            if ( !$this->locale ) {
-                throw new RequestException($locale);
-            }
-        } catch (RequestException $e) {
-            die($e->get(1));
+        if ( !$this->locale ) {
+            throw new RequestException(
+                RequestException::invalidRequestLocaleMessage($locale)
+            );
         }
         return $this;
     }
 
     /**
-     * Init request
+     * Init request.
      *
      * @access private
      * @param void
@@ -231,7 +256,7 @@ implements RequestInterface
     }
 
     /**
-     * Get regions
+     * Get request regions.
      *
      * @access private
      * @param void

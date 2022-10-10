@@ -2,7 +2,7 @@
 /**
  * @author    : JIHAD SINNAOUR
  * @package   : Apaapi | Amazon Product Advertising API Library (v5)
- * @version   : 1.1.2
+ * @version   : 1.1.3
  * @copyright : (c) 2019 - 2022 Jihad Sinnaour <mail@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
@@ -17,6 +17,7 @@ use Apaapi\interfaces\RequestClientInterface;
 
 /**
  * Basic Apaapi Amazon Signature Request Wrapper Class.
+ * @see https://webservices.amazon.com/paapi5/documentation/without-sdk.html
  */
 abstract class SignatureRequest
 {

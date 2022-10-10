@@ -2,7 +2,7 @@
 /**
  * @author    : JIHAD SINNAOUR
  * @package   : Apaapi | Amazon Product Advertising API Library (v5)
- * @version   : 1.1.2
+ * @version   : 1.1.3
  * @copyright : (c) 2019 - 2022 Jihad Sinnaour <mail@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
@@ -31,12 +31,10 @@ final class Response implements ResponseInterface
 
     /**
      * @access private
-     * @var object $client, Request client
      * @var int $code, Response status code
      * @var mixed $body, Response body
      * @var bool $error, Data error
      */
-	private $client;
 	private $code = 200;
 	private $body = false;
 	private $error = false;
@@ -49,17 +47,20 @@ final class Response implements ResponseInterface
 	public function __construct(RequestInterface $request, ResponseTypeInterface $type = null, $parse = null)
 	{
 		// Set HTTP client
-		$request->setClient(); // default
-		$this->client = $request->getClient();
+		if ( !$request->hasClient() ) {
+			// Set default HTTP Client
+			$request->setClient();
+		}
+		$client = $request->getClient();
 
 		// Set response body
-		$this->body = $this->client->getResponse();
+		$this->body = $client->getResponse();
 
 		// Set response status code
-		$this->code = $this->client->getCode();
+		$this->code = $client->getCode();
 
 		// Close HTTP client
-		$this->client->close();
+		$client->close();
 
 		// Set data error on status 200
 		if ( $this->hasDataError() ) {

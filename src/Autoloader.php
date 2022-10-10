@@ -2,7 +2,7 @@
 /**
  * @author    : JIHAD SINNAOUR
  * @package   : Apaapi | Amazon Product Advertising API Library (v5)
- * @version   : 1.1.2
+ * @version   : 1.1.3
  * @copyright : (c) 2019 - 2022 Jihad Sinnaour <mail@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
@@ -76,10 +76,8 @@ final class Autoloader
 	    if ( strpos($class, __NAMESPACE__ . '\\') === 0 ) {
 	        $class = str_replace(__NAMESPACE__ . '\\', '', $class);
 	        $class = str_replace('\\','/',$class);
-	        $namespace = str_replace('\\', '/', __NAMESPACE__) . '/src';
-	        $root = dirname(dirname(dirname(__FILE__)));
-	        $root = str_replace('\\','/',$root);
-	        require_once("{$root}/{$namespace}/{$class}.php");
+	        $root = str_replace('\\','/',dirname(__DIR__));
+	        require_once("{$root}/src/{$class}.php");
 	    }
 	}
 
