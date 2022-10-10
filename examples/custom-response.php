@@ -11,9 +11,11 @@
  */
 
 /**
- * @see You can use Composer, 
- * Or include Apaapi Autoloader Here.
+ * @see You can use Composer,
+ * Or include Apaapi Standalone Autoloader Here.
  */
+include('../src/Autoloader.php');
+\apaapi\Autoloader::init();
 
 use Apaapi\operations\SearchItems;
 use Apaapi\lib\Request;
