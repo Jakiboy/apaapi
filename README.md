@@ -186,7 +186,7 @@ $response = new Response($request);
 echo $response->get(); // JSON ready for parsing
 
 ```
-### Advanced (Response Type Helper) :
+### Advanced (Response Type Helper):
 
 ```php
 
@@ -217,7 +217,7 @@ $response = new Response($request, new ResponseType('object'), Response::PARSE);
 return $response->get(); // Object ready to be used
 
 ```
-### Advanced (Response Errors) :
+### Advanced (Response Errors):
 
 ```php
 
@@ -255,7 +255,7 @@ See also the full list of [contributors](https://github.com/Jakiboy/apaapi/contr
 
 ## License:
 
-This project is licensed under the MIT License - see the [LICENSE.txt](https://github.com/Jakiboy/apaapi/blob/master/LICENSE.txt) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/Jakiboy/apaapi/blob/master/LICENSE) file for details.
 
 ## ⭐ Support:
 
