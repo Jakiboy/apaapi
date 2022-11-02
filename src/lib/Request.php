@@ -2,7 +2,7 @@
 /**
  * @author    : JIHAD SINNAOUR
  * @package   : Apaapi | Amazon Product Advertising API Library (v5)
- * @version   : 1.1.4
+ * @version   : 1.1.5
  * @copyright : (c) 2019 - 2022 Jihad Sinnaour <mail@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
@@ -265,7 +265,7 @@ implements RequestInterface
     private function getRegions()
     {
         return [
-            'eu-west-1' => ['fr','com.be','de','in','it','es','nl','com.tr','ae','sa','co.uk','se'],
+            'eu-west-1' => ['fr','com.be','de','in','it','es','nl','pl','com.tr','ae','sa','co.uk','se','eg'],
             'us-east-1' => ['com','com.br','ca','com.mx'],
             'us-west-2' => ['com.au','co.jp','sg']
         ];
