@@ -18,20 +18,26 @@ namespace Apaapi;
 final class Autoloader
 {
 	/**
+	 * @access private
+	 * @var bool $initialized
+	 */
+	private static $initialized = false;
+
+	/**
 	 * Register Apaapi autoloader.
 	 *
 	 * @param void
 	 */
 	public function __construct()
 	{
-		spl_autoload_register([__CLASS__,'autoload']);
+		if ( !static::$initialized ) {
+			spl_autoload_register([__CLASS__,'autoload']);
+			static::$initialized = true;
+		}
 	}
 
 	/**
 	 * Unregister Apaapi autoloader.
-	 *
-	 * @param void
-	 * @return void
 	 */
 	public function __destruct()
 	{
@@ -39,11 +45,7 @@ final class Autoloader
 	}
 
 	/**
-	 * Prevent object clone.
-	 *
-	 * @access public
-	 * @param void
-	 * @return void
+	 * Restrict object clone.
 	 */
     public function __clone()
     {
@@ -51,11 +53,7 @@ final class Autoloader
     }
 
 	/**
-	 * Prevent object clone.
-	 *
-	 * @access public
-	 * @param void
-	 * @return void
+	 * Restrict object clone.
 	 */
     public function __wakeup()
     {
@@ -64,12 +62,12 @@ final class Autoloader
 
 	/**
 	 * Autoloader method.
-	 * @see https://www.php-fig.org/psr/psr-0/
-	 * @see https://www.php-fig.org/psr/psr-4/
 	 * 
 	 * @access private
 	 * @param string $class __CLASS__
 	 * @return void
+	 * @see https://www.php-fig.org/psr/psr-4/
+	 * @see https://www.php-fig.org/psr/psr-0/
 	 */
 	private function autoload($class)
 	{
@@ -90,6 +88,8 @@ final class Autoloader
 	 */
 	public static function init()
 	{
-		new self;
+		if ( !static::$initialized ) {
+			new static;
+		}
 	}
 }
