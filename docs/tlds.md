@@ -1,4 +1,4 @@
-# Ressources
+# TLDs of locales
 
 Amazon Product Advertising API V5.0 all TLDs by locales (regions).
 
