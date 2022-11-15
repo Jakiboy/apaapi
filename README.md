@@ -98,6 +98,8 @@ echo $response->get(); // JSON ready for parsing
 
 ```
 
+* *See all available TLDs used by setLocale() at [/docs/tlds.md](https://github.com/Jakiboy/apaapi/tree/master/docs/tlds.md)*
+
 ### Operations:
 
 ```php
@@ -146,9 +148,11 @@ $operation->setPartnerTag('{Your-partner-tag}')
 
 // Set Operation
 $operation->setPartnerTag('{Your-partner-tag}')->setKeywords('{Your-keywords}')
-->setResources(['Images.Primary.Small','ItemInfo.Title','Offers.Listings.Price','Offers.Listings.SavingBasis']);
+->setResources(['Images.Primary.Small','ItemInfo.Title','Offers.Listings.Price']);
 
 ```
+
+* *See all available ressources used by setResources() at [/docs/ressources.md](https://github.com/Jakiboy/apaapi/tree/master/docs/ressources.md)*
 
 ### Advanced (Custom HTTP Request Client):
 
