@@ -36,6 +36,7 @@ final class Offers extends Resource
 		    'Listings.DeliveryInfo.IsAmazonFulfilled',
 		    'Listings.DeliveryInfo.IsFreeShippingEligible',
 		    'Listings.DeliveryInfo.IsPrimeEligible',
+		    'Listings.DeliveryInfo.ShippingCharges',
 		    'Listings.IsBuyBoxWinner',
 		    'Listings.LoyaltyPoints.Points',
 		    'Listings.MerchantInfo',
