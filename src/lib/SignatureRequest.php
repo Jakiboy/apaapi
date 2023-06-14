@@ -2,8 +2,8 @@
 /**
  * @author    : JIHAD SINNAOUR
  * @package   : Apaapi | Amazon Product Advertising API Library (v5)
- * @version   : 1.1.6
- * @copyright : (c) 2019 - 2022 Jihad Sinnaour <mail@jihadsinnaour.com>
+ * @version   : 1.1.7
+ * @copyright : (c) 2019 - 2023 Jihad Sinnaour <mail@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
  *
@@ -120,7 +120,7 @@ abstract class SignatureRequest
             $canonicalUrl  .= "{$key}:{$value}\n";
         }
         $canonicalUrl .= "\n";
-        $this->strSignedHeader = substr($signedHeaders,0,-1);
+        $this->strSignedHeader = substr($signedHeaders, 0, -1);
         $canonicalUrl .= "{$this->strSignedHeader}\n";
         $canonicalUrl .= $this->generateHex($this->payload);
         return $canonicalUrl;
@@ -158,7 +158,7 @@ abstract class SignatureRequest
             $this->region,
             $this->serviceName
         );
-        $signature = hash_hmac('sha256',$stringToSign,$signatureKey,true);
+        $signature = hash_hmac('sha256', $stringToSign, $signatureKey, true);
         $strHexSignature = strtolower(bin2hex($signature));
         return $strHexSignature;
     }
@@ -190,7 +190,7 @@ abstract class SignatureRequest
 	 */
     private function generateHex($data)
     {
-        return strtolower(bin2hex(hash('sha256',$data,true)));
+        return strtolower(bin2hex(hash('sha256', $data, true)));
     }
 
 	/**
@@ -204,9 +204,9 @@ abstract class SignatureRequest
     private function getSignatureKey($key, $date, $region, $serviceName)
     {
         $kSecret = "AWS4{$key}";
-        $kDate = hash_hmac('sha256',$date,$kSecret,true);
-        $kRegion = hash_hmac('sha256',$region,$kDate,true);
-        $kService = hash_hmac('sha256',$serviceName,$kRegion,true);
-        return hash_hmac('sha256',$this->request,$kService,true);
+        $kDate = hash_hmac('sha256', $date, $kSecret, true);
+        $kRegion = hash_hmac('sha256', $region, $kDate, true);
+        $kService = hash_hmac('sha256', $serviceName, $kRegion, true);
+        return hash_hmac('sha256', $this->request, $kService, true);
     }
 }

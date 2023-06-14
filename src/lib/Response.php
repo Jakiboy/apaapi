@@ -2,8 +2,8 @@
 /**
  * @author    : JIHAD SINNAOUR
  * @package   : Apaapi | Amazon Product Advertising API Library (v5)
- * @version   : 1.1.6
- * @copyright : (c) 2019 - 2022 Jihad Sinnaour <mail@jihadsinnaour.com>
+ * @version   : 1.1.7
+ * @copyright : (c) 2019 - 2023 Jihad Sinnaour <mail@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
  *
@@ -139,7 +139,7 @@ final class Response implements ResponseInterface
      */
 	private function hasDataError()
 	{
-		if ( strpos($this->body,'#ErrorData') !== false ) {
+		if ( strpos($this->body, '#ErrorData') !== false ) {
 			return true;
 		}
 		return false;

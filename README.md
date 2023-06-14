@@ -3,7 +3,7 @@
 <img src="https://raw.githubusercontent.com/Jakiboy/apaapi/master/amazon.svg" width="100" alt="Amazon Product Advertising API PHP">
 
 Amazon Product Advertising API V5.0 (**Without Amazon SDK**).  
-This repository contains a PHP Lightweight Wrapper Library, Allows you accessing the [Amazon Product Advertising API V5.0](https://webservices.amazon.com/paapi5/documentation/index.html) from your PHP App, Quickly & easily!
+This repository contains a PHP Lightweight (155 Ko) Wrapper Library, Allows you accessing the [Amazon Product Advertising API V5.0](https://webservices.amazon.com/paapi5/documentation/index.html) from your PHP App, Quickly & easily!
 
 -- Become an Amazon Affiliate With PHP --
 
@@ -242,6 +242,25 @@ if ( $response->hasError() ) {
 
 ```
 
+### Add to cart:
+
+```php
+
+// Set Cart
+$cart = new Cart();
+$cart->setLocale('{Your-locale}');
+$cart->setPartnerTag('{Your-partner-tag}');
+
+// Set Items
+$items = [
+    '{ASIN1}' => '3', // ({ASIN} => {Quantity})
+    '{ASIN2}' => '5'
+];
+
+// Get Response
+return $cart->add($items); // String URL
+
+```
 
 ## Contributing:
 

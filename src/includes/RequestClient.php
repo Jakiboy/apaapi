@@ -2,8 +2,8 @@
 /**
  * @author    : JIHAD SINNAOUR
  * @package   : Apaapi | Amazon Product Advertising API Library (v5)
- * @version   : 1.1.6
- * @copyright : (c) 2019 - 2022 Jihad Sinnaour <mail@jihadsinnaour.com>
+ * @version   : 1.1.7
+ * @copyright : (c) 2019 - 2023 Jihad Sinnaour <mail@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
  *
@@ -246,15 +246,15 @@ class RequestClient implements RequestClientInterface
             $context = stream_context_create($this->handler);
 
             // Get stream response
-            $this->response = @file_get_contents($this->endpoint,false,$context);
+            $this->response = @file_get_contents($this->endpoint, false, $context);
 
             // Catch HTTP response headers
-            $headers = @get_headers($this->endpoint,false,$context);
+            $headers = @get_headers($this->endpoint, false, $context);
 
             if ( isset($headers[0]) ) {
 
                 // Catch HTTP status code from headers
-                $this->code = (int)substr($headers[0],9,3);
+                $this->code = (int)substr($headers[0], 9, 3);
 
                 // Catch HTTP error content from headers
                 if ( !$this->response || $this->code !== 200 ) {
@@ -321,6 +321,6 @@ class RequestClient implements RequestClientInterface
     {
         $header = isset($this->params['http']['header'])
         ? $this->params['http']['header'] : [];
-        return explode("\n",$header);
+        return explode("\n", $header);
     }
 }
