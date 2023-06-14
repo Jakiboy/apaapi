@@ -2,8 +2,8 @@
 /**
  * @author    : JIHAD SINNAOUR
  * @package   : Apaapi | Amazon Product Advertising API Library (v5)
- * @version   : 1.1.6
- * @copyright : (c) 2019 - 2022 Jihad Sinnaour <mail@jihadsinnaour.com>
+ * @version   : 1.1.7
+ * @copyright : (c) 2019 - 2023 Jihad Sinnaour <mail@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
  *
@@ -101,7 +101,7 @@ class ResponseType implements ResponseTypeInterface
      */
     public static function decode($json, $object = false)
     {
-        return json_decode((string)$json,$object);
+        return json_decode((string)$json, $object);
     }
 
     /**
@@ -121,7 +121,7 @@ class ResponseType implements ResponseTypeInterface
      */
     private function isValidFormat()
     {
-        if ( !in_array($this->type,['object','array','serialized']) ) {
+        if ( !in_array($this->type, ['object','array','serialized']) ) {
             return false;
         }
         return true;

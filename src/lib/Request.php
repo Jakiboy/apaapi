@@ -2,8 +2,8 @@
 /**
  * @author    : JIHAD SINNAOUR
  * @package   : Apaapi | Amazon Product Advertising API Library (v5)
- * @version   : 1.1.6
- * @copyright : (c) 2019 - 2022 Jihad Sinnaour <mail@jihadsinnaour.com>
+ * @version   : 1.1.7
+ * @copyright : (c) 2019 - 2023 Jihad Sinnaour <mail@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
  *
@@ -251,8 +251,8 @@ implements RequestInterface
     {
         $this->setTimeStamp();
         $this->setDate();
-        $this->setRequestHeader('content-encoding','amz-1.0');
-        $this->setRequestHeader('content-type','application/json; charset=utf-8');
+        $this->setRequestHeader('content-encoding', 'amz-1.0');
+        $this->setRequestHeader('content-type', 'application/json; charset=utf-8');
     }
 
     /**

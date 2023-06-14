@@ -17,21 +17,21 @@
 include('../src/Autoloader.php');
 \apaapi\Autoloader::init();
 
-use Apaapi\operations\SearchItems;
-use Apaapi\lib\Request;
-use Apaapi\lib\Response;
+use Apaapi\lib\Cart;
 
-// Set Operation
-$operation = new SearchItems();
-$operation->setPartnerTag('{Your-partner-tag}')->setKeywords('{Your-keywords}')
-->setResources(['Images.Primary.Small','ItemInfo.Title','Offers.Listings.Price']);
+// Set Cart
+$cart = new Cart();
+$cart->setLocale('{Your-locale}');
+$cart->setPartnerTag('{Your-partner-tag}');
 
-// Prapere Request
-$request = new Request('{Your-key-id}','{Your-secrect-key}');
-$request->setLocale('{Your-locale}')->setPayload($operation);
+// Set Items
+$items = [
+    '{ASIN1}' => '3', // ({ASIN} => {Quantity})
+    '{ASIN2}' => '5'
+];
 
 // Get Response
-$response = new Response($request);
-echo $response->get(); // JSON ready to be parsed
+$url = $cart->add($items);
+var_dump($url); // String URL
 
 // Hope you found this useful, any suggestions (Pull requests) are welcome!
