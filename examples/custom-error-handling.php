@@ -1,9 +1,9 @@
 <?php
 /**
- * @author    : JIHAD SINNAOUR
- * @package   : Apaapi | Amazon Product Advertising API Library (v5)
- * @version   : 1.1.7
- * @copyright : (c) 2019 - 2023 Jihad Sinnaour <mail@jihadsinnaour.com>
+ * @author    : Jakiboy
+ * @package   : Amazon Product Advertising API Library (v5)
+ * @version   : 1.2.0
+ * @copyright : (c) 2019 - 2024 Jihad Sinnaour <mail@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
  *
@@ -23,8 +23,7 @@ use Apaapi\lib\Response;
 
 // Set Operation
 $operation = new SearchItems();
-$operation->setPartnerTag('{Your-partner-tag}')->setKeywords('{Your-keywords}')
-->setResources(['Images.Primary.Small','ItemInfo.Title','Offers.Listings.Price']);
+$operation->setPartnerTag('{Your-partner-tag}')->setKeywords('{Your-keywords}');
 
 // Prapere Request
 $request = new Request('{Your-key-id}','{Your-secrect-key}');

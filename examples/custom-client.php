@@ -1,9 +1,9 @@
 <?php
 /**
- * @author    : JIHAD SINNAOUR
- * @package   : Apaapi | Amazon Product Advertising API Library (v5)
- * @version   : 1.1.7
- * @copyright : (c) 2019 - 2023 Jihad Sinnaour <mail@jihadsinnaour.com>
+ * @author    : Jakiboy
+ * @package   : Amazon Product Advertising API Library (v5)
+ * @version   : 1.2.0
+ * @copyright : (c) 2019 - 2024 Jihad Sinnaour <mail@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
  *
@@ -12,7 +12,7 @@
 
 /**
  * @see You can use Composer,
- * Or include Apaapi Standalone Autoloader Here.
+ * Or include Apaapi standalone autoloader here.
  */
 include('../src/Autoloader.php');
 \apaapi\Autoloader::init();
@@ -20,58 +20,65 @@ include('../src/Autoloader.php');
 use Apaapi\operations\SearchItems;
 use Apaapi\lib\Request;
 use Apaapi\lib\Response;
-use Apaapi\includes\RequestClient;
+use Apaapi\includes\Client;
 
 /**
- * Create Custom Request Client Class.
+ * Custom request client class.
  */
-class MyRequestClient extends RequestClient
+class MyClient extends Client
 {
-	protected function init()
+	// Enable request client exception
+    public function __construct(string $endpoint, array $params = [])
+    {
+    	parent::__construct($endpoint, $params, true);
+    }
+
+	// Override handler behavior
+	protected function setHandler()
 	{
 		if ( self::hasCurl() ) {
 
-			// cURL override example
+			// Override curl
 			$this->handler = curl_init();
 			curl_setopt($this->handler, CURLOPT_URL, $this->endpoint);
 			curl_setopt($this->handler, CURLOPT_HTTPHEADER, $this->getRequestHeader());
 			curl_setopt($this->handler, CURLOPT_POSTFIELDS, $this->getRequestContent());
 			curl_setopt($this->handler, CURLOPT_POST, true);
 			curl_setopt($this->handler, CURLOPT_RETURNTRANSFER, true);
-			curl_setopt($this->handler, CURLOPT_SSL_VERIFYPEER, true); // Force SSL instead of Auto
-			curl_setopt($this->handler, CURLOPT_TIMEOUT, 10); // Custom Timeout instead of 30
+			curl_setopt($this->handler, CURLOPT_SSL_VERIFYPEER, true); // Force SSL
+			curl_setopt($this->handler, CURLOPT_TIMEOUT, 10); // Set custom timeout
 
 		} elseif ( self::hasStream() ) {
 
-			// Stream override example
-            $this->handler = [
+			// Override stream
+            $this->handler = stream_context_create([
                 'http' => [
                     'method'  => 'POST',
                     'header'  => $this->getRequestHeader(),
                     'content' => $this->getRequestContent(),
-                    'timeout' => 10 // Custom Timeout instead of 30
+                    'timeout' => $this->timeout // Set custom timeout
                 ]
-            ];
+            ]);
 		}
 	}
 }
 
-// Set Operation
+// Set operation
 $operation = new SearchItems();
-$operation->setPartnerTag('{Your-partner-tag}')->setKeywords('{Your-keywords}')
-->setResources(['Images.Primary.Small','ItemInfo.Title','Offers.Listings.Price']);
+$operation->setPartnerTag('{Your-partner-tag}')->setKeywords('{Your-keywords}');
 
-// Prapere Request
+// Prapere request
 $request = new Request('{Your-key-id}','{Your-secrect-key}');
 $request->setLocale('{Your-locale}')->setPayload($operation);
 
-// Set Custom Client after Payload
+// Set custom client after payload
 $request->setClient(
-	new MyRequestClient($request->getEndpoint(), $request->getParams())
+	new MyClient($request->getEndpoint(), $request->getParams())
 );
 
-// Get Response
+// Get response
 $response = new Response($request);
-echo $response->get(); // JSON ready to be parsed
+$data = $response->get(); // Array
+print_r($data);
 
-// Hope you found this useful, any suggestions (Pull requests) are welcome!
+// Any suggestions (PR) are welcome!

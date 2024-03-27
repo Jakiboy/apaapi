@@ -1,9 +1,9 @@
 <?php
 /**
- * @author    : JIHAD SINNAOUR
- * @package   : Apaapi | Amazon Product Advertising API Library (v5)
- * @version   : 1.1.7
- * @copyright : (c) 2019 - 2023 Jihad Sinnaour <mail@jihadsinnaour.com>
+ * @author    : Jakiboy
+ * @package   : Amazon Product Advertising API Library (v5)
+ * @version   : 1.2.0
+ * @copyright : (c) 2019 - 2024 Jihad Sinnaour <mail@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
  *
@@ -13,37 +13,49 @@
 namespace Apaapi\interfaces;
 
 /**
- * Interface Group All Operations.
+ * Group all operations.
  */
 interface OperationInterface extends ParsableInterface
 {
+	/**
+     * Set partner type.
+     *
+	 * @param string $type
+	 * @return object
+	 */
+    function setPartnerType(string $type) : object;
+
     /**
-     * @param string $type
+     * Set partner tag.
+     *
+     * @param string $tag
      * @return object
      */
-    function setPartnerType($type);
+    function setPartnerTag(string $tag) : object;
 
 	/**
-	 * @param string $tag
-	 * @return object
-	 */
-    function setPartnerTag($tag);
-
-	/**
+     * Set resources.
+     *
 	 * @param array $resources
+	 * @param bool $throwable
 	 * @return object
+     * @throws OperationException
 	 */
-    function setResources($resources);
+    function setResources(array $resources, bool $throwable = true) : object;
 
     /**
+     * Set languages of preference.
+     *
      * @param array $languagesOfPreference
      * @return object
      */
-    function setLanguages($languagesOfPreference);
+    function setLanguages(array $languagesOfPreference) : object;
 
     /**
+     * Set marketplace.
+     *
      * @param string $marketplace
      * @return object
      */
-    function setMarketplace($marketplace);
+    function setMarketplace(string $marketplace) : object;
 }

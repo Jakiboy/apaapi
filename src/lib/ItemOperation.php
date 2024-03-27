@@ -1,9 +1,9 @@
 <?php
 /**
- * @author    : JIHAD SINNAOUR
- * @package   : Apaapi | Amazon Product Advertising API Library (v5)
- * @version   : 1.1.7
- * @copyright : (c) 2019 - 2023 Jihad Sinnaour <mail@jihadsinnaour.com>
+ * @author    : Jakiboy
+ * @package   : Amazon Product Advertising API Library (v5)
+ * @version   : 1.2.0
+ * @copyright : (c) 2019 - 2024 Jihad Sinnaour <mail@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
  *
@@ -15,10 +15,9 @@ namespace Apaapi\lib;
 use Apaapi\interfaces\ItemOperationInterface;
 
 /**
- * Basic Apaapi Grouped Item Operation Wrapper Class.
+ * Apaapi item operation wrapper class.
  */
-class ItemOperation extends Operation
-implements ItemOperationInterface
+class ItemOperation extends Operation implements ItemOperationInterface
 {
     /**
      * @access public
@@ -35,55 +34,45 @@ implements ItemOperationInterface
     public $properties = null;
 
     /**
-     * @access public
-     * @param string $condition
-     * @return object
+     * @inheritdoc
      */
-    public function setCondition($condition)
+    public function setCondition(string $condition) : object
     {
         $this->condition = $condition;
         return $this;
     }
 
     /**
-     * @access public
-     * @param string $currencyOfPreference
-     * @return object
+     * @inheritdoc
      */
-    public function setCurrency($currencyOfPreference)
+    public function setCurrency(string $currency) : object
     {
-        $this->currencyOfPreference = $currencyOfPreference;
+        $this->currencyOfPreference = $currency;
         return $this;
     }
 
     /**
-     * @access public
-     * @param string $merchant
-     * @return object
+     * @inheritdoc
      */
-    public function setMerchant($merchant)
+    public function setMerchant(string $merchant) : object
     {
         $this->merchant = $merchant;
         return $this;
     }
 
     /**
-     * @access public
-     * @param string $offerCount
-     * @return object
+     * @inheritdoc
      */
-    public function setOfferCount($offerCount)
+    public function setOfferCount(int $count) : object
     {
-        $this->offerCount = $offerCount;
+        $this->offerCount = $count;
         return $this;
     }
 
     /**
-     * @access public
-     * @param string $properties
-     * @return object
+     * @inheritdoc
      */
-    public function setProperties($properties)
+    public function setProperties(string $properties) : object
     {
         $this->properties = $properties;
         return $this;

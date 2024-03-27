@@ -1,9 +1,9 @@
 <?php
 /**
- * @author    : JIHAD SINNAOUR
- * @package   : Apaapi | Amazon Product Advertising API Library (v5)
- * @version   : 1.1.7
- * @copyright : (c) 2019 - 2023 Jihad Sinnaour <mail@jihadsinnaour.com>
+ * @author    : Jakiboy
+ * @package   : Amazon Product Advertising API Library (v5)
+ * @version   : 1.2.0
+ * @copyright : (c) 2019 - 2024 Jihad Sinnaour <mail@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
  *
@@ -12,99 +12,95 @@
 
 namespace Apaapi\lib;
 
-use Apaapi\exceptions\OperationException;
 use Apaapi\interfaces\OperationInterface;
+use Apaapi\exceptions\OperationException;
 
 /**
- * Basic Apaapi All Operation Wrapper Class.
+ * Apaapi operation wrapper class.
  */
 class Operation implements OperationInterface
 {
 	/**
      * @access public
-     * @var string $partnerType
      * @var array $resources
+     * @var string $partnerType
      * @var string $partnerTag
-     * @var array $marketplace
+     * @var string $marketplace
      * @var array $languagesOfPreference
      */
-    public $partnerType = 'Associates';
     public $resources = [];
+    public $partnerType = 'Associates';
     public $partnerTag = null;
     public $marketplace = null;
     public $languagesOfPreference = [];
 
-	/**
-     * @access public
-	 * @param string $type
-	 * @return object
-	 */
-    public function setPartnerType($type)
+    /**
+     * @inheritdoc
+     */
+    public function setPartnerType(string $type) : object
     {
     	$this->partnerType = $type;
     	return $this;
     }
 
     /**
-     * @access public
-     * @param string $tag
-     * @return object
+     * @inheritdoc
      */
-    public function setPartnerTag($tag)
+    public function setPartnerTag(string $tag) : object
     {
         $this->partnerTag = $tag;
         return $this;
     }
 
-	/**
-     * @access public
-	 * @param array $resources
-	 * @return object
-     * @throws OperationException
-	 */
-    public function setResources($resources = [])
+    /**
+     * @inheritdoc
+     */
+    public function setResources(array $resources, bool $throwable = true) : object
     {
-        if ( ($ressource = $this->isValidResources($resources)) !== true ) {
-            throw new OperationException(
-                OperationException::invalidOperationRessource($ressource)
-            );
+        if ( $throwable ) {
+            if ( ($ressource = $this->isValidResources($resources)) !== true ) {
+                throw new OperationException(
+                    OperationException::invalidRessources($ressource)
+                );
+            }
         }
-        $this->resources = !empty($resources) 
-        ? $resources : $this->resources;
+
+        if ( !empty($resources) ) {
+            $this->resources = $resources;
+        }
+
         return $this;
     }
 
     /**
-     * @access public
-     * @param array $languagesOfPreference
-     * @return object
+     * @inheritdoc
      */
-    public function setLanguages($languagesOfPreference)
+    public function setLanguages(array $languages) : object
     {
-        $this->languagesOfPreference = (array)$languagesOfPreference;
+        $this->languagesOfPreference = $languages;
         return $this;
     }
 
     /**
-     * @access public
-     * @param string $marketplace
-     * @return object
+     * @inheritdoc
      */
-    public function setMarketplace($marketplace)
+    public function setMarketplace(string $marketplace) : object
     {
         $this->marketplace = $marketplace;
         return $this;
     }
 
     /**
+     * Check valid resources.
+     *
      * @access private
      * @param array $resources
      * @return mixed
      */
-    private function isValidResources($resources = [])
+    private function isValidResources(array $resources)
     {
-        foreach ((array)$resources as $resource) {
-            if ( !in_array($resource,$this->resources) ) {
+        foreach ($resources as $resource) {
+            if ( !in_array($resource, $this->resources) ) {
                 return $resource;
             }
         }
