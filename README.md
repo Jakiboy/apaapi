@@ -3,7 +3,8 @@
 <img src="https://raw.githubusercontent.com/Jakiboy/apaapi/master/amazon.svg" width="100" alt="Amazon Product Advertising API PHP">
 
 Amazon Product Advertising API V5.0 (**Without Amazon SDK**).  
-This repository contains a PHP Lightweight (155 Ko) Wrapper Library, Allows you accessing the [Amazon Product Advertising API V5.0](https://webservices.amazon.com/paapi5/documentation/index.html) from your PHP App, Quickly & easily!
+This repository contains a PHP Lightweight (155 Ko) Wrapper Library,  
+Easily access the [Amazon Product Advertising API V5.0](https://webservices.amazon.com/paapi5/documentation/index.html) from your PHP app.
 
 -- Become an Amazon Affiliate With PHP --
 
@@ -30,40 +31,55 @@ include('apaapi-master/src/Autoloader.php');
 
 * **4** - You can now use the [Quickstart examples](#quickstart).
 
-## 🔨 Upgrade :
+## 💡 Upgrade :
 
 **See changes before migrate**: 
 
 This version includes:  
 
-* Support for **disabled cURL** (*Used Stream*).
-* Throws exception if **cURL** AND **Stream** are disabled.
-* Error reporting (Including semantic errors with **status 200** & **HTTP Client Errors**), [More](https://webservices.amazon.com/paapi5/documentation/troubleshooting/processing-of-errors.html#processing-of-errors). 
-* HTTP Client helpers (*RequestClient::hasCurl() & RequestClient::hasStream()*).
-* Response parsing (*object/array/serialized*).
-* Throws exception if Locale (*Region/TLD*) is invalid, [More](https://webservices.amazon.fr/paapi5/documentation/locale-reference.html).
-* Throws exception if Resource (*e.g. Images.Primary.Large*) is invalid, [More](https://webservices.amazon.fr/paapi5/documentation/resources.html).
+* Basic built-in **Caching System**.
+* **Request Builder** (Easier way to fetch data).
+* **Response Normalizer** (Normalize response items).
+* **Search Filters** (Using builder).
+* **Geotargeting** (Automatically redirect links based on the visitor's region).
+* **Rating** (Lagacy).
+* **Keyword Converter** (ASIN, ISBN, EAN, Node, Root).
 
-And had many improvements: 
-
-* Uses default [Ressources](https://webservices.amazon.fr/paapi5/documentation/resources.html) for each [Operation](https://webservices.amazon.fr/paapi5/documentation/operations.html). 
-* Clean ecosystem.
-* [Extendable HTTP Client](#advanced-custom-http-request-client).
+[Full Changelog](#).
 
 
 ## ⚡ Getting Started:
 
 ### Variables (Basics):
 
-* "{Your-partner-tag}" : From your Amazon Associates (*your locale*), [More](https://webservices.amazon.com/paapi5/documentation/troubleshooting/sign-up-as-an-associate.html). 
-* "{Your-secrect-key}" : From your Amazon Associates (*your locale*), [More](https://affiliate-program.amazon.com/help/node/topic/GTPNVFFUV2GQ8AZV). 
-* "{Your-key-id}" : From your Amazon Associates (*your locale*), [More](https://affiliate-program.amazon.com/help/node/topic/GTPNVFFUV2GQ8AZV). 
-* "{Your-keywords}" : What you are looking for (*Products*), [More](https://webservices.amazon.com/paapi5/documentation/search-items.html). 
-* "{Your-region}" : **TLD** of the target to which you are sending requests (*com/fr/com.be/de*), [Get TLD](https://webservices.amazon.com/paapi5/documentation/common-request-parameters.html#host-and-region). 
-* "{ASIN}" : Amazon Standard Identification Number (*your locale*), [More](https://webservices.amazon.com/paapi5/documentation/get-items.html#ItemLookup-rp). 
+* "_TAG_" : From your Amazon Associates (*your locale*), [More](https://webservices.amazon.com/paapi5/documentation/troubleshooting/sign-up-as-an-associate.html). 
+* "_SECRET_" : From your Amazon Associates (*your locale*), [More](https://affiliate-program.amazon.com/help/node/topic/GTPNVFFUV2GQ8AZV). 
+* "_KEY_" : From your Amazon Associates (*your locale*), [More](https://affiliate-program.amazon.com/help/node/topic/GTPNVFFUV2GQ8AZV). 
+* "_KEYWORDS_" : What you are looking for (*Products*), [More](https://webservices.amazon.com/paapi5/documentation/search-items.html). 
+* "_REGION_" : **TLD** of the target to which you are sending requests (*com/fr/com.be/de*), [Get TLD](https://webservices.amazon.com/paapi5/documentation/common-request-parameters.html#host-and-region). 
+* "_ASIN_" : Amazon Standard Identification Number (*your locale*), [More](https://webservices.amazon.com/paapi5/documentation/get-items.html#ItemLookup-rp). 
 
 
 ### Quickstart:
+
+```php
+
+/**
+ * @see Use Composer, 
+ * Or include Apaapi Autoloader Here.
+ */
+
+use Apaapi\includes\Builder;
+
+// Init request builder
+$builder = new Builder('_KEY_', '_SECRET_', '_TAG_', '_REGION_');
+
+// Get response
+$data = $builder->searchOne('Sony Xperia Pro-I') // Normalized array
+
+```
+
+### Quickstart (OLD):
 
 
 ```php
@@ -86,11 +102,11 @@ use Apaapi\lib\Response;
 
 // (1) Set Operation
 $operation = new SearchItems();
-$operation->setPartnerTag('{Your-partner-tag}')->setKeywords('{Your-keywords}');
+$operation->setPartnerTag('_TAG_')->setKeywords('_KEYWORDS_');
 
 // (2) Prapere Request
-$request = new Request('{Your-key-id}','{Your-secrect-key}');
-$request->setLocale('{Your-region}')->setPayload($operation);
+$request = new Request('_KEY_','_SECRET_');
+$request->setLocale('_REGION_')->setPayload($operation);
 
 // (3) Get Response
 $response = new Response($request);
@@ -116,22 +132,22 @@ use Apaapi\operations\GetBrowseNodes;
 
 // GetItems
 $operation = new GetItems();
-$operation->setPartnerTag('{Your-partner-tag}')
-->setItemIds(['{ASIN}']); // Array|String
+$operation->setPartnerTag('_TAG_')
+->setItemIds(['_ASIN_']); // Array|String
 
 // SearchItems
 $operation = new SearchItems();
-$operation->setPartnerTag('{Your-partner-tag}')
-->setKeywords('{Your-keywords}'); // Array|String
+$operation->setPartnerTag('_TAG_')
+->setKeywords('_KEYWORDS_'); // Array|String
 
 // GetVariations
 $operation = new GetVariations();
-$operation->setPartnerTag('{Your-partner-tag}')
-->setASIN('{ASIN}'); // String
+$operation->setPartnerTag('_TAG_')
+->setASIN('_ASIN_'); // String
 
 // GetBrowseNodes
 $operation = new GetBrowseNodes();
-$operation->setPartnerTag('{Your-partner-tag}')
+$operation->setPartnerTag('_TAG_')
 ->setBrowseNodeIds(['{NodeId}']); // Array|String
 
 ```
@@ -147,7 +163,7 @@ $operation->setPartnerTag('{Your-partner-tag}')
  */
 
 // Set Operation
-$operation->setPartnerTag('{Your-partner-tag}')->setKeywords('{Your-keywords}')
+$operation->setPartnerTag('_TAG_')->setKeywords('_KEYWORDS_')
 ->setResources(['Images.Primary.Small','ItemInfo.Title','Offers.Listings.Price']);
 
 ```
@@ -174,10 +190,10 @@ class MyRequestClient extends RequestClient
 
 // Set Operation
 $operation = new GetItems();
-$operation->setPartnerTag('{Your-partner-tag}')->setItemIds('{ASIN}');
+$operation->setPartnerTag('_TAG_')->setItemIds('_ASIN_');
 
 // Prapere Request
-$request = new Request('{Your-key-id}','{Your-secrect-key}');
+$request = new Request('_KEY_','_SECRET_');
 $request->setLocale('{your-region}')->setPayload($operation);
 
 // Set Custom Client After Payload
@@ -249,11 +265,11 @@ if ( $response->hasError() ) {
 // Set Cart
 $cart = new Cart();
 $cart->setLocale('{Your-locale}');
-$cart->setPartnerTag('{Your-partner-tag}');
+$cart->setPartnerTag('_TAG_');
 
 // Set Items
 $items = [
-    '{ASIN1}' => '3', // ({ASIN} => {Quantity})
+    '{ASIN1}' => '3', // (_ASIN_ => {Quantity})
     '{ASIN2}' => '5'
 ];
 

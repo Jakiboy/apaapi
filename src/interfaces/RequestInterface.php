@@ -1,9 +1,9 @@
 <?php
 /**
- * @author    : JIHAD SINNAOUR
- * @package   : Apaapi | Amazon Product Advertising API Library (v5)
- * @version   : 1.1.7
- * @copyright : (c) 2019 - 2023 Jihad Sinnaour <mail@jihadsinnaour.com>
+ * @author    : Jakiboy
+ * @package   : Amazon Product Advertising API Library (v5)
+ * @version   : 1.2.0
+ * @copyright : (c) 2019 - 2024 Jihad Sinnaour <mail@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
  *
@@ -13,50 +13,63 @@
 namespace Apaapi\interfaces;
 
 /**
- * Basic Apaapi Request Interface.
+ * Apaapi request interface.
  */
 interface RequestInterface
 {
-	/**
-	 * @param string $accessKeyID
-	 * @param string $secretAccessKey
-	 */
-	function __construct($accessKeyID = '', $secretAccessKey = '');
+    /**
+     * Prepare request.
+     * @see https://webservices.amazon.com/paapi5/scratchpad/index.html
+     *
+     * @param string $accessKeyID
+     * @param string $secretAccessKey
+     */
+    function __construct(string $accessKeyID, string $secretAccessKey);
 
     /**
-     * @param void
+     * Get request client.
+     *
      * @return object
      */
-    function getClient();
+    function getClient() : object;
 
     /**
-     * @param void
+     * Get request endpoint.
+     *
      * @return string
      */
-    function getEndpoint();
+    function getEndpoint() : string;
 
     /**
-     * @param void
+     * Get request parameters.
+     *
      * @return array
      */
-    function getParams();
+    function getParams() : array;
 
     /**
-     * @param void
+     * Get request operation.
+     *
      * @return string
      */
-    function getOperation();
+    function getOperation() : string;
 
     /**
+     * Set request header.
+     *
      * @param string $name
-     * @param string $value
+     * @param mixed $value
      * @return void
      */
-    function setRequestHeader($name, $value);
+    function setRequestHeader(string $name, $value);
 
     /**
+     * Set request locale.
+     * @see https://webservices.amazon.fr/paapi5/documentation/locale-reference.html
+     *
      * @param string $locale
      * @return object
+     * @throws RequestException
      */
-    function setLocale($locale);
+    function setLocale(string $locale) : object;
 }

@@ -17,22 +17,13 @@
 include('../src/Autoloader.php');
 \apaapi\Autoloader::init();
 
-use Apaapi\operations\SearchItems;
-use Apaapi\lib\Request;
-use Apaapi\lib\Response;
-
-// Set operation
-$operation = new SearchItems();
-$operation->setPartnerTag('{Your-partner-tag}')->setKeywords('{Your-keywords}');
+use Apaapi\includes\Builder;
 
 // Prapere request
-$request = new Request('{Your-key-id}','{Your-secrect-key}');
-$request->setLocale('{Your-locale}')->setPayload($operation);
+$builder = new Builder('{Your-key-id}', '{Your-secrect-key}', '{Your-partner-tag}', '{Your-locale}');
 
 // Get response
-$response = new Response($request);
-$data = $response->get(); // Array
-$body = $response->getBody(); // String
+$data = $builder->search('{Your-keywords}'); // Array
 print_r($data);
 
 // Any suggestions (PR) are welcome!

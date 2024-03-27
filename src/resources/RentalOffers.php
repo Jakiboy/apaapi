@@ -1,9 +1,9 @@
 <?php
 /**
- * @author    : JIHAD SINNAOUR
- * @package   : Apaapi | Amazon Product Advertising API Library (v5)
- * @version   : 1.1.7
- * @copyright : (c) 2019 - 2023 Jihad Sinnaour <mail@jihadsinnaour.com>
+ * @author    : Jakiboy
+ * @package   : Amazon Product Advertising API Library (v5)
+ * @version   : 1.2.0
+ * @copyright : (c) 2019 - 2024 Jihad Sinnaour <mail@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
  *
@@ -15,12 +15,12 @@ namespace Apaapi\resources;
 use Apaapi\lib\Resource;
 
 /**
- * Offers : High Level Resource.
+ * Apaapi <RentalOffers> : Sub-level resource.
  */
 final class RentalOffers extends Resource
 {
 	/**
-	 * @param void
+	 * Set items.
 	 */
 	public function __construct()
 	{

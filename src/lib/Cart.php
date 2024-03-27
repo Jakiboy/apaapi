@@ -1,9 +1,9 @@
 <?php
 /**
- * @author    : JIHAD SINNAOUR
- * @package   : Apaapi | Amazon Product Advertising API Library (v5)
- * @version   : 1.1.7
- * @copyright : (c) 2019 - 2023 Jihad Sinnaour <mail@jihadsinnaour.com>
+ * @author    : Jakiboy
+ * @package   : Amazon Product Advertising API Library (v5)
+ * @version   : 1.2.0
+ * @copyright : (c) 2019 - 2024 Jihad Sinnaour <mail@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
  *
@@ -13,74 +13,67 @@
 namespace Apaapi\lib;
 
 use Apaapi\exceptions\RequestException;
+use Apaapi\interfaces\CartInterface;
+use Apaapi\includes\{
+    Provider,
+    Normalizer
+};
 
 /**
- * Basic Apaapi Cart Wrapper Class.
+ * Basic Apaapi cart wrapper class.
  * @see https://webservices.amazon.com/paapi5/documentation/add-to-cart-form.html
  */
-final class Cart
+class Cart implements CartInterface
 {
     /**
      * @access public
-     * @var string HOST, API Host
-     * @var string ENDPOINT, API Endpoint
+     * @var string ENDPOINT, Dynamic API endpoint
      */
-    const HOST = 'https://www.amazon.{locale}';
-    const ENDPOINT = '/gp/aws/cart/add.html?AssociateTag={tag}';
+    public const ENDPOINT = '/gp/aws/cart/add.html?AssociateTag={tag}';
 
     /**
-     * @access private
+     * @access protected
      * @var mixed $locale
      * @var string $tag
+     * @var int $limit, Items limit
      */
-    private $locale = false;
-    private $tag;
+    protected $locale = false;
+    protected $tag;
+    protected static $limit = 5;
 
     /**
-     * Set request locale.
-     *
-     * @access public
-     * @param string $locale
-     * @return object
-     * @throws RequestException
+     * @inheritdoc
      */
-    public function setLocale($locale)
+    public function setLocale(string $locale) : object
     {
-        $locale = strtolower($locale);
-        if ( in_array($locale, $this->getRegions()) ) {
-            $this->locale = $locale;
-        }
+        $this->locale = Normalizer::formatLocale($locale);
         if ( !$this->locale ) {
             throw new RequestException(
-                RequestException::invalidRequestLocaleMessage($locale)
+                RequestException::invalidLocale($locale)
             );
         }
         return $this;
     }
 
     /**
-     * Set request tag.
-     *
-     * @access public
-     * @param string $tag
-     * @return object
+     * @inheritdoc
      */
-    public function setPartnerTag($tag)
+    public function setPartnerTag(string $tag) : object
     {
         $this->tag = $tag;
         return $this;
     }
 
     /**
-     * Add items to cart.
-     *
-     * @access public
-     * @param array $items
-     * @return string
+     * @inheritdoc
      */
-    public function add($items = [])
+    public function set(array $items) : string
     {
-        $url = self::HOST . self::ENDPOINT;
+		if ( static::$limit ) {
+			$items = array_slice($items, 0, static::$limit);
+		}
+
+        $url = Provider::HOST . self::ENDPOINT;
         $url = str_replace('{locale}', $this->locale, $url);
         $url = str_replace('{tag}', $this->tag, $url);
         $i = 0;
@@ -92,18 +85,14 @@ final class Cart
     }
 
     /**
-     * Get request regions.
-     *
-     * @access private
-     * @param void
-     * @return array
-     */
-    private function getRegions()
-    {
-        return [
-            'fr','com.be','de','in','it','es','nl','pl','com.tr','ae','sa','co.uk','se','eg',
-            'com','com.br','ca','com.mx',
-            'com.au','co.jp','sg'
-        ];
-    }
+	 * Set limit.
+	 *
+	 * @access public
+	 * @param int $limit
+	 * @return void
+	 */
+	public static function limit(int $limit)
+	{
+		self::$limit = $limit;
+	}
 }

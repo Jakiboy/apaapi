@@ -1,9 +1,9 @@
 <?php
 /**
- * @author    : JIHAD SINNAOUR
- * @package   : Apaapi | Amazon Product Advertising API Library (v5)
- * @version   : 1.1.7
- * @copyright : (c) 2019 - 2023 Jihad Sinnaour <mail@jihadsinnaour.com>
+ * @author    : Jakiboy
+ * @package   : Amazon Product Advertising API Library (v5)
+ * @version   : 1.2.0
+ * @copyright : (c) 2019 - 2024 Jihad Sinnaour <mail@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
  *
@@ -13,37 +13,47 @@
 namespace Apaapi\interfaces;
 
 /**
- * Interface Group Items Operations.
+ * Group items operations.
  */
 interface ItemOperationInterface
 {
     /**
+     * Set condition.
+     *
      * @param string $condition
      * @return object
      */
-    function setCondition($condition);
+    function setCondition(string $condition) : object;
 
     /**
-     * @param string $currencyOfPreference
+     * Set currency.
+     *
+     * @param string $currency
      * @return object
      */
-    function setCurrency($currencyOfPreference);
+    function setCurrency(string $currency) : object;
 
     /**
+     * Set merchant.
+     *
      * @param string $merchant
      * @return object
      */
-    function setMerchant($merchant);
+    function setMerchant(string $merchant) : object;
 
     /**
-     * @param string $offerCount
+     * Set offer count.
+     *
+     * @param int $count
      * @return object
      */
-    function setOfferCount($offerCount);
+    function setOfferCount(int $count) : object;
 
     /**
+     * Set properties.
+     *
      * @param string $properties
      * @return object
      */
-    function setProperties($properties);
+    function setProperties(string $properties) : object;
 }
