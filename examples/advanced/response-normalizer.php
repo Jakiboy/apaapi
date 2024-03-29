@@ -10,7 +10,7 @@
  * This file if a part of Apaapi Lib.
  */
 
-include('../src/Autoloader.php');
+include('../../src/Autoloader.php');
 \apaapi\Autoloader::init();
 
 use Apaapi\operations\SearchItems;
@@ -21,14 +21,16 @@ use Apaapi\lib\Response;
 $operation = new SearchItems();
 $operation->setPartnerTag('_TAG_')->setKeywords('_KEYWORDS_');
 
+// Set items (3)
+$operation->setItemCount(3);
+
 // Prapere request
 $request = new Request('_KEY_', '_SECRET_');
 $request->setLocale('_LOCALE_')->setPayload($operation);
 
 // Get response
-$response = new Response($request);
-$body = $response->getBody(); // String
-$data = $response->get(); // Array
+$response = new Response($request, Response::NORMALIZE);
+$data = $response->get(); // Normalized Array
 var_dump($data);
 
 // Any PR is welcome!

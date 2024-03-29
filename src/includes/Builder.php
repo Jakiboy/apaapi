@@ -53,6 +53,8 @@ final class Builder
     private $redirect;
     private $order = ['title', 'price'];
 
+    public static $isCategory = false;
+
     /**
      * Set request authentication.
      *
@@ -107,7 +109,9 @@ final class Builder
         $this->setup('get')->filter($filter);
 
         $this->operation->setResources(
-            $this->getDefaultResources()
+            $this->getDefaultResources(
+                $this->getFilterResources($filter)
+            )
         );
 
         $this->operation->setItemIds(
@@ -131,7 +135,9 @@ final class Builder
         $this->setup('get')->filter($filter);
 
         $this->operation->setResources(
-            $this->getDefaultResources()
+            $this->getDefaultResources(
+                $this->getFilterResources($filter)
+            )
         );
 
         $this->operation->setItemIds([
@@ -157,7 +163,9 @@ final class Builder
         $this->setup('search')->filter($filter);
 
         $this->operation->setResources(
-            $this->getDefaultResources()
+            $this->getDefaultResources(
+                $this->getFilterResources($filter)
+            )
         );
 
         $this->operation->setItemCount($count)->setItemPage($page);
@@ -182,7 +190,9 @@ final class Builder
         $this->setup('search')->filter($filter);
 
         $this->operation->setResources(
-            $this->getDefaultResources()
+            $this->getDefaultResources(
+                $this->getFilterResources($filter)
+            )
         );
 
         $this->operation->setItemCount(1);
@@ -209,7 +219,9 @@ final class Builder
         $this->setup('variation')->filter($filter);
 
         $this->operation->setResources(
-            $this->getDefaultResources()
+            $this->getDefaultResources(
+                $this->getFilterResources($filter)
+            )
         );
 
         $this->operation->setVariationCount($count)->setVariationPage($page);
@@ -292,7 +304,7 @@ final class Builder
     }
 
     /**
-     * Convert keyword to node Id.
+     * Convert keyword to NodeId.
      *
      * @access public
      * @param string $keyword
@@ -300,7 +312,7 @@ final class Builder
      * @param bool $root
      * @return string
      */
-    public function toNode(string $keyword, array $filter = [], bool $root = false) : string
+    public function toNodeId(string $keyword, array $filter = [], bool $root = false) : string
     {
         $this->setup('search')->filter($filter);
 
@@ -323,16 +335,16 @@ final class Builder
     }
 
     /**
-     * Convert keyword to node Id (root).
+     * Convert keyword to NodeId (root).
      *
      * @access public
      * @param string $keyword
      * @param array $filter
      * @return string
      */
-    public function toRoot(string $keyword, array $filter = []) : string
+    public function toRootId(string $keyword, array $filter = []) : string
     {
-        return $this->toNode($keyword, $filter, true);
+        return $this->toNodeId($keyword, $filter, true);
     }
 
     /**
@@ -366,12 +378,13 @@ final class Builder
      * @param string $keyword
      * @param array $filter
      * @return array
+     * @todo Add ISBN & EAN compatibility
      */
     public function searchNode(string $keyword, array $filter = []) : array
     {
         $id = Normalizer::formatId($keyword);
         if ( Keyword::isASIN($id) || !Keyword::isBarcode($id) ) {
-            $id = $this->toNode($id, $filter);
+            $id = $this->toNodeId($id, $filter);
         }
         return $this->getNode($id);
     }
@@ -415,6 +428,7 @@ final class Builder
      */
     public function searchCategory(string $keyword, array $filter = []) : array
     {
+        self::$isCategory = true;
         $this->setup('search')->filter($filter);
 
         $this->operation->setResources([
@@ -439,6 +453,7 @@ final class Builder
      * @param int $page
      * @param array $filter
      * @return array
+     * @todo Improve
      */
     public function getBestseller(string $id, int $count = 5, int $page = 1, array $filter = []) : array
     {
@@ -452,7 +467,7 @@ final class Builder
 
         $node = $this->searchNode($id);
         if ( !$this->hasError() ) {
-            $id  = $node['name'];
+            $id = $node['name'];
         }
 
         $this->setup('search')->filter($filter);
@@ -479,15 +494,25 @@ final class Builder
      * @param int $page
      * @param array $filter
      * @return array
+     * @todo Improve
      */
     public function searchBestseller(string $keyword, int $count = 5, int $page = 1, array $filter = []) : array
     {
         $keyword = Normalizer::formatKeyword($keyword);
-        if ( Keyword::isBarcode($keyword) ) {
-            return [];
-        }
-        $filter['title'] = $keyword;
+        $id = Normalizer::formatId($keyword);
 
+        if ( Keyword::isBarcode($id) ) {
+            $item = $this->searchOne($id, $filter);
+            if ( $this->hasError() ) {
+                return [];
+            }
+            $keyword = Normalizer::parseKeyword($item['title']);
+        }
+
+        if ( !isset($filter['title']) ) {
+            $filter['title'] = $keyword;
+        }
+        
         $this->setup('search')->filter($filter);
 
         $this->operation->setResources(
@@ -512,6 +537,7 @@ final class Builder
      * @param int $page
      * @param array $filter
      * @return array
+     * @todo Improve
      */
     public function getNewest(string $keyword, int $count = 5, int $page = 1, array $filter = []) : array
     {
@@ -568,6 +594,19 @@ final class Builder
         }
         return $this->getRating($keyword);
 	}
+    
+    /**
+     * Set order.
+     *
+     * @access public
+     * @param mixed $order
+     * @return self
+     */
+    public function order($order) : self
+    {
+        $this->order = $order;
+        return $this;
+    }
 
     /**
      * Enable geotargeting.
@@ -664,6 +703,22 @@ final class Builder
 			'ItemInfo.Features',
 			'ItemInfo.Title'
 		], $resources);
+	}
+
+	/**
+     * Get filter ressources.
+     *
+	 * @access private
+	 * @param array $resources
+	 * @return array
+	 */
+	private function getFilterResources(array $filter = []) : array
+	{
+        $resources = [];
+        if ( isset($filter['rank']) && $filter['rank'] === true ) {
+            $resources[] = 'BrowseNodeInfo.BrowseNodes.SalesRank';
+        }
+        return $resources;
 	}
 
     /**
@@ -808,19 +863,6 @@ final class Builder
         
         return $this;
     }
-    
-    /**
-     * Set order.
-     *
-     * @access public
-     * @param mixed $order
-     * @return self
-     */
-    public function order($order) : self
-    {
-        $this->order = $order;
-        return $this;
-    }
 
     /**
      * Check search operation.
@@ -839,6 +881,7 @@ final class Builder
      *
      * @access private
      * @return bool
+     * @todo Implementation
      */
     private function isNode() : bool
     {
@@ -848,7 +891,7 @@ final class Builder
 
     /**
      * Prepare request.
-     * 
+     *
      * @access private
      * @return object
      */

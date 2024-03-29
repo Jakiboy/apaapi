@@ -62,7 +62,7 @@ final class Normalizer
 	{
 		self::$order = false;
 	}
-	
+
 	/**
 	 * Get normalized response data.
 	 *
@@ -79,7 +79,6 @@ final class Normalizer
 		}
 		if ( isset($data['category']) ) {
 			return self::normalizeCategory($data['category']);
-			return $data['category'];
 		}
 		return array_map(function($item) {
 			return self::normalize($item);
@@ -276,18 +275,10 @@ final class Normalizer
 			return trim($item);
 		}, $delivery);
 
+		$shipping = Provider::SHIPPING;
 		foreach ($delivery as $key => $item) {
-			if ( $item === 'global' ) {
-				$flags[] = 'AmazonGlobal';
-
-			} elseif ( $item === 'free' ) {
-				$flags[] = 'FreeShipping';
-
-			} elseif ( $item === 'fulfilled' ) {
-				$flags[] = 'FulfilledByAmazon';
-
-			} elseif ( $item === 'prime' ) {
-				$flags[] = 'Prime';
+			if ( isset($shipping[$item]) ) {
+				$flags[] = $shipping[$item];
 			}
 		}
 
@@ -307,22 +298,11 @@ final class Normalizer
 			strtolower($sort)
 		);
 
-		if ( $sort == 'reviews' ) {
-			$sort = 'AvgCustomerReviews';
+		$values = Provider::SORT;
+		if ( isset($values[$sort]) ) {
+			$sort = $values[$sort];
 
-		} elseif ( $sort == 'featured' ) {
-			$sort = 'Featured';
-
-		} elseif ( $sort == 'newest' ) {
-			$sort = 'NewestArrivals';
-
-		} elseif ( $sort == 'highest' ) {
-			$sort = 'Price:HighToLow';
-
-		} elseif ( $sort == 'lowest' ) {
-			$sort = 'Price:LowToHigh';
-
-		} elseif ( $sort == 'relevance' ) {
+		} else {
 			$sort = 'Relevance';
 		}
 
@@ -377,7 +357,7 @@ final class Normalizer
 	 */
 	public static function formatCurrency(string $currency) : string
 	{
-		return $currency;
+		return self::stripSpace($currency);
 	}
 
 	/**
@@ -389,7 +369,9 @@ final class Normalizer
 	 */
 	public static function formatMarketplace(string $marketplace) : string
 	{
-		return $marketplace;
+		return self::stripSpace(
+			strtolower($marketplace)
+		);
 	}
 
 	/**
@@ -481,6 +463,19 @@ final class Normalizer
 
 		return $order;
 	}
+
+    /**
+     * Parse keyword.
+     *
+     * @access public
+     * @param string $keyword
+     * @param int $limit
+     * @return string
+     */
+    public static function parseKeyword(string $keyword, int $limit = 30) : string
+    {
+        return substr($keyword, 0, $limit);
+    }
 
     /**
      * Decode data.
@@ -742,10 +737,12 @@ final class Normalizer
 	 */
 	private static function parseSearch(array $data) : array
 	{
-		if ( isset($data['SearchResult']['SearchRefinements']) ) {
-			$data = $data['SearchResult']['SearchRefinements'];
-			$data = $data['SearchIndex']['Bins'] ?? [];
-			return ['category' => $data];
+		if ( Builder::$isCategory ) {
+			if ( isset($data['SearchResult']['SearchRefinements']) ) {
+				$data = $data['SearchResult']['SearchRefinements'];
+				$data = $data['SearchIndex']['Bins'] ?? [];
+				return ['category' => $data];
+			}
 		}
 		return $data['SearchResult']['Items'] ?? [];
 	}

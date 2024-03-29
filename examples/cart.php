@@ -10,28 +10,23 @@
  * This file if a part of Apaapi Lib.
  */
 
-/**
- * @see You can use Composer,
- * Or include Apaapi standalone autoloader here.
- */
 include('../src/Autoloader.php');
 \apaapi\Autoloader::init();
 
 use Apaapi\lib\Cart;
 
-// init cart
+// Init cart
 $cart = new Cart();
-$cart->setLocale('{Your-locale}');
-$cart->setPartnerTag('{Your-partner-tag}');
+$cart->setLocale('_LOCALE_')->setPartnerTag('_TAG_');
 
 // Set items
 $items = [
-    '{ASIN1|ISBN1}' => '3', // ({ASIN|ISBN} => {Quantity})
-    '{ASIN2|ISBN2}' => '5'
+    '_ASIN_' => '3', // ({_ASIN_|_ISBN_} => {Quantity})
+    '_ISBN_' => '5'
 ];
 
 // Get response
-$url = $cart->set($items);
-echo $url; // String
+$url = $cart->set($items); // String
+var_dump($url);
 
-// Any suggestions (PR) are welcome!
+// Any PR is welcome!
