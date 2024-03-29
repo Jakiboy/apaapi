@@ -163,7 +163,7 @@ final class Geotargeting
 				if ( $client->getCode() == 404 ) {
 
 					$title = $item['title'] ?? '';
-					$keyword = substr($title, 0, 20);
+					$keyword = substr($title, 0, 30);
 					$keyword = preg_replace('/[^a-zA-Z0-9\s]/', '', $keyword);
 					$keyword = urlencode($keyword);
 

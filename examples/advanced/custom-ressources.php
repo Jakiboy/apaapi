@@ -10,11 +10,7 @@
  * This file if a part of Apaapi Lib.
  */
 
-/**
- * @see You can use Composer,
- * Or include Apaapi standalone autoloader here.
- */
-include('../src/Autoloader.php');
+include('../../src/Autoloader.php');
 \apaapi\Autoloader::init();
 
 use Apaapi\operations\SearchItems;
@@ -23,20 +19,22 @@ use Apaapi\lib\Response;
 
 // Set operation
 $operation = new SearchItems();
-$operation->setPartnerTag('{Your-partner-tag}')->setKeywords('{Your-keywords}')
-->setResources([
+$operation->setPartnerTag('_TAG_')->setKeywords('_KEYWORDS_');
+
+// Set ressources (3)
+$operation->setResources([
     'Images.Primary.Small',
     'ItemInfo.Title',
     'Offers.Listings.Price'
 ]);
 
 // Prapere request
-$request = new Request('{Your-key-id}','{Your-secrect-key}');
-$request->setLocale('{Your-locale}')->setPayload($operation);
+$request = new Request('_KEY_', '_SECRET_');
+$request->setLocale('_LOCALE_')->setPayload($operation);
 
 // Get response
 $response = new Response($request);
 $data = $response->get(); // Array
-print_r($data);
+var_dump($data);
 
-// Any suggestions (PR) are welcome!
+// Any PR is welcome!

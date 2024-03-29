@@ -1,9 +1,9 @@
 # APAAPI
 
-<img src="https://raw.githubusercontent.com/Jakiboy/apaapi/master/amazon.svg" width="100" alt="Amazon Product Advertising API PHP">
+<img src="https://raw.githubusercontent.com/Jakiboy/apaapi/dev/amazon.svg" width="100" alt="Amazon Product Advertising API PHP">
 
 Amazon Product Advertising API V5.0 (**Without Amazon SDK**).  
-This repository contains a PHP Lightweight (155 Ko) Wrapper Library,  
+This repository contains a lightweight PHP (155 KB) wrapper library,  
 Easily access the [Amazon Product Advertising API V5.0](https://webservices.amazon.com/paapi5/documentation/index.html) from your PHP app.
 
 -- Become an Amazon Affiliate With PHP --
@@ -19,13 +19,12 @@ composer require jakiboy/apaapi
 #### Without Composer?
 
 
-* **1** - [Download repository ZIP](https://github.com/Jakiboy/apaapi/archive/refs/heads/master.zip) (*Latest version*).
-* **2** - Extract ZIP (*apaapi-master*).
+* **1** - [Download repository ZIP](https://github.com/Jakiboy/apaapi/archive/refs/heads/dev.zip) (*Latest version*).
+* **2** - Extract ZIP (*apaapi-dev*).
 * **3** - Include this lines beelow (*apaapi self-autoloader*).
 
-
 ```
-include('apaapi-master/src/Autoloader.php');
+include('apaapi-dev/src/Autoloader.php');
 \apaapi\Autoloader::init();
 ```
 
@@ -37,30 +36,31 @@ include('apaapi-master/src/Autoloader.php');
 
 This version includes:  
 
-* Basic built-in **Caching System**.
 * **Request Builder** (Easier way to fetch data).
 * **Response Normalizer** (Normalize response items).
 * **Search Filters** (Using builder).
 * **Geotargeting** (Automatically redirect links based on the visitor's region).
-* **Rating** (Lagacy).
+* **Rating Stars** (Lagacy).
 * **Keyword Converter** (ASIN, ISBN, EAN, Node, Root).
+* **Caching System** (Basic built-in cache to reduce API calls).
 
 [Full Changelog](#).
 
-
 ## ⚡ Getting Started:
 
-### Variables (Basics):
+### Variables:
 
-* "_TAG_" : From your Amazon Associates (*your locale*), [More](https://webservices.amazon.com/paapi5/documentation/troubleshooting/sign-up-as-an-associate.html). 
-* "_SECRET_" : From your Amazon Associates (*your locale*), [More](https://affiliate-program.amazon.com/help/node/topic/GTPNVFFUV2GQ8AZV). 
-* "_KEY_" : From your Amazon Associates (*your locale*), [More](https://affiliate-program.amazon.com/help/node/topic/GTPNVFFUV2GQ8AZV). 
-* "_KEYWORDS_" : What you are looking for (*Products*), [More](https://webservices.amazon.com/paapi5/documentation/search-items.html). 
-* "_REGION_" : **TLD** of the target to which you are sending requests (*com/fr/com.be/de*), [Get TLD](https://webservices.amazon.com/paapi5/documentation/common-request-parameters.html#host-and-region). 
-* "_ASIN_" : Amazon Standard Identification Number (*your locale*), [More](https://webservices.amazon.com/paapi5/documentation/get-items.html#ItemLookup-rp). 
-
+* "\_KEY\_" : From your Amazon Associates (*your locale*), [More](https://affiliate-program.amazon.com/help/node/topic/GTPNVFFUV2GQ8AZV). 
+* "\_SECRET\_" : From your Amazon Associates (*your locale*), [More](https://affiliate-program.amazon.com/help/node/topic/GTPNVFFUV2GQ8AZV). 
+* "\_TAG\_" : From your Amazon Associates (*your locale*), [More](https://webservices.amazon.com/paapi5/documentation/troubleshooting/sign-up-as-an-associate.html). 
+* "\_LOCALE\_" : **TLD** of the target to which you are sending requests (*com/fr/com.be/de*), [Get TLD](https://webservices.amazon.com/paapi5/documentation/common-request-parameters.html#host-and-region). 
+* "\_KEYWORDS\_" : What you are looking for (*Products*), [More](https://webservices.amazon.com/paapi5/documentation/search-items.html). 
+* "\_ASIN\_" : Accepts (ISBN), Amazon Standard Identification Number (*your locale*), [More](https://webservices.amazon.com/paapi5/documentation/get-items.html#ItemLookup-rp). 
+* "\_NODE\_" : Browse Node ID (*your locale*), [More](https://webservices.amazon.com/paapi5/documentation/use-cases/organization-of-items-on-amazon/browse-nodes/browse-node-properties.html#browse-node-ids). 
 
 ### Quickstart:
+
+Using Apaapi builder is recommended.
 
 ```php
 
@@ -71,52 +71,70 @@ This version includes:
 
 use Apaapi\includes\Builder;
 
-// Init request builder
-$builder = new Builder('_KEY_', '_SECRET_', '_TAG_', '_REGION_');
+// (1) Init request builder
+$builder = new Builder('_KEY_', '_SECRET_', '_TAG_', '_LOCALE_');
 
-// Get response
-$data = $builder->searchOne('Sony Xperia Pro-I') // Normalized array
+// (2) Get response (Search)
+$data = $builder->searchOne('Sony Xperia Pro-I'); // Normalized array
 
 ```
 
-### Quickstart (OLD):
+* *See advanced builder usage at [/docs/builder.md](https://github.com/Jakiboy/apaapi/tree/dev/docs/builder.md)*
 
+### Basic (Search):
+
+Extensible search method.
 
 ```php
-
-
-/**
- * @see You can use Composer, 
- * Or include Apaapi Autoloader Here.
- */
 
 use Apaapi\operations\SearchItems;
 use Apaapi\lib\Request;
 use Apaapi\lib\Response;
 
-/**
- * @see With Three Easy Steps,
- * You can Achieve Quick Connection to Amazon Affiliate Program, 
- * Via Amazon Product Advertising API Library.
- */
-
-// (1) Set Operation
+// (1) Set operation
 $operation = new SearchItems();
 $operation->setPartnerTag('_TAG_')->setKeywords('_KEYWORDS_');
 
-// (2) Prapere Request
-$request = new Request('_KEY_','_SECRET_');
-$request->setLocale('_REGION_')->setPayload($operation);
+// (2) Prapere request
+$request = new Request('_KEY_', '_SECRET_');
+$request->setLocale('_LOCALE_')->setPayload($operation);
 
-// (3) Get Response
+// (3) Get response
 $response = new Response($request);
-echo $response->get(); // JSON ready for parsing
+$data = $response->get(); // Array
 
 ```
 
-* *See all available TLDs used by setLocale() at [/docs/tlds.md](https://github.com/Jakiboy/apaapi/tree/master/docs/tlds.md)*
+* *See all available TLDs used by setLocale() at [/docs/tlds.md](https://github.com/Jakiboy/apaapi/tree/dev/docs/tlds.md)*
+
+
+### Basic (Get):
+
+Extensible get method.
+
+```php
+
+use Apaapi\operations\GetItems;
+use Apaapi\lib\Request;
+use Apaapi\lib\Response;
+
+// Set operation
+$operation = new GetItems();
+$operation->setPartnerTag('_TAG_')->setItemIds(['_ASIN_']);
+
+// Prapere request
+$request = new Request('_KEY_', '_SECRET_');
+$request->setLocale('_LOCALE_')->setPayload($operation);
+
+// Get response
+$response = new Response($request);
+$data = $response->get(); // Array
+
+```
 
 ### Operations:
+
+All available operations.
 
 ```php
 
@@ -125,162 +143,83 @@ use Apaapi\operations\SearchItems;
 use Apaapi\operations\GetVariations;
 use Apaapi\operations\GetBrowseNodes;
 
-/**
- * @see 4 Operations.
- * @see https://webservices.amazon.com/paapi5/documentation/operations.html
- */
-
-// GetItems
+// (1) GetItems
 $operation = new GetItems();
-$operation->setPartnerTag('_TAG_')
-->setItemIds(['_ASIN_']); // Array|String
+$operation->setPartnerTag('_TAG_');
+$operation->setItemIds(['_ASIN_']); // Array
 
-// SearchItems
+// (2) SearchItems
 $operation = new SearchItems();
-$operation->setPartnerTag('_TAG_')
-->setKeywords('_KEYWORDS_'); // Array|String
+$operation->setPartnerTag('_TAG_');
+$operation->setKeywords('_KEYWORDS_'); // String
 
-// GetVariations
+// (3) GetVariations
 $operation = new GetVariations();
-$operation->setPartnerTag('_TAG_')
-->setASIN('_ASIN_'); // String
+$operation->setPartnerTag('_TAG_');
+$operation->setASIN('_ASIN_'); // String
 
-// GetBrowseNodes
+// (4) GetBrowseNodes
 $operation = new GetBrowseNodes();
-$operation->setPartnerTag('_TAG_')
-->setBrowseNodeIds(['{NodeId}']); // Array|String
+$operation->setPartnerTag('_TAG_');
+$operation->setBrowseNodeIds(['_NODE_']); // Array
 
 ```
 
-### Advanced (Custom ressources):
+### Ressources:
+
+Optimize response time by setting only the needed resources.
 
 ```php
 
-/**
- * @see Using setResources() method to set custom ressources,
- * Instead of default ressources,
- * This can improve response time.
- */
+use Apaapi\operations\SearchItems;
 
 // Set Operation
-$operation->setPartnerTag('_TAG_')->setKeywords('_KEYWORDS_')
-->setResources(['Images.Primary.Small','ItemInfo.Title','Offers.Listings.Price']);
+$operation = new SearchItems();
+$operation->setPartnerTag('_TAG_')->setKeywords('_KEYWORDS_');
+
+// Set Ressources (3)
+$operation->setResources(['Images.Primary.Small', 'ItemInfo.Title', 'Offers.Listings.Price']);
 
 ```
 
-* *See all available ressources used by setResources() at [/docs/ressources.md](https://github.com/Jakiboy/apaapi/tree/master/docs/ressources.md)*
+* *See all available ressources used by setResources() at [/docs/ressources.md](https://github.com/Jakiboy/apaapi/tree/dev/docs/ressources.md)*
 
-### Advanced (Custom HTTP Request Client):
+### Cart:
 
-```php
-
-use Apaapi\operations\GetItems;
-use Apaapi\lib\Request;
-use Apaapi\lib\Response;
-use Apaapi\includes\RequestClient;
-
-/**
- * @see Extending RequestClient: Allows Overriding cURL|Stream Settings,
- * Or Using Other Stream Instead.
- */
-class MyRequestClient extends RequestClient
-{
-	// ...
-}
-
-// Set Operation
-$operation = new GetItems();
-$operation->setPartnerTag('_TAG_')->setItemIds('_ASIN_');
-
-// Prapere Request
-$request = new Request('_KEY_','_SECRET_');
-$request->setLocale('{your-region}')->setPayload($operation);
-
-// Set Custom Client After Payload
-$request->setClient(
-	new MyRequestClient($request->getEndpoint(), $request->getParams())
-);
-
-// Get Response
-$response = new Response($request);
-echo $response->get(); // JSON ready for parsing
-
-```
-### Advanced (Response Type Helper):
+Get affiliate cart URL.
 
 ```php
 
-use Apaapi\includes\ResponseType;
+use Apaapi\lib\Cart;
 
-/**
- * @see Helps generating quick decoded response.
- * @param object|array|serialized
- */
-
-// Get Response
-$response = new Response($request, new ResponseType('array'));
-return $response->get(); // Array ready to be used
-
-```
-
-```php
-
-use Apaapi\includes\ResponseType;
-
-/**
- * @see Helps parsing response.
- * @param Response::PARSE
- */
-
-// Get Response
-$response = new Response($request, new ResponseType('object'), Response::PARSE);
-return $response->get(); // Object ready to be used
-
-```
-### Advanced (Response Errors):
-
-```php
-
-/**
- * @see Error catching.
- */
-
-// Get Response
-$response = new Response($request);
-$data = $response->get(); // JSON error ready for parsing
-if ( $response->hasError() ) {
-	/**
-	 * @param bool $single error
-	 * @return mixed
-	 */
-	echo $response->getError(true); // Parsed error
-}
-
-```
-
-### Add to cart:
-
-```php
-
-// Set Cart
+// Init Cart
 $cart = new Cart();
-$cart->setLocale('{Your-locale}');
-$cart->setPartnerTag('_TAG_');
-
-// Set Items
-$items = [
-    '{ASIN1}' => '3', // (_ASIN_ => {Quantity})
-    '{ASIN2}' => '5'
-];
+$cart->setLocale('_LOCALE_')->setPartnerTag('_TAG_');
 
 // Get Response
-return $cart->add($items); // String URL
+$data = $cart->set(['_ASIN_' => 3]); // String
+
+```
+
+### Rating:
+
+Get product average rating and count (Legacy).
+
+```php
+
+use Apaapi\includes\Rating;
+
+// Init Rating
+$rating = new Rating('_ASIN_', '_LOCALE_');
+
+// Get Response
+$data = $rating->get(); // Array
 
 ```
 
 ## Contributing:
 
-Please read [CONTRIBUTING.md](https://github.com/Jakiboy/apaapi/blob/master/CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
+Please read [CONTRIBUTING.md](https://github.com/Jakiboy/apaapi/blob/dev/CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
 
 ## Versioning:
 
@@ -294,7 +233,7 @@ See also the full list of [contributors](https://github.com/Jakiboy/apaapi/contr
 
 ## License:
 
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/Jakiboy/apaapi/blob/master/LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/Jakiboy/apaapi/blob/dev/LICENSE) file for details.
 
 ## ⭐ Support:
 
@@ -303,4 +242,4 @@ Please give it a Star if you like the project.
 ## 💡 Notice:
 
 * *The Amazon logo included in top of this page refers only to the [Amazon Product Advertising API V5](https://webservices.amazon.com/paapi5/documentation/index.html)*.
-* *All available use case examples located in [/examples](https://github.com/Jakiboy/apaapi/tree/master/examples)*.
+* *All available use case examples located in [/examples](https://github.com/Jakiboy/apaapi/tree/dev/examples)*.

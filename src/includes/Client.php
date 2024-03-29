@@ -23,10 +23,10 @@ use Apaapi\exceptions\RequestException;
 class Client implements ClientInterface
 {
     /**
-     * @access private
+     * @access protected
      */
-    private const CURL = 'curl';
-    private const STREAM = 'stream';
+    protected const CURL = 'curl';
+    protected const STREAM = 'stream';
 
     /**
      * @access protected
@@ -45,8 +45,8 @@ class Client implements ClientInterface
      */
     protected $endpoint;
     protected $method = 'POST';
-    protected $timeout = 30;
-    protected $redirect = false;
+    protected $timeout = 10;
+    protected $redirect = 1;
     protected $encoding = false;
     protected $params;
     protected $handler;
@@ -192,6 +192,9 @@ class Client implements ClientInterface
             if ( $this->isPost() ) {
                 curl_setopt($this->handler, CURLOPT_POSTFIELDS, $this->getRequestPayload());
                 curl_setopt($this->handler, CURLOPT_POST, true);
+
+            } else {
+                curl_setopt($this->handler, CURLOPT_CUSTOMREQUEST, $this->method);
             }
 
         } elseif ( $this->isStream() ) {
@@ -305,7 +308,7 @@ class Client implements ClientInterface
         if ( is_array($header)) {
             return $header;
         }
-        $header = explode("\r\n", (string)$header);
+        $header = explode("\n", (string)$header);
         return ($header) ? $header : [];
     }
 
@@ -359,10 +362,10 @@ class Client implements ClientInterface
     /**
      * Check curl gateway.
      *
-     * @access private
+     * @access protected
      * @return bool
      */
-    private function isCurl() : bool
+    protected function isCurl() : bool
     {
         return ($this->gateway == self::CURL);
     }
@@ -370,10 +373,10 @@ class Client implements ClientInterface
     /**
      * Check stream gateway.
      *
-     * @access private
+     * @access protected
      * @return bool
      */
-    private function isStream() : bool
+    protected function isStream() : bool
     {
         return ($this->gateway == self::STREAM);
     }
@@ -381,10 +384,10 @@ class Client implements ClientInterface
     /**
      * Check post method.
      *
-     * @access private
+     * @access protected
      * @return bool
      */
-    private function isPost() : bool
+    protected function isPost() : bool
     {
         return ($this->method == 'POST');
     }

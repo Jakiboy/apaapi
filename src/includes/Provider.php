@@ -23,11 +23,27 @@ final class Provider
     /**
      * @access public
      * @var string HOST, Dynamic API host
-     * @var array CONDITIONS, API product conditions
+     * @var array CONDITION, API product condition filter
+     * @var array SORT, API product sort filter
+     * @var array SHIPPING, API product delivery filter
      */
     public const HOST = 'https://www.amazon.{locale}';
-    public const CONDITIONS = ['Any', 'New', 'Used', 'Refurbished', 'Collectible'];
-    
+    public const CONDITION = ['Any', 'New', 'Used', 'Refurbished', 'Collectible'];
+    public const SORT = [
+        'featured'  => 'Featured',
+        'newest'    => 'NewestArrivals',
+        'relevance' => 'Relevance',
+        'reviews'   => 'AvgCustomerReviews',
+        'highest'   => 'Price:HighToLow',
+        'lowest'    => 'Price:LowToHigh'
+    ];
+    public const SHIPPING = [
+        'global'    => 'AmazonGlobal',
+        'free'      => 'FreeShipping',
+        'fulfilled' => 'FulfilledByAmazon',
+        'prime'     => 'AmazonPrime'
+    ];
+
     /**
      * Get request regions.
      *
@@ -242,7 +258,7 @@ final class Provider
             'Connection' => 'close'
         ];
 
-        return implode("\r\n", array_map(function($key, $value) {
+        return implode("\n", array_map(function($key, $value) {
             return "{$key}: {$value}";
         }, array_keys($header), $header));
     }

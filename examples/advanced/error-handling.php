@@ -10,7 +10,7 @@
  * This file if a part of Apaapi Lib.
  */
 
-include('../src/Autoloader.php');
+include('../../src/Autoloader.php');
 \apaapi\Autoloader::init();
 
 use Apaapi\operations\SearchItems;
@@ -27,8 +27,12 @@ $request->setLocale('_LOCALE_')->setPayload($operation);
 
 // Get response
 $response = new Response($request);
-$body = $response->getBody(); // String
 $data = $response->get(); // Array
+
+// Handle response error
+if ( $response->hasError() ) {
+	echo $response->getError(); // String
+}
 var_dump($data);
 
 // Any PR is welcome!

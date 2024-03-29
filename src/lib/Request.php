@@ -69,9 +69,9 @@ final class Request extends Signature implements RequestInterface
     {
         // Setup params
         $this->operation = Parser::getName($operation);
+        $this->payload   = Parser::convert($operation);
         $this->path      = $this->path . strtolower($this->operation);
         $this->target    = "{$this->target}.{$this->operation}";
-        $this->payload   = Parser::convert($operation);
         $host = self::HOST . ".{$this->locale}";
 
         // Setup headers
@@ -83,7 +83,7 @@ final class Request extends Signature implements RequestInterface
         $header  = '';
 
         foreach ( $headers as $key => $value ) {
-            $header .= "{$key}:{$value}\r\n";
+            $header .= "{$key}:{$value}\n";
         }
 
         $this->endpoint = "https://{$host}{$this->path}";

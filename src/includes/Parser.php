@@ -65,6 +65,7 @@ final class Parser
                 foreach ($resource->items as $item) {
                     $wrapper[] = "{$parent}.{$item}";
                 }
+                
             } elseif ( $resource->items === false ) {
                 $wrapper[] = $parent;
             }

@@ -10,20 +10,16 @@
  * This file if a part of Apaapi Lib.
  */
 
-/**
- * @see You can use Composer,
- * Or include Apaapi standalone autoloader here.
- */
 include('../src/Autoloader.php');
 \apaapi\Autoloader::init();
 
 use Apaapi\includes\Builder;
 
 // Prapere request
-$builder = new Builder('{Your-key-id}', '{Your-secrect-key}', '{Your-partner-tag}', '{Your-locale}');
+$builder = new Builder('_KEY_', '_SECRET_', '_TAG_', '_LOCALE_');
 
 // Get response
-$data = $builder->search('{Your-keywords}'); // Array
-print_r($data);
+$data = $builder->search('_KEYWORDS_'); // Normalized Array
+var_dump($data);
 
-// Any suggestions (PR) are welcome!
+// Any PR is welcome!

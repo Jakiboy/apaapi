@@ -25,13 +25,13 @@ final class Autoloader
 
 	/**
 	 * Register autoloader.
+	 *
+	 * @access private
 	 */
-	public function __construct()
+	private function __construct()
 	{
-		if ( !static::$initialized ) {
-			spl_autoload_register([__CLASS__, 'autoload']);
-			static::$initialized = true;
-		}
+		spl_autoload_register([__CLASS__, 'autoload']);
+		static::$initialized = true;
 	}
 
 	/**
@@ -43,50 +43,35 @@ final class Autoloader
 	}
 
 	/**
-	 * Restrict object clone.
+	 * Autoloader method.
+	 *
+	 * @access private
+	 * @param string $class
+	 * @return void
 	 */
-    public function __clone()
-    {
-        die(__METHOD__.': Clone denied');
-    }
-
-	/**
-	 * Restrict object unserialize.
-	 */
-    public function __wakeup()
-    {
-        die(__METHOD__.': Unserialize denied');
-    }
+	private function autoload(string $class)
+	{
+		$namespace = __NAMESPACE__ . '\\';
+	    if ( strpos($class, $namespace) === 0 ) {
+	        $class = str_replace($namespace, '', $class);
+			$class = dirname(__DIR__) . "/src/{$class}.php";
+			$class = str_replace('\\', '/', $class);
+			if ( file_exists($class) ) {
+				require_once $class;
+			}
+	    }
+	}
 
 	/**
 	 * Initialize autoloader.
-	 * 
+	 *
 	 * @access public
 	 * @return void
 	 */
 	public static function init()
 	{
 		if ( !static::$initialized ) {
-			new static;
+			new self;
 		}
-	}
-
-	/**
-	 * Autoloader method.
-	 * 
-	 * @access private
-	 * @param string $class
-	 * @return void
-	 * @see https://www.php-fig.org/psr/psr-4/
-	 * @see https://www.php-fig.org/psr/psr-0/
-	 */
-	private function autoload(string $class)
-	{
-	    if ( strpos($class, __NAMESPACE__ . '\\') === 0 ) {
-	        $class = str_replace(__NAMESPACE__ . '\\', '', $class);
-	        $class = str_replace('\\', '/', $class);
-	        $root = str_replace('\\', '/', dirname(__DIR__));
-	        require_once("{$root}/src/{$class}.php");
-	    }
 	}
 }
