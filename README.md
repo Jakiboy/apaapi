@@ -1,10 +1,10 @@
 # APAAPI
 
-<img src="https://raw.githubusercontent.com/Jakiboy/apaapi/dev/amazon.svg" width="100" alt="Amazon Product Advertising API PHP">
+<img src="https://raw.githubusercontent.com/Jakiboy/apaapi/dev/banner.png" width="100" alt="Amazon Product Advertising API PHP">
 
 Amazon Product Advertising API V5.0 (**Without Amazon SDK**).  
 This repository contains a lightweight PHP (155 KB) wrapper library,  
-Easily access the [Amazon Product Advertising API V5.0](https://webservices.amazon.com/paapi5/documentation/index.html) from your PHP app.
+Easily access the [Amazon Product Advertising API V5.0](https://webservices.amazon.com/paapi5/documentation/index.html) from your app.
 
 -- Become an Amazon Affiliate With PHP --
 
@@ -44,7 +44,8 @@ This version includes:
 * **Keyword Converter** (ASIN, ISBN, EAN, Node, Root).
 * **Caching System** (Basic built-in cache to reduce API calls).
 
-[Full Changelog](#).
+[Full Changelog](#).  
+[Previous Version](/Jakiboy/apaapi/tree/1.1.7).
 
 ## ⚡ Getting Started:
 
@@ -53,7 +54,7 @@ This version includes:
 * "\_KEY\_" : From your Amazon Associates (*your locale*), [More](https://affiliate-program.amazon.com/help/node/topic/GTPNVFFUV2GQ8AZV). 
 * "\_SECRET\_" : From your Amazon Associates (*your locale*), [More](https://affiliate-program.amazon.com/help/node/topic/GTPNVFFUV2GQ8AZV). 
 * "\_TAG\_" : From your Amazon Associates (*your locale*), [More](https://webservices.amazon.com/paapi5/documentation/troubleshooting/sign-up-as-an-associate.html). 
-* "\_LOCALE\_" : **TLD** of the target to which you are sending requests (*com/fr/com.be/de*), [Get TLD](https://webservices.amazon.com/paapi5/documentation/common-request-parameters.html#host-and-region). 
+* "\_LOCALE\_" : **TLD** of the target marketplace to which you are sending requests (*com/fr/co.jp*), [Get TLD](https://webservices.amazon.com/paapi5/documentation/common-request-parameters.html#host-and-region). 
 * "\_KEYWORDS\_" : What you are looking for (*Products*), [More](https://webservices.amazon.com/paapi5/documentation/search-items.html). 
 * "\_ASIN\_" : Accepts (ISBN), Amazon Standard Identification Number (*your locale*), [More](https://webservices.amazon.com/paapi5/documentation/get-items.html#ItemLookup-rp). 
 * "\_NODE\_" : Browse Node ID (*your locale*), [More](https://webservices.amazon.com/paapi5/documentation/use-cases/organization-of-items-on-amazon/browse-nodes/browse-node-properties.html#browse-node-ids). 
