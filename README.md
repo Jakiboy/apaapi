@@ -1,6 +1,6 @@
 # APAAPI
 
-<img src="https://raw.githubusercontent.com/Jakiboy/apaapi/dev/banner.png" width="100" alt="Amazon Product Advertising API PHP">
+<img src="https://raw.githubusercontent.com/Jakiboy/apaapi/dev/banner.png" width="100%" alt="Amazon Product Advertising API PHP">
 
 Amazon Product Advertising API V5.0 (**Without Amazon SDK**).  
 This repository contains a lightweight PHP (155 KB) wrapper library,  
