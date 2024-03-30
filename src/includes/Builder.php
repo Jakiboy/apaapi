@@ -40,6 +40,7 @@ final class Builder
      * @var object $operation, API operation
      * @var object $request, API request
      * @var string $error, API response error
+     * @var bool $cache, API response cache
      * @var array $redirect, Geotargeting args
      * @var mixed $order, Response order
      */
@@ -50,6 +51,7 @@ final class Builder
     private $operation;
     private $request;
     private $error = false;
+    private $cache = true;
     private $redirect;
     private $order = ['title', 'price'];
 
@@ -607,6 +609,18 @@ final class Builder
         $this->order = $order;
         return $this;
     }
+    
+    /**
+     * Disable cache.
+     *
+     * @access public
+     * @return self
+     */
+    public function noCache() : self
+    {
+        $this->cache = false;
+        return $this;
+    }
 
     /**
      * Enable geotargeting.
@@ -910,7 +924,7 @@ final class Builder
      */
     private function fetch() : array
     {
-        $response = new Response($this->request, Response::NORMALIZE);
+        $response = new Response($this->request, Response::NORMALIZE, $this->cache);
 
         $this->error = false;
         if ( $response->hasError() ) {
