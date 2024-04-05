@@ -87,7 +87,7 @@ final class Request extends Signature implements RequestInterface
         }
 
         $this->endpoint = "https://{$host}{$this->path}";
-        $this->params = [
+        $this->params   = [
             'method'  => 'POST',
             'header'  => $header,
             'payload' => $this->payload
