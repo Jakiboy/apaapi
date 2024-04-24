@@ -18,8 +18,7 @@ composer require jakiboy/apaapi
 
 #### Without Composer?
 
-
-* **1** - [Download repository ZIP](https://github.com/Jakiboy/apaapi/archive/refs/heads/dev.zip) (*Latest version*).
+* **1** - [Download repository ZIP](/Jakiboy/apaapi/archive/refs/heads/dev.zip) (*Latest version*).
 * **2** - Extract ZIP (*apaapi-dev*).
 * **3** - Include this lines beelow (*apaapi self-autoloader*).
 
@@ -80,7 +79,8 @@ $data = $builder->searchOne('Sony Xperia Pro-I'); // Normalized array
 
 ```
 
-* *See advanced builder usage at [/docs/builder.md](https://github.com/Jakiboy/apaapi/tree/dev/docs/builder.md)*
+> [!Note]  
+> *See advanced builder usage at [/wiki/Builder](/Jakiboy/apaapi/wiki/Builder)*
 
 ### Basic (Search):
 
@@ -105,8 +105,8 @@ $response = new Response($request);
 $data = $response->get(); // Array
 
 ```
-
-* *See all available TLDs used by setLocale() at [/docs/tlds.md](https://github.com/Jakiboy/apaapi/tree/dev/docs/tlds.md)*
+> [!Note]  
+> *See all available TLDs used by setLocale() at [/wiki/TLDs](/Jakiboy/apaapi/wiki/TLDs)*
 
 
 ### Basic (Get):
@@ -183,7 +183,8 @@ $operation->setResources(['Images.Primary.Small', 'ItemInfo.Title', 'Offers.List
 
 ```
 
-* *See all available ressources used by setResources() at [/docs/ressources.md](https://github.com/Jakiboy/apaapi/tree/dev/docs/ressources.md)*
+> [!Note]  
+> *See all available ressources used by setResources() at [/wiki/Ressources](/Jakiboy/apaapi/wiki/Ressources)*
 
 ### Cart:
 
@@ -218,29 +219,17 @@ $data = $rating->get(); // Array
 
 ```
 
-## Contributing:
+> [!Note]  
+> * *The Amazon logo included in top of this page refers only to the [Amazon Product Advertising API V5](https://webservices.amazon.com/paapi5/documentation/index.html)*.
+> * *All available use case examples located in [/examples](/Jakiboy/apaapi/tree/dev/examples)*.
 
-Please read [CONTRIBUTING.md](https://github.com/Jakiboy/apaapi/blob/dev/CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
+---
 
-## Versioning:
+### Authors:
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/Jakiboy/apaapi/tags). 
+* [Jakiboy](/Jakiboy) (*Initial work*)
+* Any PR is welcome!
 
-## Authors:
+### ⭐ Support:
 
-* **Jihad Sinnaour** - [Jakiboy](https://github.com/Jakiboy) (*Initial work*)
-
-See also the full list of [contributors](https://github.com/Jakiboy/apaapi/contributors) who participated in this project. Any suggestions (Pull requests) are welcome!
-
-## License:
-
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/Jakiboy/apaapi/blob/dev/LICENSE) file for details.
-
-## ⭐ Support:
-
-Please give it a Star if you like the project.
-
-## 💡 Notice:
-
-* *The Amazon logo included in top of this page refers only to the [Amazon Product Advertising API V5](https://webservices.amazon.com/paapi5/documentation/index.html)*.
-* *All available use case examples located in [/examples](https://github.com/Jakiboy/apaapi/tree/dev/examples)*.
+Don't buy me a coffee! Just **star the project** if you like it.
