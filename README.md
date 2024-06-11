@@ -80,7 +80,7 @@ $data = $builder->searchOne('Sony Xperia Pro-I'); // Normalized array
 ```
 
 > [!Note]  
-> *See advanced builder usage at [/wiki/Builder](https://github.com/Jakiboy/apaapi/wiki/Builder)*
+> *See advanced builder usage at [/wiki/Builder](/Jakiboy/apaapi/wiki/Builder)*
 
 ### Basic (Search):
 
@@ -106,7 +106,7 @@ $data = $response->get(); // Array
 
 ```
 > [!Note]  
-> *See all available TLDs used by setLocale() at [/wiki/TLDs](https://github.com/Jakiboy/apaapi/wiki/TLDs)*
+> *See all available TLDs used by setLocale() at [/wiki/TLDs](/Jakiboy/apaapi/wiki/TLDs)*
 
 
 ### Basic (Get):
@@ -184,7 +184,7 @@ $operation->setResources(['Images.Primary.Small', 'ItemInfo.Title', 'Offers.List
 ```
 
 > [!Note]  
-> *See all available ressources used by setResources() at [/wiki/Ressources](https://github.com/Jakiboy/apaapi/wiki/Ressources)*
+> *See all available ressources used by setResources() at [/wiki/Ressources](/Jakiboy/apaapi/wiki/Ressources)*
 
 ### Cart:
 
@@ -219,6 +219,10 @@ $data = $rating->get(); // Array
 
 ```
 
+> [!Note]  
+> * *The Amazon logo included in top of this page refers only to the [Amazon Product Advertising API V5](https://webservices.amazon.com/paapi5/documentation/index.html)*.
+> * *All available use case examples located in [/examples](/Jakiboy/apaapi/tree/dev/examples)*.
+
 ---
 
 ### Authors:
@@ -229,7 +233,3 @@ $data = $rating->get(); // Array
 ### ⭐ Support:
 
 Don't buy me a coffee! Just **star the project** if you like it.
-
-> [!Note]  
-> * *The Amazon logo included in top of this page refers only to the [Amazon Product Advertising API V5](https://webservices.amazon.com/paapi5/documentation/index.html)*.
-> * *All available use case examples located in [/examples](/Jakiboy/apaapi/tree/dev/examples)*.
