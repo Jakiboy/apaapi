@@ -135,8 +135,9 @@ class Client implements ClientInterface
             curl_close($this->handler);
 
         } elseif ( $this->isStream() ) {
-            fclose($this->handler);
+            $this->closeStream($this->handler);
         }
+        unset($this->handler);
     }
 
     /**
@@ -311,6 +312,23 @@ class Client implements ClientInterface
         $header = explode("\n", (string)$header);
         return ($header) ? $header : [];
     }
+    
+    /**
+     * Get HTTP headers.
+     *
+     * @access protected
+     * @param string $url
+     * @param mixed $associative
+     * @param mixed $context
+     * @return mixed
+     */
+    protected function getHeaders(string $url, $associative = 0, $context = null)
+    {
+        if ( version_compare(phpversion(), '8.0.0', '>=') ) {
+            $associative = (bool)$associative;
+        }
+        return @get_headers($url, $associative, $context);
+    }
 
     /**
      * Send curl request.
@@ -344,7 +362,7 @@ class Client implements ClientInterface
     protected function sendStream()
     {
         $this->response = @file_get_contents($this->endpoint, false, $this->handler);
-        $headers = @get_headers($this->endpoint, false, $this->handler);
+        $headers = $this->getHeaders($this->endpoint, 0, $this->handler);
 
         if ( $headers ) {
             $status = $headers[0] ?? '';
@@ -358,7 +376,21 @@ class Client implements ClientInterface
             $this->error = 'Failed to open stream';
         }
     }
-    
+
+    /**
+     * Close stream.
+     *
+     * @access protected
+     * @param mixed $context
+     * @return void
+     */
+    protected function closeStream($context)
+    {
+        if ( !version_compare(phpversion(), '8.0.0', '>=') ) {
+            @fclose($context);
+        }
+    }
+
     /**
      * Check curl gateway.
      *
