@@ -891,19 +891,6 @@ final class Builder
     }
 
     /**
-     * Check node operation.
-     *
-     * @access private
-     * @return bool
-     * @todo Implementation
-     */
-    private function isNode() : bool
-    {
-        $class = 'Apaapi\operations\GetBrowseNodes';
-        return is_a($this->operation, $class, true);
-    }
-
-    /**
      * Prepare request.
      *
      * @access private
