@@ -1,3 +1,7 @@
 /.github export-ignore
-/example export-ignore
+/examples export-ignore
 /tests export-ignore
+.gitignore export-ignore
+.gitattributes export-ignore
+_config.yml export-ignore
+banner.png export-ignore
