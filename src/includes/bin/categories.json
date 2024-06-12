@@ -1,0 +1,2408 @@
+{
+    "com.au":[
+        {
+            "id":"Automotive",
+            "name":"Automotive"
+        },
+        {
+            "id":"Baby",
+            "name":"Baby"
+        },
+        {
+            "id":"Beauty",
+            "name":"Beauty"
+        },
+        {
+            "id":"Books",
+            "name":"Books"
+        },
+        {
+            "id":"Computers",
+            "name":"Computers"
+        },
+        {
+            "id":"Electronics",
+            "name":"Electronics"
+        },
+        {
+            "id":"EverythingElse",
+            "name":"Everything Else"
+        },
+        {
+            "id":"Fashion",
+            "name":"Clothing & Shoes"
+        },
+        {
+            "id":"GiftCards",
+            "name":"Gift Cards"
+        },
+        {
+            "id":"HealthPersonalCare",
+            "name":"Health, Household & Personal Care"
+        },
+        {
+            "id":"HomeAndKitchen",
+            "name":"Home & Kitchen"
+        },
+        {
+            "id":"KindleStore",
+            "name":"Kindle Store"
+        },
+        {
+            "id":"Lighting",
+            "name":"Lighting"
+        },
+        {
+            "id":"Luggage",
+            "name":"Luggage & Travel Gear"
+        },
+        {
+            "id":"MobileApps",
+            "name":"Apps & Games"
+        },
+        {
+            "id":"MoviesAndTV",
+            "name":"Movies & TV"
+        },
+        {
+            "id":"Music",
+            "name":"CDs & Vinyl"
+        },
+        {
+            "id":"OfficeProducts",
+            "name":"Stationery & Office Products"
+        },
+        {
+            "id":"PetSupplies",
+            "name":"Pet Supplies"
+        },
+        {
+            "id":"Software",
+            "name":"Software"
+        },
+        {
+            "id":"SportsAndOutdoors",
+            "name":"Sports, Fitness & Outdoors"
+        },
+        {
+            "id":"ToolsAndHomeImprovement",
+            "name":"Home Improvement"
+        },
+        {
+            "id":"ToysAndGames",
+            "name":"Toys & Games"
+        },
+        {
+            "id":"VideoGames",
+            "name":"Video Games"
+        }
+    ],
+    "com.be":[
+        {
+            "id":"Automotive",
+            "name":"Auto et Moto"
+        },
+        {
+            "id":"Baby",
+            "name":"B\u00e9b\u00e9"
+        },
+        {
+            "id":"Beauty",
+            "name":"Beaut\u00e9 et Parfum"
+        },
+        {
+            "id":"Books",
+            "name":"Livres"
+        },
+        {
+            "id":"Electronics",
+            "name":"High-Tech"
+        },
+        {
+            "id":"Fashion",
+            "name":"Mode"
+        },
+        {
+            "id":"Garden",
+            "name":"Jardin"
+        },
+        {
+            "id":"GiftCards",
+            "name":"Boutique ch\u00e8ques-cadeaux"
+        },
+        {
+            "id":"Grocery",
+            "name":"Alimentation"
+        },
+        {
+            "id":"HomeImprovement",
+            "name":"Bricolage"
+        },
+        {
+            "id":"HealthPersonalCare",
+            "name":"Sant\u00e9 & Hygi\u00e8ne personnelle"
+        },
+        {
+            "id":"Industrial",
+            "name":"Secteur industriel et scientifique"
+        },
+        {
+            "id":"Music",
+            "name":"Musique : CD & Vinyles"
+        },
+        {
+            "id":"MusicalInstruments",
+            "name":"Instruments de musique"
+        },
+        {
+            "id":"MoviesAndTV",
+            "name":"Cin\u00e9ma & TV"
+        },
+        {
+            "id":"OfficeProducts",
+            "name":"Office Produits de bureau"
+        },
+        {
+            "id":"PetSupplies",
+            "name":"Animalerie"
+        },
+        {
+            "id":"Software",
+            "name":"Logiciels"
+        },
+        {
+            "id":"SportsAndOutdoors",
+            "name":"Sports & Activit\u00e9s en plein-air"
+        },
+        {
+            "id":"Toys",
+            "name":"Jeux et Jouets"
+        },
+        {
+            "id":"VideoGames",
+            "name":"Jeux vid\u00e9o"
+        }
+    ],
+    "com.br":[
+        {
+            "id":"Books",
+            "name":"Livros"
+        },
+        {
+            "id":"Computers",
+            "name":"Computadores e Inform\u00e1tica"
+        },
+        {
+            "id":"Electronics",
+            "name":"Eletr\u00f4nicos"
+        },
+        {
+            "id":"HomeAndKitchen",
+            "name":"Casa e Cozinha"
+        },
+        {
+            "id":"KindleStore",
+            "name":"Loja Kindle"
+        },
+        {
+            "id":"MobileApps",
+            "name":"Apps e Jogos"
+        },
+        {
+            "id":"OfficeProducts",
+            "name":"Material para Escrit\u00f3rio e Papelaria"
+        },
+        {
+            "id":"ToolsAndHomeImprovement",
+            "name":"Ferramentas e Materiais de Constru\u00e7\u00e3o"
+        },
+        {
+            "id":"VideoGames",
+            "name":"Games"
+        }
+    ],
+    "ca":[
+        {
+            "id":"Apparel",
+            "name":"Clothing & Accessories"
+        },
+        {
+            "id":"Automotive",
+            "name":"Automotive"
+        },
+        {
+            "id":"Baby",
+            "name":"Baby"
+        },
+        {
+            "id":"Beauty",
+            "name":"Beauty"
+        },
+        {
+            "id":"Books",
+            "name":"Books"
+        },
+        {
+            "id":"Classical",
+            "name":"Classical Music"
+        },
+        {
+            "id":"Electronics",
+            "name":"Electronics"
+        },
+        {
+            "id":"EverythingElse",
+            "name":"Everything Else"
+        },
+        {
+            "id":"ForeignBooks",
+            "name":"English Books"
+        },
+        {
+            "id":"GardenAndOutdoor",
+            "name":"Patio, Lawn & Garden"
+        },
+        {
+            "id":"GiftCards",
+            "name":"Gift Cards"
+        },
+        {
+            "id":"GroceryAndGourmetFood",
+            "name":"Grocery & Gourmet Food"
+        },
+        {
+            "id":"Handmade",
+            "name":"Handmade"
+        },
+        {
+            "id":"HealthPersonalCare",
+            "name":"Health & Personal Care"
+        },
+        {
+            "id":"HomeAndKitchen",
+            "name":"Home & Kitchen"
+        },
+        {
+            "id":"Industrial",
+            "name":"Industrial & Scientific"
+        },
+        {
+            "id":"Jewelry",
+            "name":"Jewelry"
+        },
+        {
+            "id":"KindleStore",
+            "name":"Kindle Store"
+        },
+        {
+            "id":"Luggage",
+            "name":"Luggage & Bags"
+        },
+        {
+            "id":"LuxuryBeauty",
+            "name":"Luxury Beauty"
+        },
+        {
+            "id":"MobileApps",
+            "name":"Apps & Games"
+        },
+        {
+            "id":"MoviesAndTV",
+            "name":"Movies & TV"
+        },
+        {
+            "id":"Music",
+            "name":"Music"
+        },
+        {
+            "id":"MusicalInstruments",
+            "name":"Musical Instruments, Stage & Studio"
+        },
+        {
+            "id":"OfficeProducts",
+            "name":"Office Products"
+        },
+        {
+            "id":"PetSupplies",
+            "name":"Pet Supplies"
+        },
+        {
+            "id":"Shoes",
+            "name":"Shoes & Handbags"
+        },
+        {
+            "id":"Software",
+            "name":"Software"
+        },
+        {
+            "id":"SportsAndOutdoors",
+            "name":"Sports & Outdoors"
+        },
+        {
+            "id":"ToolsAndHomeImprovement",
+            "name":"Tools & Home Improvement"
+        },
+        {
+            "id":"ToysAndGames",
+            "name":"Toys & Games"
+        },
+        {
+            "id":"VHS",
+            "name":"VHS"
+        },
+        {
+            "id":"VideoGames",
+            "name":"Video Games"
+        },
+        {
+            "id":"Watches",
+            "name":"Watches"
+        }
+    ],
+    "eg":[
+        {
+            "id":"ArtsAndCrafts",
+            "name":"Arts, Crafts & Sewing"
+        },
+        {
+            "id":"Automotive",
+            "name":"Automotive Parts & Accessories"
+        },
+        {
+            "id":"Baby",
+            "name":"Baby"
+        },
+        {
+            "id":"Beauty",
+            "name":"Beauty & Personal Care"
+        },
+        {
+            "id":"Books",
+            "name":"Books"
+        },
+        {
+            "id":"Electronics",
+            "name":"Electronics"
+        },
+        {
+            "id":"Fashion",
+            "name":"Amazon Fashion"
+        },
+        {
+            "id":"Garden",
+            "name":"Home & Garden"
+        },
+        {
+            "id":"Grocery",
+            "name":"Grocery & Gourmet Food"
+        },
+        {
+            "id":"HealthPersonalCare",
+            "name":"Health, Household & Baby Care"
+        },
+        {
+            "id":"Home",
+            "name":"Home Related"
+        },
+        {
+            "id":"HomeImprovement",
+            "name":"Tools & Home Improvement"
+        },
+        {
+            "id":"Industrial",
+            "name":"Industrial & Scientific"
+        },
+        {
+            "id":"MusicalInstruments",
+            "name":"Musical Instruments"
+        },
+        {
+            "id":"OfficeProducts",
+            "name":"Office Products"
+        },
+        {
+            "id":"PetSupplies",
+            "name":"Pet Supplies"
+        },
+        {
+            "id":"Software",
+            "name":"Software"
+        },
+        {
+            "id":"SportsAndOutdoors",
+            "name":"Sports"
+        },
+        {
+            "id":"Toys",
+            "name":"Toys & Games"
+        },
+        {
+            "id":"VideoGames",
+            "name":"Video Games"
+        }
+    ],
+    "fr":[
+        {
+            "id":"Apparel",
+            "name":"V\u00eatements et accessoires"
+        },
+        {
+            "id":"Appliances",
+            "name":"Gros \u00e9lectrom\u00e9nager"
+        },
+        {
+            "id":"Automotive",
+            "name":"Auto et Moto"
+        },
+        {
+            "id":"Baby",
+            "name":"B\u00e9b\u00e9s & Pu\u00e9riculture"
+        },
+        {
+            "id":"Beauty",
+            "name":"Beaut\u00e9 et Parfum"
+        },
+        {
+            "id":"Books",
+            "name":"Livres en fran\u00e7ais"
+        },
+        {
+            "id":"Computers",
+            "name":"Informatique"
+        },
+        {
+            "id":"DigitalMusic",
+            "name":"T\u00e9l\u00e9chargement de musique"
+        },
+        {
+            "id":"Electronics",
+            "name":"High-Tech"
+        },
+        {
+            "id":"EverythingElse",
+            "name":"Autres"
+        },
+        {
+            "id":"Fashion",
+            "name":"Mode"
+        },
+        {
+            "id":"ForeignBooks",
+            "name":"Livres anglais et \u00e9trangers"
+        },
+        {
+            "id":"GardenAndOutdoor",
+            "name":"Jardin"
+        },
+        {
+            "id":"GiftCards",
+            "name":"Boutique ch\u00e8ques-cadeaux"
+        },
+        {
+            "id":"GroceryAndGourmetFood",
+            "name":"Epicerie"
+        },
+        {
+            "id":"Handmade",
+            "name":"Handmade"
+        },
+        {
+            "id":"HealthPersonalCare",
+            "name":"Hygi\u00e8ne et Sant\u00e9"
+        },
+        {
+            "id":"HomeAndKitchen",
+            "name":"Cuisine & Maison"
+        },
+        {
+            "id":"Industrial",
+            "name":"Secteur industriel & scientifique"
+        },
+        {
+            "id":"Jewelry",
+            "name":"Bijoux"
+        },
+        {
+            "id":"KindleStore",
+            "name":"Boutique Kindle"
+        },
+        {
+            "id":"Lighting",
+            "name":"Luminaires et Eclairage"
+        },
+        {
+            "id":"Luggage",
+            "name":"Bagages"
+        },
+        {
+            "id":"LuxuryBeauty",
+            "name":"Beaut\u00e9 Prestige"
+        },
+        {
+            "id":"MobileApps",
+            "name":"Applis & Jeux"
+        },
+        {
+            "id":"MoviesAndTV",
+            "name":"DVD & Blu-ray"
+        },
+        {
+            "id":"Music",
+            "name":"Musique : CD & Vinyles"
+        },
+        {
+            "id":"MusicalInstruments",
+            "name":"Instruments de musique & Sono"
+        },
+        {
+            "id":"OfficeProducts",
+            "name":"Fournitures de bureau"
+        },
+        {
+            "id":"PetSupplies",
+            "name":"Animalerie"
+        },
+        {
+            "id":"Shoes",
+            "name":"Chaussures et Sacs"
+        },
+        {
+            "id":"Software",
+            "name":"Logiciels"
+        },
+        {
+            "id":"SportsAndOutdoors",
+            "name":"Sports et Loisirs"
+        },
+        {
+            "id":"ToolsAndHomeImprovement",
+            "name":"Bricolage"
+        },
+        {
+            "id":"ToysAndGames",
+            "name":"Jeux et Jouets"
+        },
+        {
+            "id":"VHS",
+            "name":"VHS"
+        },
+        {
+            "id":"VideoGames",
+            "name":"Jeux vid\u00e9o"
+        },
+        {
+            "id":"Watches",
+            "name":"Montres"
+        }
+    ],
+    "de":[
+        {
+            "id":"AmazonVideo",
+            "name":"Prime Video"
+        },
+        {
+            "id":"Apparel",
+            "name":"Bekleidung"
+        },
+        {
+            "id":"Appliances",
+            "name":"Elektro-Gro\u00dfger\u00e4te"
+        },
+        {
+            "id":"Automotive",
+            "name":"Auto & Motorrad"
+        },
+        {
+            "id":"Baby",
+            "name":"Baby"
+        },
+        {
+            "id":"Beauty",
+            "name":"Beauty"
+        },
+        {
+            "id":"Books",
+            "name":"B\u00fccher"
+        },
+        {
+            "id":"Classical",
+            "name":"Klassik"
+        },
+        {
+            "id":"Computers",
+            "name":"Computer & Zubeh\u00f6r"
+        },
+        {
+            "id":"DigitalMusic",
+            "name":"Musik-Downloads"
+        },
+        {
+            "id":"Electronics",
+            "name":"Elektronik & Foto"
+        },
+        {
+            "id":"EverythingElse",
+            "name":"Sonstiges"
+        },
+        {
+            "id":"Fashion",
+            "name":"Fashion"
+        },
+        {
+            "id":"ForeignBooks",
+            "name":"B\u00fccher (Fremdsprachig)"
+        },
+        {
+            "id":"GardenAndOutdoor",
+            "name":"Garten"
+        },
+        {
+            "id":"GiftCards",
+            "name":"Geschenkgutscheine"
+        },
+        {
+            "id":"GroceryAndGourmetFood",
+            "name":"Lebensmittel & Getr\u00e4nke"
+        },
+        {
+            "id":"Handmade",
+            "name":"Handmade"
+        },
+        {
+            "id":"HealthPersonalCare",
+            "name":"Drogerie & K\u00f6rperpflege"
+        },
+        {
+            "id":"HomeAndKitchen",
+            "name":"K\u00fcche, Haushalt & Wohnen"
+        },
+        {
+            "id":"Industrial",
+            "name":"Gewerbe, Industrie & Wissenschaft"
+        },
+        {
+            "id":"Jewelry",
+            "name":"Schmuck"
+        },
+        {
+            "id":"KindleStore",
+            "name":"Kindle-Shop"
+        },
+        {
+            "id":"Lighting",
+            "name":"Beleuchtung"
+        },
+        {
+            "id":"Luggage",
+            "name":"Koffer, Rucks\u00e4cke & Taschen"
+        },
+        {
+            "id":"LuxuryBeauty",
+            "name":"Luxury Beauty"
+        },
+        {
+            "id":"Magazines",
+            "name":"Zeitschriften"
+        },
+        {
+            "id":"MobileApps",
+            "name":"Apps & Spiele"
+        },
+        {
+            "id":"MoviesAndTV",
+            "name":"DVD & Blu-ray"
+        },
+        {
+            "id":"Music",
+            "name":"Musik-CDs & Vinyl"
+        },
+        {
+            "id":"MusicalInstruments",
+            "name":"Musikinstrumente & DJ-Equipment"
+        },
+        {
+            "id":"OfficeProducts",
+            "name":"B\u00fcrobedarf & Schreibwaren"
+        },
+        {
+            "id":"PetSupplies",
+            "name":"Haustier"
+        },
+        {
+            "id":"Photo",
+            "name":"Kamera & Foto"
+        },
+        {
+            "id":"Shoes",
+            "name":"Schuhe & Handtaschen"
+        },
+        {
+            "id":"Software",
+            "name":"Software"
+        },
+        {
+            "id":"SportsAndOutdoors",
+            "name":"Sport & Freizeit"
+        },
+        {
+            "id":"ToolsAndHomeImprovement",
+            "name":"Baumarkt"
+        },
+        {
+            "id":"ToysAndGames",
+            "name":"Spielzeug"
+        },
+        {
+            "id":"VHS",
+            "name":"VHS"
+        },
+        {
+            "id":"VideoGames",
+            "name":"Games"
+        },
+        {
+            "id":"Watches",
+            "name":"Uhren"
+        }
+    ],
+    "in":[
+        {
+            "id":"Apparel",
+            "name":"Clothing & Accessories"
+        },
+        {
+            "id":"Appliances",
+            "name":"Appliances"
+        },
+        {
+            "id":"Automotive",
+            "name":"Car & Motorbike"
+        },
+        {
+            "id":"Baby",
+            "name":"Baby"
+        },
+        {
+            "id":"Beauty",
+            "name":"Beauty"
+        },
+        {
+            "id":"Books",
+            "name":"Books"
+        },
+        {
+            "id":"Collectibles",
+            "name":"Collectibles"
+        },
+        {
+            "id":"Computers",
+            "name":"Computers & Accessories"
+        },
+        {
+            "id":"Electronics",
+            "name":"Electronics"
+        },
+        {
+            "id":"EverythingElse",
+            "name":"Everything Else"
+        },
+        {
+            "id":"Fashion",
+            "name":"Amazon Fashion"
+        },
+        {
+            "id":"Furniture",
+            "name":"Furniture"
+        },
+        {
+            "id":"GardenAndOutdoor",
+            "name":"Garden & Outdoors"
+        },
+        {
+            "id":"GiftCards",
+            "name":"Gift Cards"
+        },
+        {
+            "id":"GroceryAndGourmetFood",
+            "name":"Grocery & Gourmet Foods"
+        },
+        {
+            "id":"HealthPersonalCare",
+            "name":"Health & Personal Care"
+        },
+        {
+            "id":"HomeAndKitchen",
+            "name":"Home & Kitchen"
+        },
+        {
+            "id":"Industrial",
+            "name":"Industrial & Scientific"
+        },
+        {
+            "id":"Jewelry",
+            "name":"Jewellery"
+        },
+        {
+            "id":"KindleStore",
+            "name":"Kindle Store"
+        },
+        {
+            "id":"Luggage",
+            "name":"Luggage & Bags"
+        },
+        {
+            "id":"LuxuryBeauty",
+            "name":"Luxury Beauty"
+        },
+        {
+            "id":"MobileApps",
+            "name":"Apps & Games"
+        },
+        {
+            "id":"MoviesAndTV",
+            "name":"Movies & TV Shows"
+        },
+        {
+            "id":"Music",
+            "name":"Music"
+        },
+        {
+            "id":"MusicalInstruments",
+            "name":"Musical Instruments"
+        },
+        {
+            "id":"OfficeProducts",
+            "name":"Office Products"
+        },
+        {
+            "id":"PetSupplies",
+            "name":"Pet Supplies"
+        },
+        {
+            "id":"Shoes",
+            "name":"Shoes & Handbags"
+        },
+        {
+            "id":"Software",
+            "name":"Software"
+        },
+        {
+            "id":"SportsAndOutdoors",
+            "name":"Sports, Fitness & Outdoors"
+        },
+        {
+            "id":"ToolsAndHomeImprovement",
+            "name":"Tools & Home Improvement"
+        },
+        {
+            "id":"ToysAndGames",
+            "name":"Toys & Games"
+        },
+        {
+            "id":"VideoGames",
+            "name":"Video Games"
+        },
+        {
+            "id":"Watches",
+            "name":"Watches"
+        }
+    ],
+    "it":[
+        {
+            "id":"Apparel",
+            "name":"Abbigliamento"
+        },
+        {
+            "id":"Appliances",
+            "name":"Grandi elettrodomestici"
+        },
+        {
+            "id":"Automotive",
+            "name":"Auto e Moto"
+        },
+        {
+            "id":"Baby",
+            "name":"Prima infanzia"
+        },
+        {
+            "id":"Beauty",
+            "name":"Bellezza"
+        },
+        {
+            "id":"Books",
+            "name":"Libri"
+        },
+        {
+            "id":"Computers",
+            "name":"Informatica"
+        },
+        {
+            "id":"DigitalMusic",
+            "name":"Musica Digitale"
+        },
+        {
+            "id":"Electronics",
+            "name":"Elettronica"
+        },
+        {
+            "id":"EverythingElse",
+            "name":"Altro"
+        },
+        {
+            "id":"Fashion",
+            "name":"Moda"
+        },
+        {
+            "id":"ForeignBooks",
+            "name":"Libri in altre lingue"
+        },
+        {
+            "id":"GardenAndOutdoor",
+            "name":"Giardino e giardinaggio"
+        },
+        {
+            "id":"GiftCards",
+            "name":"Buoni Regalo"
+        },
+        {
+            "id":"GroceryAndGourmetFood",
+            "name":"Alimentari e cura della casa"
+        },
+        {
+            "id":"Handmade",
+            "name":"Handmade"
+        },
+        {
+            "id":"HealthPersonalCare",
+            "name":"Salute e cura della persona"
+        },
+        {
+            "id":"HomeAndKitchen",
+            "name":"Casa e cucina"
+        },
+        {
+            "id":"Industrial",
+            "name":"Industria e Scienza"
+        },
+        {
+            "id":"Jewelry",
+            "name":"Gioielli"
+        },
+        {
+            "id":"KindleStore",
+            "name":"Kindle Store"
+        },
+        {
+            "id":"Lighting",
+            "name":"Illuminazione"
+        },
+        {
+            "id":"Luggage",
+            "name":"Valigeria"
+        },
+        {
+            "id":"MobileApps",
+            "name":"App e Giochi"
+        },
+        {
+            "id":"MoviesAndTV",
+            "name":"Film e TV"
+        },
+        {
+            "id":"Music",
+            "name":"CD e Vinili"
+        },
+        {
+            "id":"MusicalInstruments",
+            "name":"Strumenti musicali e DJ"
+        },
+        {
+            "id":"OfficeProducts",
+            "name":"Cancelleria e prodotti per ufficio"
+        },
+        {
+            "id":"PetSupplies",
+            "name":"Prodotti per animali domestici"
+        },
+        {
+            "id":"Shoes",
+            "name":"Scarpe e borse"
+        },
+        {
+            "id":"Software",
+            "name":"Software"
+        },
+        {
+            "id":"SportsAndOutdoors",
+            "name":"Sport e tempo libero"
+        },
+        {
+            "id":"ToolsAndHomeImprovement",
+            "name":"Fai da te"
+        },
+        {
+            "id":"ToysAndGames",
+            "name":"Giochi e giocattoli"
+        },
+        {
+            "id":"VideoGames",
+            "name":"Videogiochi"
+        },
+        {
+            "id":"Watches",
+            "name":"Orologi"
+        }
+    ],
+    "co.jp":[
+        {
+            "id":"AmazonVideo",
+            "name":"Prime Video"
+        },
+        {
+            "id":"Apparel",
+            "name":"Clothing & Accessories"
+        },
+        {
+            "id":"Appliances",
+            "name":"Large Appliances"
+        },
+        {
+            "id":"Automotive",
+            "name":"Car & Bike Products"
+        },
+        {
+            "id":"Baby",
+            "name":"Baby & Maternity"
+        },
+        {
+            "id":"Beauty",
+            "name":"Beauty"
+        },
+        {
+            "id":"Books",
+            "name":"Japanese Books"
+        },
+        {
+            "id":"Classical",
+            "name":"Classical"
+        },
+        {
+            "id":"Computers",
+            "name":"Computers & Accessories"
+        },
+        {
+            "id":"CreditCards",
+            "name":"Credit Cards"
+        },
+        {
+            "id":"DigitalMusic",
+            "name":"Digital Music"
+        },
+        {
+            "id":"Electronics",
+            "name":"Electronics & Cameras"
+        },
+        {
+            "id":"EverythingElse",
+            "name":"Everything Else"
+        },
+        {
+            "id":"Fashion",
+            "name":"Fashion"
+        },
+        {
+            "id":"FashionBaby",
+            "name":"Kids & Baby"
+        },
+        {
+            "id":"FashionMen",
+            "name":"Men"
+        },
+        {
+            "id":"FashionWomen",
+            "name":"Women"
+        },
+        {
+            "id":"ForeignBooks",
+            "name":"English Books"
+        },
+        {
+            "id":"GiftCards",
+            "name":"Gift Cards"
+        },
+        {
+            "id":"GroceryAndGourmetFood",
+            "name":"Food & Beverage"
+        },
+        {
+            "id":"HealthPersonalCare",
+            "name":"Health & Personal Care"
+        },
+        {
+            "id":"Hobbies",
+            "name":"Hobby"
+        },
+        {
+            "id":"HomeAndKitchen",
+            "name":"Kitchen & Housewares"
+        },
+        {
+            "id":"Industrial",
+            "name":"Industrial & Scientific"
+        },
+        {
+            "id":"Jewelry",
+            "name":"Jewelry"
+        },
+        {
+            "id":"KindleStore",
+            "name":"Kindle Store"
+        },
+        {
+            "id":"MobileApps",
+            "name":"Apps & Games"
+        },
+        {
+            "id":"MoviesAndTV",
+            "name":"Movies & TV"
+        },
+        {
+            "id":"Music",
+            "name":"Music"
+        },
+        {
+            "id":"MusicalInstruments",
+            "name":"Musical Instruments"
+        },
+        {
+            "id":"OfficeProducts",
+            "name":"Stationery and Office Products"
+        },
+        {
+            "id":"PetSupplies",
+            "name":"Pet Supplies"
+        },
+        {
+            "id":"Shoes",
+            "name":"Shoes & Bags"
+        },
+        {
+            "id":"Software",
+            "name":"Software"
+        },
+        {
+            "id":"SportsAndOutdoors",
+            "name":"Sports"
+        },
+        {
+            "id":"ToolsAndHomeImprovement",
+            "name":"DIY, Tools & Garden"
+        },
+        {
+            "id":"Toys",
+            "name":"Toys"
+        },
+        {
+            "id":"VideoGames",
+            "name":"Computer & Video Games"
+        },
+        {
+            "id":"Watches",
+            "name":"Watches"
+        }
+    ],
+    "com.mx":[
+        {
+            "id":"Automotive",
+            "name":"Auto"
+        },
+        {
+            "id":"Baby",
+            "name":"Beb\u00e9"
+        },
+        {
+            "id":"Books",
+            "name":"Libros"
+        },
+        {
+            "id":"Electronics",
+            "name":"Electr\u00f3nicos"
+        },
+        {
+            "id":"Fashion",
+            "name":"Ropa, Zapatos y Accesorios"
+        },
+        {
+            "id":"FashionBaby",
+            "name":"Ropa, Zapatos y Accesorios Beb\u00e9"
+        },
+        {
+            "id":"FashionBoys",
+            "name":"Ropa, Zapatos y Accesorios Ni\u00f1os"
+        },
+        {
+            "id":"FashionGirls",
+            "name":"Ropa, Zapatos y Accesorios Ni\u00f1as"
+        },
+        {
+            "id":"FashionMen",
+            "name":"Ropa, Zapatos y Accesorios Hombres"
+        },
+        {
+            "id":"FashionWomen",
+            "name":"Ropa, Zapatos y Accesorios Mujeres"
+        },
+        {
+            "id":"GroceryAndGourmetFood",
+            "name":"Alimentos y Bebidas"
+        },
+        {
+            "id":"Handmade",
+            "name":"Productos Handmade"
+        },
+        {
+            "id":"HealthPersonalCare",
+            "name":"Salud, Belleza y Cuidado Personal"
+        },
+        {
+            "id":"HomeAndKitchen",
+            "name":"Hogar y Cocina"
+        },
+        {
+            "id":"IndustrialAndScientific",
+            "name":"Industria y ciencia"
+        },
+        {
+            "id":"KindleStore",
+            "name":"Tienda Kindle"
+        },
+        {
+            "id":"MoviesAndTV",
+            "name":"Pel\u00edculas y Series de TV"
+        },
+        {
+            "id":"Music",
+            "name":"M\u00fasica"
+        },
+        {
+            "id":"MusicalInstruments",
+            "name":"Instrumentos musicales"
+        },
+        {
+            "id":"OfficeProducts",
+            "name":"Oficina y Papeler\u00eda"
+        },
+        {
+            "id":"PetSupplies",
+            "name":"Mascotas"
+        },
+        {
+            "id":"Software",
+            "name":"Software"
+        },
+        {
+            "id":"SportsAndOutdoors",
+            "name":"Deportes y Aire Libre"
+        },
+        {
+            "id":"ToolsAndHomeImprovement",
+            "name":"Herramientas y Mejoras del Hogar"
+        },
+        {
+            "id":"ToysAndGames",
+            "name":"Juegos y juguetes"
+        },
+        {
+            "id":"VideoGames",
+            "name":"Videojuegos"
+        },
+        {
+            "id":"Watches",
+            "name":"Relojes"
+        }
+    ],
+    "nl":[
+        {
+            "id":"Automotive",
+            "name":"Auto en motor"
+        },
+        {
+            "id":"Baby",
+            "name":"Babyproducten"
+        },
+        {
+            "id":"Beauty",
+            "name":"Beauty en persoonlijke verzorging"
+        },
+        {
+            "id":"Books",
+            "name":"Boeken"
+        },
+        {
+            "id":"Electronics",
+            "name":"Elektronica"
+        },
+        {
+            "id":"EverythingElse",
+            "name":"Overig"
+        },
+        {
+            "id":"Fashion",
+            "name":"Kleding, schoenen en sieraden"
+        },
+        {
+            "id":"GardenAndOutdoor",
+            "name":"Tuin, terras en gazon"
+        },
+        {
+            "id":"GiftCards",
+            "name":"Cadeaubonnen"
+        },
+        {
+            "id":"GroceryAndGourmetFood",
+            "name":"Levensmiddelen"
+        },
+        {
+            "id":"HealthPersonalCare",
+            "name":"Gezondheid en persoonlijke verzorging"
+        },
+        {
+            "id":"HomeAndKitchen",
+            "name":"Wonen en keuken"
+        },
+        {
+            "id":"Industrial",
+            "name":"Zakelijk, industrie en wetenschap"
+        },
+        {
+            "id":"KindleStore",
+            "name":"Kindle Store"
+        },
+        {
+            "id":"MoviesAndTV",
+            "name":"Films en tv"
+        },
+        {
+            "id":"Music",
+            "name":"Cd's en lp's"
+        },
+        {
+            "id":"MusicalInstruments",
+            "name":"Muziekinstrumenten"
+        },
+        {
+            "id":"OfficeProducts",
+            "name":"Kantoorproducten"
+        },
+        {
+            "id":"PetSupplies",
+            "name":"Huisdierbenodigdheden"
+        },
+        {
+            "id":"Software",
+            "name":"Software"
+        },
+        {
+            "id":"SportsAndOutdoors",
+            "name":"Sport en outdoor"
+        },
+        {
+            "id":"ToolsAndHomeImprovement",
+            "name":"Klussen en gereedschap"
+        },
+        {
+            "id":"ToysAndGames",
+            "name":"Speelgoed en spellen"
+        },
+        {
+            "id":"VideoGames",
+            "name":"Videogames"
+        }
+    ],
+    "pl":[
+        {
+            "id":"ArtsAndCrafts",
+            "name":"Arts & crafts"
+        },
+        {
+            "id":"Automotive",
+            "name":"Motoryzacja"
+        },
+        {
+            "id":"Baby",
+            "name":"Dziecko"
+        },
+        {
+            "id":"Beauty",
+            "name":"Uroda"
+        },
+        {
+            "id":"Books",
+            "name":"Ksi\u0105\u017cki"
+        },
+        {
+            "id":"Electronics",
+            "name":"Elektronika"
+        },
+        {
+            "id":"Fashion",
+            "name":"Odzie\u017c, obuwie i akcesoria"
+        },
+        {
+            "id":"GardenAndOutdoor",
+            "name":"Ogr\u00f3d"
+        },
+        {
+            "id":"GiftCards",
+            "name":"Karty podarunkowe"
+        },
+        {
+            "id":"HealthPersonalCare",
+            "name":"Zdrowie i gospodarstwo domowe"
+        },
+        {
+            "id":"HomeAndKitchen",
+            "name":"Dom i kuchnia"
+        },
+        {
+            "id":"Industrial",
+            "name":"Biznes, przemys\u0142 i nauka"
+        },
+        {
+            "id":"MoviesAndTV",
+            "name":"Filmy i programy TV"
+        },
+        {
+            "id":"Music",
+            "name":"Muzyka"
+        },
+        {
+            "id":"MusicalInstruments",
+            "name":"Instrumenty muzyczne"
+        },
+        {
+            "id":"OfficeProducts",
+            "name":"Biuro"
+        },
+        {
+            "id":"PetSupplies",
+            "name":"Zwierz\u0119ta"
+        },
+        {
+            "id":"Software",
+            "name":"Oprogramowanie"
+        },
+        {
+            "id":"SportsAndOutdoors",
+            "name":"Sport i turystyka"
+        },
+        {
+            "id":"ToolsAndHomeImprovement",
+            "name":"Renowacja domu"
+        },
+        {
+            "id":"ToysAndGames",
+            "name":"Zabawki i gry"
+        },
+        {
+            "id":"VideoGames",
+            "name":"Gry wideo"
+        }
+    ],
+    "sg":[
+        {
+            "id":"Automotive",
+            "name":"Automotive"
+        },
+        {
+            "id":"Baby",
+            "name":"Baby"
+        },
+        {
+            "id":"Beauty",
+            "name":"Beauty & Personal Care"
+        },
+        {
+            "id":"Computers",
+            "name":"Computers"
+        },
+        {
+            "id":"Electronics",
+            "name":"Electronics"
+        },
+        {
+            "id":"GroceryAndGourmetFood",
+            "name":"Grocery"
+        },
+        {
+            "id":"HealthPersonalCare",
+            "name":"Health, Household & Personal Care"
+        },
+        {
+            "id":"HomeAndKitchen",
+            "name":"Home, Kitchen & Dining"
+        },
+        {
+            "id":"OfficeProducts",
+            "name":"Office Products"
+        },
+        {
+            "id":"PetSupplies",
+            "name":"Pet Supplies"
+        },
+        {
+            "id":"SportsAndOutdoors",
+            "name":"Sports & Outdoors"
+        },
+        {
+            "id":"ToolsAndHomeImprovement",
+            "name":"Tools & Home Improvement"
+        },
+        {
+            "id":"ToysAndGames",
+            "name":"Toys & Games"
+        },
+        {
+            "id":"VideoGames",
+            "name":"Video Games"
+        }
+    ],
+    "sa":[
+        {
+            "id":"ArtsAndCrafts",
+            "name":"Arts, Crafts & Sewing"
+        },
+        {
+            "id":"Automotive",
+            "name":"Automotive Parts & Accessories"
+        },
+        {
+            "id":"Baby",
+            "name":"Baby"
+        },
+        {
+            "id":"Beauty",
+            "name":"Beauty & Personal Care"
+        },
+        {
+            "id":"Books",
+            "name":"Books"
+        },
+        {
+            "id":"Computers",
+            "name":"Computer & Accessories"
+        },
+        {
+            "id":"Electronics",
+            "name":"Electronics"
+        },
+        {
+            "id":"Fashion",
+            "name":"Clothing, Shoes & Jewelry"
+        },
+        {
+            "id":"GardenAndOutdoor",
+            "name":"Home & Garden"
+        },
+        {
+            "id":"GiftCards",
+            "name":"Gift Cards"
+        },
+        {
+            "id":"GroceryAndGourmetFood",
+            "name":"Grocery & Gourmet Food"
+        },
+        {
+            "id":"HealthPersonalCare",
+            "name":"Health, Household & Baby Care"
+        },
+        {
+            "id":"HomeAndKitchen",
+            "name":"Kitchen & Dining"
+        },
+        {
+            "id":"Industrial",
+            "name":"Industrial & Scientific"
+        },
+        {
+            "id":"KindleStore",
+            "name":"Kindle Store"
+        },
+        {
+            "id":"Miscellaneous",
+            "name":"Everything Else"
+        },
+        {
+            "id":"MoviesAndTV",
+            "name":"Movies & TV"
+        },
+        {
+            "id":"Music",
+            "name":"CDs & Vinyl"
+        },
+        {
+            "id":"MusicalInstruments",
+            "name":"Musical Instruments"
+        },
+        {
+            "id":"OfficeProducts",
+            "name":"Office Products"
+        },
+        {
+            "id":"PetSupplies",
+            "name":"Pet Supplies"
+        },
+        {
+            "id":"Software",
+            "name":"Software"
+        },
+        {
+            "id":"SportsAndOutdoors",
+            "name":"Sports"
+        },
+        {
+            "id":"ToolsAndHomeImprovement",
+            "name":"Tools & Home Improvement"
+        },
+        {
+            "id":"ToysAndGames",
+            "name":"Toys & Games"
+        },
+        {
+            "id":"VideoGames",
+            "name":"Video Games"
+        }
+    ],
+    "es":[
+        {
+            "id":"AmazonVideo",
+            "name":"Prime Video"
+        },
+        {
+            "id":"Apparel",
+            "name":"Ropa y accesorios"
+        },
+        {
+            "id":"Appliances",
+            "name":"Grandes electrodom\u00e9sticos"
+        },
+        {
+            "id":"Automotive",
+            "name":"Coche y moto"
+        },
+        {
+            "id":"Baby",
+            "name":"Beb\u00e9"
+        },
+        {
+            "id":"Beauty",
+            "name":"Belleza"
+        },
+        {
+            "id":"Books",
+            "name":"Libros"
+        },
+        {
+            "id":"Computers",
+            "name":"Inform\u00e1tica"
+        },
+        {
+            "id":"DigitalMusic",
+            "name":"M\u00fasica Digital"
+        },
+        {
+            "id":"Electronics",
+            "name":"Electr\u00f3nica"
+        },
+        {
+            "id":"EverythingElse",
+            "name":"Otros Productos"
+        },
+        {
+            "id":"Fashion",
+            "name":"Moda"
+        },
+        {
+            "id":"ForeignBooks",
+            "name":"Libros en idiomas extranjeros"
+        },
+        {
+            "id":"GardenAndOutdoor",
+            "name":"Jard\u00edn"
+        },
+        {
+            "id":"GiftCards",
+            "name":"Cheques regalo"
+        },
+        {
+            "id":"GroceryAndGourmetFood",
+            "name":"Alimentaci\u00f3n y bebidas"
+        },
+        {
+            "id":"Handmade",
+            "name":"Handmade"
+        },
+        {
+            "id":"HealthPersonalCare",
+            "name":"Salud y cuidado personal"
+        },
+        {
+            "id":"HomeAndKitchen",
+            "name":"Hogar y cocina"
+        },
+        {
+            "id":"Industrial",
+            "name":"Industria y ciencia"
+        },
+        {
+            "id":"Jewelry",
+            "name":"Joyer\u00eda"
+        },
+        {
+            "id":"KindleStore",
+            "name":"Tienda Kindle"
+        },
+        {
+            "id":"Lighting",
+            "name":"Iluminaci\u00f3n"
+        },
+        {
+            "id":"Luggage",
+            "name":"Equipaje"
+        },
+        {
+            "id":"MobileApps",
+            "name":"Appstore para Android"
+        },
+        {
+            "id":"MoviesAndTV",
+            "name":"Pel\u00edculas y TV"
+        },
+        {
+            "id":"Music",
+            "name":"M\u00fasica: CDs y vinilos"
+        },
+        {
+            "id":"MusicalInstruments",
+            "name":"Instrumentos musicales"
+        },
+        {
+            "id":"OfficeProducts",
+            "name":"Oficina y papeler\u00eda"
+        },
+        {
+            "id":"PetSupplies",
+            "name":"Productos para mascotas"
+        },
+        {
+            "id":"Shoes",
+            "name":"Zapatos y complementos"
+        },
+        {
+            "id":"Software",
+            "name":"Software"
+        },
+        {
+            "id":"SportsAndOutdoors",
+            "name":"Deportes y aire libre"
+        },
+        {
+            "id":"ToolsAndHomeImprovement",
+            "name":"Bricolaje y herramientas"
+        },
+        {
+            "id":"ToysAndGames",
+            "name":"Juguetes y juegos"
+        },
+        {
+            "id":"Vehicles",
+            "name":"Coche - renting"
+        },
+        {
+            "id":"VideoGames",
+            "name":"Videojuegos"
+        },
+        {
+            "id":"Watches",
+            "name":"Relojes"
+        }
+    ],
+    "se":[
+        {
+            "id":"Automotive",
+            "name":"Delar och tillbeh\u00f6r till bilar"
+        },
+        {
+            "id":"Baby",
+            "name":"Baby"
+        },
+        {
+            "id":"Beauty",
+            "name":"Sk\u00f6nhet och kroppsv\u00e5rd"
+        },
+        {
+            "id":"Books",
+            "name":"B\u00f6cker"
+        },
+        {
+            "id":"Electronics",
+            "name":"Elektronik"
+        },
+        {
+            "id":"Fashion",
+            "name":"Kl\u00e4der, skor och smycken"
+        },
+        {
+            "id":"GroceryAndGourmetFood",
+            "name":"Livsmedel och gourmetmat"
+        },
+        {
+            "id":"HealthPersonalCare",
+            "name":"H\u00e4lsa, hush\u00e5ll och barnv\u00e5rd"
+        },
+        {
+            "id":"HomeAndKitchen",
+            "name":"Hem"
+        },
+        {
+            "id":"MoviesAndTV",
+            "name":"Filmer och TV"
+        },
+        {
+            "id":"Music",
+            "name":"CD och vinyl"
+        },
+        {
+            "id":"OfficeProducts",
+            "name":"Kontorsprodukter"
+        },
+        {
+            "id":"PetSupplies",
+            "name":"Husdjursprodukter"
+        },
+        {
+            "id":"SportsAndOutdoors",
+            "name":"Sport och outdoor"
+        },
+        {
+            "id":"ToolsAndHomeImprovement",
+            "name":"Verktyg och husrenovering"
+        },
+        {
+            "id":"ToysAndGames",
+            "name":"Leksaker och spel"
+        },
+        {
+            "id":"VideoGames",
+            "name":"Videospel"
+        }
+    ],
+    "com.tr":[
+        {
+            "id":"Baby",
+            "name":"Bebek"
+        },
+        {
+            "id":"Books",
+            "name":"Kitaplar"
+        },
+        {
+            "id":"Computers",
+            "name":"Bilgisayarlar"
+        },
+        {
+            "id":"Electronics",
+            "name":"Elektronik"
+        },
+        {
+            "id":"EverythingElse",
+            "name":"Di\u011fer Her \u015eey"
+        },
+        {
+            "id":"Fashion",
+            "name":"Moda"
+        },
+        {
+            "id":"HomeAndKitchen",
+            "name":"Ev ve Mutfak"
+        },
+        {
+            "id":"OfficeProducts",
+            "name":"Ofis \u00dcr\u00fcnleri"
+        },
+        {
+            "id":"SportsAndOutdoors",
+            "name":"Spor"
+        },
+        {
+            "id":"ToolsAndHomeImprovement",
+            "name":"Yap\u0131 Market"
+        },
+        {
+            "id":"ToysAndGames",
+            "name":"Oyuncaklar ve Oyunlar"
+        },
+        {
+            "id":"VideoGames",
+            "name":"PC ve Video Oyunlar\u0131"
+        }
+    ],
+    "ae":[
+        {
+            "id":"Appliances",
+            "name":"Appliances"
+        },
+        {
+            "id":"ArtsAndCrafts",
+            "name":"Arts, Crafts & Sewing"
+        },
+        {
+            "id":"Automotive",
+            "name":"Automotive Parts & Accessories"
+        },
+        {
+            "id":"Baby",
+            "name":"Baby"
+        },
+        {
+            "id":"Beauty",
+            "name":"Beauty & Personal Care"
+        },
+        {
+            "id":"Books",
+            "name":"Books"
+        },
+        {
+            "id":"Computers",
+            "name":"Computers"
+        },
+        {
+            "id":"Electronics",
+            "name":"Electronics"
+        },
+        {
+            "id":"EverythingElse",
+            "name":"Everything Else"
+        },
+        {
+            "id":"Fashion",
+            "name":"Clothing, Shoes & Jewelry"
+        },
+        {
+            "id":"GardenAndOutdoor",
+            "name":"Home & Garden"
+        },
+        {
+            "id":"GroceryAndGourmetFood",
+            "name":"Grocery & Gourmet Food"
+        },
+        {
+            "id":"HealthPersonalCare",
+            "name":"Health, Household & Baby Care"
+        },
+        {
+            "id":"HomeAndKitchen",
+            "name":"Home & Kitchen"
+        },
+        {
+            "id":"Industrial",
+            "name":"Industrial & Scientific"
+        },
+        {
+            "id":"Lighting",
+            "name":"Lighting"
+        },
+        {
+            "id":"MusicalInstruments",
+            "name":"Musical Instruments"
+        },
+        {
+            "id":"OfficeProducts",
+            "name":"Office Products"
+        },
+        {
+            "id":"PetSupplies",
+            "name":"Pet Supplies"
+        },
+        {
+            "id":"Software",
+            "name":"Software"
+        },
+        {
+            "id":"SportsAndOutdoors",
+            "name":"Sports"
+        },
+        {
+            "id":"ToolsAndHomeImprovement",
+            "name":"Tools & Home Improvement"
+        },
+        {
+            "id":"ToysAndGames",
+            "name":"Toys & Games"
+        },
+        {
+            "id":"VideoGames",
+            "name":"Video Games"
+        }
+    ],
+    "co.uk":[
+        {
+            "id":"AmazonVideo",
+            "name":"Amazon Video"
+        },
+        {
+            "id":"Apparel",
+            "name":"Clothing"
+        },
+        {
+            "id":"Appliances",
+            "name":"Large Appliances"
+        },
+        {
+            "id":"Automotive",
+            "name":"Car & Motorbike"
+        },
+        {
+            "id":"Baby",
+            "name":"Baby"
+        },
+        {
+            "id":"Beauty",
+            "name":"Beauty"
+        },
+        {
+            "id":"Books",
+            "name":"Books"
+        },
+        {
+            "id":"Classical",
+            "name":"Classical Music"
+        },
+        {
+            "id":"Computers",
+            "name":"Computers & Accessories"
+        },
+        {
+            "id":"DigitalMusic",
+            "name":"Digital Music"
+        },
+        {
+            "id":"Electronics",
+            "name":"Electronics & Photo"
+        },
+        {
+            "id":"EverythingElse",
+            "name":"Everything Else"
+        },
+        {
+            "id":"Fashion",
+            "name":"Fashion"
+        },
+        {
+            "id":"GardenAndOutdoor",
+            "name":"Garden & Outdoors"
+        },
+        {
+            "id":"GiftCards",
+            "name":"Gift Cards"
+        },
+        {
+            "id":"GroceryAndGourmetFood",
+            "name":"Grocery"
+        },
+        {
+            "id":"Handmade",
+            "name":"Handmade"
+        },
+        {
+            "id":"HealthPersonalCare",
+            "name":"Health & Personal Care"
+        },
+        {
+            "id":"HomeAndKitchen",
+            "name":"Home & Kitchen"
+        },
+        {
+            "id":"Industrial",
+            "name":"Industrial & Scientific"
+        },
+        {
+            "id":"Jewelry",
+            "name":"Jewellery"
+        },
+        {
+            "id":"KindleStore",
+            "name":"Kindle Store"
+        },
+        {
+            "id":"Lighting",
+            "name":"Lighting"
+        },
+        {
+            "id":"Luggage",
+            "name":"Luggage"
+        },
+        {
+            "id":"LuxuryBeauty",
+            "name":"Luxury Beauty"
+        },
+        {
+            "id":"MobileApps",
+            "name":"Apps & Games"
+        },
+        {
+            "id":"MoviesAndTV",
+            "name":"DVD & Blu-ray"
+        },
+        {
+            "id":"Music",
+            "name":"CDs & Vinyl"
+        },
+        {
+            "id":"MusicalInstruments",
+            "name":"Musical Instruments & DJ"
+        },
+        {
+            "id":"OfficeProducts",
+            "name":"Stationery & Office Supplies"
+        },
+        {
+            "id":"PetSupplies",
+            "name":"Pet Supplies"
+        },
+        {
+            "id":"Shoes",
+            "name":"Shoes & Bags"
+        },
+        {
+            "id":"Software",
+            "name":"Software"
+        },
+        {
+            "id":"SportsAndOutdoors",
+            "name":"Sports & Outdoors"
+        },
+        {
+            "id":"ToolsAndHomeImprovement",
+            "name":"DIY & Tools"
+        },
+        {
+            "id":"ToysAndGames",
+            "name":"Toys & Games"
+        },
+        {
+            "id":"VHS",
+            "name":"VHS"
+        },
+        {
+            "id":"VideoGames",
+            "name":"PC & Video Games"
+        },
+        {
+            "id":"Watches",
+            "name":"Watches"
+        }
+    ],
+    "com":[
+        {
+            "id":"AmazonVideo",
+            "name":"Prime Video"
+        },
+        {
+            "id":"Apparel",
+            "name":"Clothing & Accessories"
+        },
+        {
+            "id":"Appliances",
+            "name":"Appliances"
+        },
+        {
+            "id":"ArtsAndCrafts",
+            "name":"Arts, Crafts & Sewing"
+        },
+        {
+            "id":"Automotive",
+            "name":"Automotive Parts & Accessories"
+        },
+        {
+            "id":"Baby",
+            "name":"Baby"
+        },
+        {
+            "id":"Beauty",
+            "name":"Beauty & Personal Care"
+        },
+        {
+            "id":"Books",
+            "name":"Books"
+        },
+        {
+            "id":"Classical",
+            "name":"Classical"
+        },
+        {
+            "id":"Collectibles",
+            "name":"Collectibles & Fine Art"
+        },
+        {
+            "id":"Computers",
+            "name":"Computers"
+        },
+        {
+            "id":"DigitalMusic",
+            "name":"Digital Music"
+        },
+        {
+            "id":"DigitalEducationalResources",
+            "name":"Digital Educational Resources"
+        },
+        {
+            "id":"Electronics",
+            "name":"Electronics"
+        },
+        {
+            "id":"EverythingElse",
+            "name":"Everything Else"
+        },
+        {
+            "id":"Fashion",
+            "name":"Clothing, Shoes & Jewelry"
+        },
+        {
+            "id":"FashionBaby",
+            "name":"Clothing, Shoes & Jewelry Baby"
+        },
+        {
+            "id":"FashionBoys",
+            "name":"Clothing, Shoes & Jewelry Boys"
+        },
+        {
+            "id":"FashionGirls",
+            "name":"Clothing, Shoes & Jewelry Girls"
+        },
+        {
+            "id":"FashionMen",
+            "name":"Clothing, Shoes & Jewelry Men"
+        },
+        {
+            "id":"FashionWomen",
+            "name":"Clothing, Shoes & Jewelry Women"
+        },
+        {
+            "id":"GardenAndOutdoor",
+            "name":"Garden & Outdoor"
+        },
+        {
+            "id":"GiftCards",
+            "name":"Gift Cards"
+        },
+        {
+            "id":"GroceryAndGourmetFood",
+            "name":"Grocery & Gourmet Food"
+        },
+        {
+            "id":"Handmade",
+            "name":"Handmade"
+        },
+        {
+            "id":"HealthPersonalCare",
+            "name":"Health, Household & Baby Care"
+        },
+        {
+            "id":"HomeAndKitchen",
+            "name":"Home & Kitchen"
+        },
+        {
+            "id":"Industrial",
+            "name":"Industrial & Scientific"
+        },
+        {
+            "id":"Jewelry",
+            "name":"Jewelry"
+        },
+        {
+            "id":"KindleStore",
+            "name":"Kindle Store"
+        },
+        {
+            "id":"LocalServices",
+            "name":"Home & Business Services"
+        },
+        {
+            "id":"Luggage",
+            "name":"Luggage & Travel Gear"
+        },
+        {
+            "id":"LuxuryBeauty",
+            "name":"Luxury Beauty"
+        },
+        {
+            "id":"Magazines",
+            "name":"Magazine Subscriptions"
+        },
+        {
+            "id":"MobileAndAccessories",
+            "name":"Cell Phones & Accessories"
+        },
+        {
+            "id":"MobileApps",
+            "name":"Apps & Games"
+        },
+        {
+            "id":"MoviesAndTV",
+            "name":"Movies & TV"
+        },
+        {
+            "id":"Music",
+            "name":"CDs & Vinyl"
+        },
+        {
+            "id":"MusicalInstruments",
+            "name":"Musical Instruments"
+        },
+        {
+            "id":"OfficeProducts",
+            "name":"Office Products"
+        },
+        {
+            "id":"PetSupplies",
+            "name":"Pet Supplies"
+        },
+        {
+            "id":"Photo",
+            "name":"Camera & Photo"
+        },
+        {
+            "id":"Shoes",
+            "name":"Shoes"
+        },
+        {
+            "id":"Software",
+            "name":"Software"
+        },
+        {
+            "id":"SportsAndOutdoors",
+            "name":"Sports & Outdoors"
+        },
+        {
+            "id":"ToolsAndHomeImprovement",
+            "name":"Tools & Home Improvement"
+        },
+        {
+            "id":"ToysAndGames",
+            "name":"Toys & Games"
+        },
+        {
+            "id":"VHS",
+            "name":"VHS"
+        },
+        {
+            "id":"VideoGames",
+            "name":"Video Games"
+        },
+        {
+            "id":"Watches",
+            "name":"Watches"
+        }
+    ]
+}

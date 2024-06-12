@@ -1,19 +1,15 @@
 <?php
 /**
- * @author    : JIHAD SINNAOUR
- * @package   : Apaapi | Amazon Product Advertising API Library (v5)
- * @version   : 1.1.7
- * @copyright : (c) 2019 - 2023 Jihad Sinnaour <mail@jihadsinnaour.com>
+ * @author    : Jakiboy
+ * @package   : Amazon Product Advertising API Library (v5)
+ * @version   : 1.2.0
+ * @copyright : (c) 2019 - 2024 Jihad Sinnaour <mail@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
  *
  * This file if a part of Apaapi Lib.
  */
 
-/**
- * @see You can use Composer,
- * Or include Apaapi Standalone Autoloader Here.
- */
 include('../src/Autoloader.php');
 \apaapi\Autoloader::init();
 
@@ -21,16 +17,18 @@ use Apaapi\operations\SearchItems;
 use Apaapi\lib\Request;
 use Apaapi\lib\Response;
 
-// Set Operation
+// Set operation
 $operation = new SearchItems();
-$operation->setPartnerTag('{Your-partner-tag}')->setKeywords('{Your-keywords}');
+$operation->setPartnerTag('_TAG_')->setKeywords('_KEYWORDS_');
 
-// Prapere Request
-$request = new Request('{Your-key-id}','{Your-secrect-key}');
-$request->setLocale('{Your-locale}')->setPayload($operation);
+// Prapere request
+$request = new Request('_KEY_', '_SECRET_');
+$request->setLocale('_LOCALE_')->setPayload($operation);
 
-// Get Response
+// Get response
 $response = new Response($request);
-echo $response->get(); // JSON ready to be parsed
+$body = $response->getBody(); // String
+$data = $response->get(); // Array
+var_dump($data);
 
-// Hope you found this useful, any suggestions (Pull requests) are welcome!
+// Any PR is welcome!

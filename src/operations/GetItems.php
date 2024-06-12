@@ -1,9 +1,9 @@
 <?php
 /**
- * @author    : JIHAD SINNAOUR
- * @package   : Apaapi | Amazon Product Advertising API Library (v5)
- * @version   : 1.1.7
- * @copyright : (c) 2019 - 2023 Jihad Sinnaour <mail@jihadsinnaour.com>
+ * @author    : Jakiboy
+ * @package   : Amazon Product Advertising API Library (v5)
+ * @version   : 1.2.0
+ * @copyright : (c) 2019 - 2024 Jihad Sinnaour <mail@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
  *
@@ -13,17 +13,19 @@
 namespace Apaapi\operations;
 
 use Apaapi\lib\ItemOperation;
-use Apaapi\resources\BrowseNodeInfo;
-use Apaapi\resources\Images;
-use Apaapi\resources\ItemInfo;
-use Apaapi\resources\Offers;
-use Apaapi\resources\RentalOffers;
-use Apaapi\resources\CustomerReviews;
-use Apaapi\resources\ParentASIN;
-use Apaapi\includes\ResourceParser;
+use Apaapi\resources\{
+	BrowseNodeInfo,
+	Images,
+	ItemInfo,
+	Offers,
+	RentalOffers,
+	CustomerReviews,
+	ParentASIN
+};
+use Apaapi\includes\Parser;
 
 /**
- * Basic Apaapi GetItems Operation.
+ * Apaapi <GetItems> operation.
  * @see https://webservices.amazon.com/paapi5/documentation/get-items.html
  */
 final class GetItems extends ItemOperation
@@ -37,11 +39,11 @@ final class GetItems extends ItemOperation
 	public $itemIds = [];
 
 	/**
-	 * @param void
+	 * Set resources.
 	 */
 	public function __construct()
 	{
-		$this->resources = ResourceParser::toString([
+		$this->resources = Parser::convert([
 			new BrowseNodeInfo,
 			new Images,
 			new ItemInfo,
@@ -53,24 +55,28 @@ final class GetItems extends ItemOperation
 	}
 
 	/**
+	 * Set item Id type.
+	 *
 	 * @access public
-	 * @param array|string $type
+	 * @param string $type
 	 * @return object
 	 */
-    public function setItemIdType($type)
+    public function setItemIdType(string $type) : object
     {
-    	$this->itemIdType = (array)$type;
+    	$this->itemIdType = $type;
     	return $this;
     }
 
 	/**
+	 * Set item Ids.
+	 *
 	 * @access public
-	 * @param array|string $itemIds
+	 * @param array $ids
 	 * @return object
 	 */
-    public function setItemIds($itemIds)
+    public function setItemIds(array $ids) : object
     {
-    	$this->itemIds = (array)$itemIds;
+    	$this->itemIds = $ids;
     	return $this;
     }
 }
