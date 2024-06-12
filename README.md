@@ -3,7 +3,7 @@
 <img src="https://raw.githubusercontent.com/Jakiboy/apaapi/dev/banner.png" width="100%" alt="Amazon Product Advertising API PHP">
 
 Amazon Product Advertising API V5.0 (**Without Amazon SDK**).  
-This repository contains a lightweight PHP (155 KB) wrapper library,  
+This repository contains a lightweight PHP (190 KB) wrapper library,  
 Easily access the [Amazon Product Advertising API V5.0](https://webservices.amazon.com/paapi5/documentation/index.html) from your app.
 
 -- Become an Amazon Affiliate With PHP --
@@ -43,7 +43,7 @@ This version includes:
 * **Keyword Converter** (ASIN, ISBN, EAN, Node, Root).
 * **Caching System** (Basic built-in cache to reduce API calls).
 
-[Full Changelog](#).  
+[Full Changelog](/Jakiboy/apaapi/releases).  
 [Previous Version](/Jakiboy/apaapi/tree/1.1.7).
 
 ## ⚡ Getting Started:
@@ -60,7 +60,7 @@ This version includes:
 
 ### Quickstart:
 
-Using Apaapi builder is recommended.
+Using Apaapi builder is **recommended**.
 
 ```php
 

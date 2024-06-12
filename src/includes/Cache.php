@@ -23,9 +23,9 @@ use Apaapi\interfaces\RequestInterface;
  */
 final class Cache
 {
-	private const TTL = 3600;
+	private const TTL  = 3600;
 	private const SALT = '0RhuksYDF';
-	private const EXT = 'db';
+	private const EXT  = 'db';
 
     /**
      * @access private
@@ -136,6 +136,29 @@ final class Cache
 		$value = serialize($value);
 		return (bool)@file_put_contents($file, $value);
 	}
+
+	/**
+     * Auto purge expired cache files.
+     *
+     * @access public
+     * @return void
+     */
+    public static function purge()
+    {
+        $path = sys_get_temp_dir();
+        $iterator = new \DirectoryIterator($path);
+
+        foreach ($iterator as $fileinfo) {
+            if ( $fileinfo->isFile() && $fileinfo->getExtension() === self::$ext ) {
+                $file = $fileinfo->getPathname();
+                $time = time() - self::$ttl;
+
+                if ( $time >= $fileinfo->getMTime() ) {
+                    @unlink($file);
+                }
+            }
+        }
+    }
 
 	/**
 	 * Check cache key.

@@ -427,8 +427,10 @@ final class Normalizer
 			$error = self::removeRegex('/\sPlease sign up for Product Advertising API at.*/', $error);
 			$error = self::removeRegex('/\sPlease verify the number of requests made per second to.*/', $error);
 			$error = self::removeRegex('/\sIf you are using an AWS SDK.*/', $error);
+			$error = self::removeRegex('/\sRefer https.*/', $error);
 			$error = self::removeRegex('/\s\[.*\]/', $error);
 			$error = self::replaceRegex('/ItemId .*? provided/', 'ItemId provided', $error);
+			$error = self::replaceRegex('/value .*? provided/', 'value provided', $error);
 			$error = rtrim($error, '.');
 
 		} else {
@@ -451,6 +453,14 @@ final class Normalizer
 				'PartnerTag should be provided',
 				'The value provided in the request for ItemIds is invalid',
 				'The ItemId provided in the request is invalid',
+				'The value provided in the request for ASIN is invalid',
+				'The value provided in the request for BrowseNodeIds is invalid',
+				'The value provided in the request for BrowseNodeId is invalid',
+				'The value provided in the request for Merchant is invalid',
+				'The value provided in the request for SearchIndex is invalid',
+				'The value provided in the request for Condition is invalid',
+				'The value provided in the request for SortBy is invalid',
+				'The value provided in the request for DeliveryFlags is invalid',
 			];
 			$format = [
 				'The API key or secret key is incorrect',
@@ -458,8 +468,16 @@ final class Normalizer
 				'The request was refused due to Amazon API limitation',
 				'The partner tag is invalid',
 				'The partner tag is required',
-				'The Id is not a valid ASIN or ISBN',
-				'The Id is not a valid ASIN or ISBN',
+				'The provided value is not a valid ASIN or ISBN',
+				'The provided value is not a valid ASIN or ISBN',
+				'The provided value is not a valid ASIN',
+				'The provided value is not a valid node Id',
+				'The provided value is not a valid node Id',
+				'The provided value is not a valid merchant',
+				'The provided value is not a valid category',
+				'The provided value is not a valid condition',
+				'The provided value is not a valid sort parameter',
+				'The provided value is not a valid delivery parameter',
 			];
 			$error = self::replaceString($search, $format, $error);
 
@@ -479,37 +497,6 @@ final class Normalizer
 	{
 		$path = self::replaceString(['\\', '//'], '/', $path);
 		return rtrim($path, '/');
-	}
-
-	/**
-	 * Format order by.
-	 *
-	 * @access public
-	 * @param mixed $order
-	 * @return array
-	 */
-	public static function formatOrderBy($order) : array
-	{
-	    if ( is_string($order) ) {
-	        $order = [$order => 'asc'];
-	    }
-
-		$order = (array)$order;
-
-		foreach ($order as $key => $dir) {
-			if ( is_int($key) ) {
-				unset($order[$key]);
-				$key = (string)$dir;
-				$dir = 'asc';
-
-			} else {
-				$key = (string)$key;
-				$dir = (string)$dir;
-			}
-			$order[$key] = $dir;
-		}
-
-		return $order;
 	}
 
     /**
@@ -1107,6 +1094,37 @@ final class Normalizer
 		return $features;
 	}
 
+	/**
+	 * Format order by.
+	 *
+	 * @access private
+	 * @param mixed $order
+	 * @return array
+	 */
+	private static function formatOrderBy($order) : array
+	{
+	    if ( is_string($order) ) {
+	        $order = [$order => 'asc'];
+	    }
+
+		$order = (array)$order;
+
+		foreach ($order as $key => $dir) {
+			if ( is_int($key) ) {
+				unset($order[$key]);
+				$key = (string)$dir;
+				$dir = 'asc';
+
+			} else {
+				$key = (string)$key;
+				$dir = (string)$dir;
+			}
+			$order[$key] = $dir;
+		}
+
+		return $order;
+	}
+	
 	/**
 	 * Format string.
 	 *
