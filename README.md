@@ -220,9 +220,8 @@ $data = $rating->get(); // Array
 
 ```
 
-> [!IMPORTANT]  
-> * *The Amazon logo included in top of this page refers only to the [Amazon Product Advertising API V5](https://webservices.amazon.com/paapi5/documentation/index.html)*.
-> * *All available use case examples located in [/examples](https://github.com/Jakiboy/apaapi/tree/main/examples)*.
+> [!NOTE]  
+> *All available use case examples are located in [/examples](https://github.com/Jakiboy/apaapi/tree/main/examples)*.
 
 ---
 
@@ -234,3 +233,7 @@ $data = $rating->get(); // Array
 ### ⭐ Support:
 
 Don't buy me a coffee! Just **star the project** if you like it.
+
+> [!IMPORTANT]  
+> *The Amazon logo included in top of this page refers only to the [Amazon Product Advertising API V5](https://webservices.amazon.com/paapi5/documentation/index.html)*.
+
