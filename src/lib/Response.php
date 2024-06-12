@@ -1,9 +1,9 @@
 <?php
 /**
- * @author    : JIHAD SINNAOUR
- * @package   : Apaapi | Amazon Product Advertising API Library (v5)
- * @version   : 1.1.7
- * @copyright : (c) 2019 - 2023 Jihad Sinnaour <mail@jihadsinnaour.com>
+ * @author    : Jakiboy
+ * @package   : Amazon Product Advertising API Library (v5)
+ * @version   : 1.2.0
+ * @copyright : (c) 2019 - 2024 Jihad Sinnaour <mail@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
  *
@@ -12,136 +12,139 @@
 
 namespace Apaapi\lib;
 
-use Apaapi\interfaces\ResponseInterface;
-use Apaapi\interfaces\RequestInterface;
-use Apaapi\interfaces\ResponseTypeInterface;
-use Apaapi\includes\ResponseType;
+use Apaapi\interfaces\{
+	ResponseInterface,
+	RequestInterface
+};
+use Apaapi\includes\{
+    Cache,
+    Geotargeting,
+    Normalizer
+};
 
 /**
- * Basic Apaapi Response Wrapper Class.
- * Based on the Product Advertising API 5.0 Scratchpad.
+ * Basic Apaapi response wrapper class.
  * @see https://webservices.amazon.com/paapi5/scratchpad/index.html
  */
-final class Response implements ResponseInterface
+class Response implements ResponseInterface
 {
     /**
      * @access public
      */
-	const PARSE = true;
+	public const NORMALIZE = true;
+	public const NOCACHE = false;
 
     /**
-     * @access private
-     * @var int $code, Response status code
-     * @var mixed $body, Response body
-     * @var bool $error, Data error
+     * @access protected
+     * @var int $code, Response code
+	 * @var string $body, Response body
+     * @var array $data, Response data
      */
-	private $code = 200;
-	private $body = false;
-	private $error = false;
+	protected $code = 200;
+	protected $body = false;
+	protected $data = [];
 
     /**
-     * @param RequestInterface $request
-     * @param ResponseTypeInterface $type
-     * @param bool $parse
+     * @inheritdoc
      */
-	public function __construct(RequestInterface $request, ResponseTypeInterface $type = null, $parse = null)
+	public function __construct(RequestInterface $request, bool $normalize = false, bool $cache = true)
 	{
-		// Set HTTP client
+		($cache) ? $this->getCached($request) : $this->send($request);
+
+		if ( !$this->hasError() ) {
+
+			$this->data = Normalizer::decode($this->body);
+			
+			if ( $normalize ) {
+				$this->data = Normalizer::get($this->data, $request->getOperation());
+			}
+
+		}
+	}
+
+    /**
+     * @inheritdoc
+     */
+	public function get(?array $geo = null) : array
+	{
+		if ( $geo ) {
+			return (new Geotargeting($geo))->get($this->data);
+		}
+		return $this->data;
+	}
+
+    /**
+     * @inheritdoc
+     */
+	public function getBody() : string
+	{
+		return (string)$this->body;
+	}
+
+    /**
+     * @inheritdoc
+     */
+	public function getError() : string
+	{
+		return Normalizer::formatError(
+			$this->getBody()
+		);
+	}
+
+    /**
+     * @inheritdoc
+     */
+	public function hasError() : bool
+	{
+		if ( !$this->code || $this->code >= 400 ) {
+			return true;
+		}
+
+		if ( $this->code == 200 ) {
+			return (strpos($this->body, '#ErrorData') !== false);
+		}
+
+		return false;
+	}
+
+    /**
+     * Get cached response.
+     *
+     * @access protected
+	 * @param RequestInterface $request
+     * @return void
+     */
+	protected function getCached(RequestInterface $request)
+	{
+		$key = Cache::getKey($request);
+		if ( ($cached = Cache::get($key)) ) {
+			$this->body = $cached;
+
+		} else {
+			$this->send($request);
+			if ( !$this->hasError() ) {
+				Cache::set($key, $this->body);
+			}
+		}
+	}
+
+    /**
+     * Send request.
+     *
+     * @access protected
+     * @param RequestInterface $request
+     * @return void
+     */
+	protected function send(RequestInterface $request)
+	{
 		if ( !$request->hasClient() ) {
-			// Set default HTTP Client
 			$request->setClient();
 		}
 		$client = $request->getClient();
 
-		// Set response body
 		$this->body = $client->getResponse();
-
-		// Set response status code
 		$this->code = $client->getCode();
 
-		// Close HTTP client
 		$client->close();
-
-		// Set data error on status 200
-		if ( $this->hasDataError() ) {
-			$this->error = true;
-		}
-
-		// Apply response format on success
-		if ( !$this->hasError() && $type ) {
-			if ( $parse ) {
-				$this->body = $type->parse($this->body,$request->getOperation());
-			}
-			$this->body = $type->format($this->body);
-		}
-	}
-
-    /**
-     * Get response body.
-     *
-     * @access public
-     * @param void
-     * @return mixed
-     */
-	public function get()
-	{
-		return $this->body;
-	}
-
-    /**
-     * Get response error.
-     *
-     * @see https://webservices.amazon.com/paapi5/documentation/troubleshooting/error-messages.html
-     * @access public
-     * @param bool $single
-     * @return mixed
-     */
-	public function getError($single = false)
-	{
-		$error = false;
-		if ( $this->hasError() ) {
-			if ( ($response = ResponseType::decode((string)$this->body)) ) {
-				foreach ($response->Errors as $err) {
-					if ( $single ) {
-						return $err->Message;
-					}
-					$error[] = $err->Message;
-				}
-			}
-		}
-		return $error;
-	}
-
-    /**
-     * Check if response has any error (>=400).
-     *
-     * @access public
-     * @param void
-     * @return bool
-     */
-	public function hasError()
-	{
-		if ( !$this->code || $this->code >= 400 ) {
-			return true;
-
-		} elseif ( $this->code == 200 && $this->error ) {
-			return true;
-		}
-		return false;
-	}
-
-    /**
-     * Check if response has data error (==200).
-     *
-     * @access private
-     * @param void
-     * @return bool
-     */
-	private function hasDataError()
-	{
-		if ( strpos($this->body, '#ErrorData') !== false ) {
-			return true;
-		}
-		return false;
 	}
 }

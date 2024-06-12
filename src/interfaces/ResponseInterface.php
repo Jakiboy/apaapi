@@ -1,9 +1,9 @@
 <?php
 /**
- * @author    : JIHAD SINNAOUR
- * @package   : Apaapi | Amazon Product Advertising API Library (v5)
- * @version   : 1.1.7
- * @copyright : (c) 2019 - 2023 Jihad Sinnaour <mail@jihadsinnaour.com>
+ * @author    : Jakiboy
+ * @package   : Amazon Product Advertising API Library (v5)
+ * @version   : 1.2.0
+ * @copyright : (c) 2019 - 2024 Jihad Sinnaour <mail@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
  *
@@ -13,14 +13,45 @@
 namespace Apaapi\interfaces;
 
 /**
- * Basic Apaapi Response Interface.
+ * Apaapi response interface.
  */
 interface ResponseInterface
 {
     /**
+	 * Send request then get response.
+	 *
      * @param RequestInterface $request
-     * @param ResponseTypeInterface $type
-     * @param bool $parse
+     * @param bool $normalize
+     * @param bool $cache
      */
-	public function __construct(RequestInterface $request, ResponseTypeInterface $type = null, $parse = null);
+	function __construct(RequestInterface $request, bool $normalize = false, bool $cache = true);
+
+    /**
+     * Get response data.
+     *
+     * @param array $geo
+     * @return array
+     */
+	function get(?array $geo = null) : array;
+
+    /**
+     * Get response body.
+     *
+     * @return string
+     */
+	function getBody() : string;
+
+    /**
+     * Get response error.
+	 *
+     * @return string
+     */
+	function getError() : string;
+
+    /**
+     * Check response error.
+     *
+     * @return bool
+     */
+	function hasError() : bool;
 }

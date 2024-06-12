@@ -1,9 +1,9 @@
 <?php
 /**
- * @author    : JIHAD SINNAOUR
- * @package   : Apaapi | Amazon Product Advertising API Library (v5)
- * @version   : 1.1.7
- * @copyright : (c) 2019 - 2023 Jihad Sinnaour <mail@jihadsinnaour.com>
+ * @author    : Jakiboy
+ * @package   : Amazon Product Advertising API Library (v5)
+ * @version   : 1.2.0
+ * @copyright : (c) 2019 - 2024 Jihad Sinnaour <mail@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
  *
@@ -13,7 +13,7 @@
 namespace Apaapi;
 
 /**
- * Apaapi Standalone Autoloader.
+ * Apaapi standalone autoloader.
  */
 final class Autoloader
 {
@@ -24,72 +24,54 @@ final class Autoloader
 	private static $initialized = false;
 
 	/**
-	 * Register Apaapi autoloader.
+	 * Register autoloader.
 	 *
-	 * @param void
+	 * @access private
 	 */
-	public function __construct()
+	private function __construct()
 	{
-		if ( !static::$initialized ) {
-			spl_autoload_register([__CLASS__,'autoload']);
-			static::$initialized = true;
-		}
+		spl_autoload_register([__CLASS__, 'autoload']);
+		static::$initialized = true;
 	}
 
 	/**
-	 * Unregister Apaapi autoloader.
+	 * Unregister autoloader.
 	 */
 	public function __destruct()
 	{
-		spl_autoload_unregister([__CLASS__,'autoload']);
+		spl_autoload_unregister([__CLASS__, 'autoload']);
 	}
 
 	/**
-	 * Restrict object clone.
-	 */
-    public function __clone()
-    {
-        die(__METHOD__.': Clone denied');
-    }
-
-	/**
-	 * Restrict object clone.
-	 */
-    public function __wakeup()
-    {
-        die(__METHOD__.': Unserialize denied');
-    }
-
-	/**
 	 * Autoloader method.
-	 * 
+	 *
 	 * @access private
-	 * @param string $class __CLASS__
+	 * @param string $class
 	 * @return void
-	 * @see https://www.php-fig.org/psr/psr-4/
-	 * @see https://www.php-fig.org/psr/psr-0/
 	 */
-	private function autoload($class)
+	private function autoload(string $class)
 	{
-	    if ( strpos($class, __NAMESPACE__ . '\\') === 0 ) {
-	        $class = str_replace(__NAMESPACE__ . '\\', '', $class);
-	        $class = str_replace('\\','/',$class);
-	        $root = str_replace('\\','/',dirname(__DIR__));
-	        require_once("{$root}/src/{$class}.php");
+		$namespace = __NAMESPACE__ . '\\';
+	    if ( strpos($class, $namespace) === 0 ) {
+	        $class = str_replace($namespace, '', $class);
+			$class = dirname(__DIR__) . "/src/{$class}.php";
+			$class = str_replace('\\', '/', $class);
+			if ( file_exists($class) ) {
+				require_once $class;
+			}
 	    }
 	}
 
 	/**
 	 * Initialize autoloader.
-	 * 
+	 *
 	 * @access public
-	 * @param void
 	 * @return void
 	 */
 	public static function init()
 	{
 		if ( !static::$initialized ) {
-			new static;
+			new self;
 		}
 	}
 }

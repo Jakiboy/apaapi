@@ -1,9 +1,9 @@
 <?php
 /**
- * @author    : JIHAD SINNAOUR
- * @package   : Apaapi | Amazon Product Advertising API Library (v5)
- * @version   : 1.1.7
- * @copyright : (c) 2019 - 2023 Jihad Sinnaour <mail@jihadsinnaour.com>
+ * @author    : Jakiboy
+ * @package   : Amazon Product Advertising API Library (v5)
+ * @version   : 1.2.0
+ * @copyright : (c) 2019 - 2024 Jihad Sinnaour <mail@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
  *
@@ -13,17 +13,19 @@
 namespace Apaapi\operations;
 
 use Apaapi\lib\ItemOperation;
-use Apaapi\resources\BrowseNodeInfo;
-use Apaapi\resources\Images;
-use Apaapi\resources\ItemInfo;
-use Apaapi\resources\Offers;
-use Apaapi\resources\RentalOffers;
-use Apaapi\resources\VariationSummary;
-use Apaapi\resources\ParentASIN;
-use Apaapi\includes\ResourceParser;
+use Apaapi\resources\{
+	BrowseNodeInfo,
+	Images,
+	ItemInfo,
+	Offers,
+	RentalOffers,
+	VariationSummary,
+	ParentASIN
+};
+use Apaapi\includes\Parser;
 
 /**
- * Basic Apaapi GetVariations Operation.
+ * Apaapi <GetVariations> operation.
  * @see https://webservices.amazon.com/paapi5/documentation/get-variations.html
  */
 final class GetVariations extends ItemOperation 
@@ -39,11 +41,11 @@ final class GetVariations extends ItemOperation
 	public $variationPage = 1;
 
 	/**
-	 * @param void
+	 * Set resources.
 	 */
 	public function __construct()
 	{
-		$this->resources = ResourceParser::toString([
+		$this->resources = Parser::convert([
 			new BrowseNodeInfo,
 			new Images,
 			new ItemInfo,
@@ -55,35 +57,41 @@ final class GetVariations extends ItemOperation
 	}
 
 	/**
+	 * Set ASIN.
+	 *
 	 * @access public
 	 * @param string $ASIN
 	 * @return object
 	 */
-    public function setASIN($ASIN)
+    public function setASIN(string $ASIN) : object
     {
     	$this->ASIN = $ASIN;
     	return $this;
     }
 
 	/**
+	 * Set variation count.
+	 *
 	 * @access public
-	 * @param int $variationCount
+	 * @param int $count
 	 * @return object
 	 */
-    public function setVariationCount($variationCount)
+    public function setVariationCount(int $count) : object
     {
-    	$this->variationCount = $variationCount;
+    	$this->variationCount = $count;
     	return $this;
     }
 
 	/**
+	 * Set variation page.
+	 *
 	 * @access public
-	 * @param int $variationPage
+	 * @param int $page
 	 * @return object
 	 */
-    public function setVariationPage($variationPage)
+    public function setVariationPage(int $page) : object
     {
-    	$this->variationPage = $variationPage;
+    	$this->variationPage = $page;
     	return $this;
     }
 }

@@ -1,9 +1,9 @@
 <?php
 /**
- * @author    : JIHAD SINNAOUR
- * @package   : Apaapi | Amazon Product Advertising API Library (v5)
- * @version   : 1.1.7
- * @copyright : (c) 2019 - 2023 Jihad Sinnaour <mail@jihadsinnaour.com>
+ * @author    : Jakiboy
+ * @package   : Amazon Product Advertising API Library (v5)
+ * @version   : 1.2.0
+ * @copyright : (c) 2019 - 2024 Jihad Sinnaour <mail@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
  *
@@ -13,17 +13,19 @@
 namespace Apaapi\operations;
 
 use Apaapi\lib\ItemOperation;
-use Apaapi\resources\BrowseNodeInfo;
-use Apaapi\resources\Images;
-use Apaapi\resources\ItemInfo;
-use Apaapi\resources\Offers;
-use Apaapi\resources\RentalOffers;
-use Apaapi\resources\SearchRefinements;
-use Apaapi\resources\ParentASIN;
-use Apaapi\includes\ResourceParser;
+use Apaapi\resources\{
+    BrowseNodeInfo,
+    Images,
+    ItemInfo,
+    Offers,
+    RentalOffers,
+    SearchRefinements,
+    ParentASIN
+};
+use Apaapi\includes\Parser;
 
 /**
- * Basic Apaapi SearchItems Operation.
+ * Apaapi <SearchItems> operation.
  * @see https://webservices.amazon.com/paapi5/documentation/search-items.html
  */
 final class SearchItems extends ItemOperation
@@ -66,12 +68,12 @@ final class SearchItems extends ItemOperation
     public $sortBy = null;
     public $title = null;
 
-    /**
-     * @param void
-     */
+	/**
+	 * Set resources.
+	 */
 	public function __construct()
 	{
-		$this->resources = ResourceParser::toString([
+		$this->resources = Parser::convert([
 			new BrowseNodeInfo,
 			new Images,
 			new ItemInfo,
@@ -83,190 +85,221 @@ final class SearchItems extends ItemOperation
 	}
 
     /**
+     * Set keywords.
+     *
      * @access public
-     * @param string|array $keywords
+     * @param string $keywords
      * @return object
      */
-    public function setKeywords($keywords)
+    public function setKeywords(string $keywords) : object
     {
-        if ( is_array($keywords) ) {
-            $keywords = implode(',', $keywords);
-        }
         $this->keywords = $keywords;
         return $this;
     }
 
     /**
+     * Set actor.
+     *
      * @access public
      * @param string $actor
      * @return object
      */
-    public function setActor($actor)
+    public function setActor(string $actor) : object
     {
         $this->actor = $actor;
         return $this;
     }
 
     /**
+     * Set artist.
+     *
      * @access public
      * @param string $artist
      * @return object
      */
-    public function setArtist($artist)
+    public function setArtist(string $artist) : object
     {
         $this->artist = $artist;
         return $this;
     }
 
     /**
+     * Set author.
+     *
      * @access public
      * @param string $author
      * @return object
      */
-    public function setAuthor($author)
+    public function setAuthor(string $author) : object
     {
         $this->author = $author;
         return $this;
     }
 
     /**
+     * Set availability.
+     *
      * @access public
      * @param string $availability
      * @return object
      */
-    public function setAvailability($availability)
+    public function setAvailability(string $availability) : object
     {
         $this->availability = $availability;
         return $this;
     }
 
     /**
+     * Set brand.
+     *
      * @access public
      * @param string $brand
      * @return object
      */
-    public function setBrand($brand)
+    public function setBrand(string $brand) : object
     {
         $this->brand = $brand;
         return $this;
     }
 
     /**
+     * Set browse node id.
+     *
      * @access public
-     * @param string $browseNodeId
+     * @param string $id
      * @return object
      */
-    public function setBrowseNodeId($browseNodeId)
+    public function setBrowseNodeId(string $id) : object
     {
-        $this->browseNodeId = $browseNodeId;
+        $this->browseNodeId = $id;
         return $this;
     }
 
     /**
+     * Set delivery flags.
+     *
      * @access public
-     * @param array $deliveryFlags
+     * @param array $flags
      * @return object
      */
-    public function setDeliveryFlags($deliveryFlags)
+    public function setDeliveryFlags(array $flags) : object
     {
-        $this->deliveryFlags = (array)$deliveryFlags;
+        $this->deliveryFlags = $flags;
         return $this;
     }
 
     /**
+     * Set item count.
+     *
      * @access public
-     * @param int $itemCount
+     * @param int $count
      * @return object
      */
-    public function setItemCount($itemCount)
+    public function setItemCount(int $count) : object
     {
-        $this->itemCount = (int)$itemCount;
+        $this->itemCount = $count;
         return $this;
     }
 
     /**
+     * Set item page.
+     *
      * @access public
-     * @param int $itemPage
+     * @param int $page
      * @return object
      */
-    public function setItemPage($itemPage)
+    public function setItemPage(int $page) : object
     {
-        $this->itemPage = (int)$itemPage;
+        $this->itemPage = $page;
         return $this;
     }
 
     /**
+     * Set max price.
+     *
      * @access public
-     * @param int $maxPrice
+     * @param int $price
      * @return object
      */
-    public function setMaxPrice($maxPrice)
+    public function setMaxPrice(int $price) : object
     {
-        $this->maxPrice = (int)$maxPrice;
+        $this->maxPrice = $price;
         return $this;
     }
 
     /**
+     * Set min price.
+     *
      * @access public
-     * @param int $minPrice
+     * @param int $price
      * @return object
      */
-    public function setMinPrice($minPrice)
+    public function setMinPrice(int $price) : object
     {
-        $this->minPrice = (int)$minPrice;
+        $this->minPrice = $price;
         return $this;
     }
 
     /**
+     * Set min reviews rating.
+     *
      * @access public
-     * @param int $minReviewsRating
+     * @param int $rating
      * @return object
      */
-    public function setMinReviewsRating($minReviewsRating)
+    public function setMinReviewsRating(int $rating) : object
     {
-        $this->minReviewsRating = (int)$minReviewsRating;
+        $this->minReviewsRating = $rating;
         return $this;
     }
 
     /**
+     * Set min saving percent.
+     *
      * @access public
-     * @param int $minSavingPercent
+     * @param int $percent
      * @return object
      */
-    public function setMinSavingPercent($minSavingPercent)
+    public function setMinSavingPercent(int $percent) : object
     {
-        $this->minSavingPercent = (int)$minSavingPercent;
+        $this->minSavingPercent = $percent;
         return $this;
     }
 
     /**
+     * Set sort by.
+     *
      * @access public
      * @param string $sortBy
      * @return object
      */
-    public function setSortBy($sortBy)
+    public function setSortBy(string $sortBy) : object
     {
         $this->sortBy = $sortBy;
         return $this;
     }
 
     /**
+     * Set title.
+     *
      * @access public
      * @param string $title
      * @return object
      */
-    public function setTitle($title)
+    public function setTitle(string $title) : object
     {
         $this->title = $title;
         return $this;
     }
 
     /**
+     * Set search index.
+     *
      * @access public
      * @param string $index
      * @return object
      */
-    public function setSearchIndex($index)
+    public function setSearchIndex(string $index) : object
     {
         $this->searchIndex = $index;
         return $this;
