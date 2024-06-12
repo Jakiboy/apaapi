@@ -41,10 +41,11 @@ This version includes:
 * **Geotargeting** (Automatically redirect links based on the visitor's region).
 * **Rating Stars** (Lagacy).
 * **Keyword Converter** (ASIN, ISBN, EAN, Node, Root).
-* **Caching System** (Basic built-in cache to reduce API calls).
+* **Caching System** (Basic built-in cache to reduce API calls). 
+* [Full Changelog](https://github.com/Jakiboy/apaapi/releases). 
 
-[Full Changelog](https://github.com/Jakiboy/apaapi/releases).  
-[Previous Version](https://github.com/Jakiboy/apaapi/tree/1.1.7).
+> [!TIP]
+> In any complications, please revert to the [previous version](https://github.com/Jakiboy/apaapi/tree/1.1.7).
 
 ## ⚡ Getting Started:
 
