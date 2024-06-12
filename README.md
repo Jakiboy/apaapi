@@ -1,6 +1,6 @@
 # APAAPI
 
-<img src="https://raw.githubusercontent.com/Jakiboy/apaapi/dev/banner.png" width="100%" alt="Amazon Product Advertising API PHP">
+<img src="https://raw.githubusercontent.com/Jakiboy/apaapi/main/banner.png" width="100%" alt="Amazon Product Advertising API PHP">
 
 Amazon Product Advertising API V5.0 (**Without Amazon SDK**).  
 This repository contains a lightweight PHP (190 KB) wrapper library,  
@@ -18,12 +18,12 @@ composer require jakiboy/apaapi
 
 #### Without Composer?
 
-* **1** - [Download repository ZIP](https://github.com/Jakiboy/apaapi/archive/refs/heads/master.zip) (*Latest version*).
-* **2** - Extract ZIP (*apaapi-dev*).
+* **1** - [Download repository ZIP](https://github.com/Jakiboy/apaapi/archive/refs/heads/main.zip) (*Latest version*).
+* **2** - Extract ZIP (*apaapi-main*).
 * **3** - Include this lines beelow (*apaapi self-autoloader*).
 
 ```
-include('apaapi-dev/src/Autoloader.php');
+include('apaapi-main/src/Autoloader.php');
 \apaapi\Autoloader::init();
 ```
 
@@ -221,7 +221,7 @@ $data = $rating->get(); // Array
 
 > [!Note]  
 > * *The Amazon logo included in top of this page refers only to the [Amazon Product Advertising API V5](https://webservices.amazon.com/paapi5/documentation/index.html)*.
-> * *All available use case examples located in [/examples](https://github.com/Jakiboy/apaapi/tree/dev/examples)*.
+> * *All available use case examples located in [/examples](https://github.com/Jakiboy/apaapi/tree/main/examples)*.
 
 ---
 
