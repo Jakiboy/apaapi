@@ -45,7 +45,7 @@ This version includes:
 * [Full Changelog](https://github.com/Jakiboy/apaapi/releases). 
 
 > [!TIP]
-> In any complications, please revert to the [previous version](https://github.com/Jakiboy/apaapi/tree/1.1.7).
+> In case of any complication, please revert to the [previous version](https://github.com/Jakiboy/apaapi/tree/1.1.7).
 
 ## ⚡ Getting Started:
 
@@ -220,7 +220,7 @@ $data = $rating->get(); // Array
 
 ```
 
-> [!Note]  
+> [!IMPORTANT]  
 > * *The Amazon logo included in top of this page refers only to the [Amazon Product Advertising API V5](https://webservices.amazon.com/paapi5/documentation/index.html)*.
 > * *All available use case examples located in [/examples](https://github.com/Jakiboy/apaapi/tree/main/examples)*.
 
