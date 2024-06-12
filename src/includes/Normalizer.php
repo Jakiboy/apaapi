@@ -23,10 +23,12 @@ final class Normalizer
      * @access private
      * @var int $limit, List limit
      * @var bool $format, String format
+     * @var bool $format, Error format
      * @var bool $order, Data order
      */
 	private static $limit = 5;
-	private static $format = false;
+	private static $format = true;
+	private static $error = true;
 	private static $order = true;
 	
 	/**
@@ -49,7 +51,18 @@ final class Normalizer
 	 */
 	public static function noFormat()
 	{
-		self::$format = true;
+		self::$format = false;
+	}
+
+	/**
+	 * Keep default error format.
+	 *
+	 * @access public
+	 * @return void
+	 */
+	public static function noError()
+	{
+		self::$error = false;
 	}
 
 	/**
@@ -246,7 +259,7 @@ final class Normalizer
 			$price = "{$price}00";
 
 		} else {
-			$price = str_replace('.', '', $price);
+			$price = self::removeString('.', $price);
 		}
 
 		return (int)$price;
@@ -404,20 +417,55 @@ final class Normalizer
 	 */
 	public static function formatError(string $body) : string
 	{
-		$error = false;
+		$error = 'Unknown error';
+
 		if ( ($data = self::decode($body)) ) {
+
 			$error = $data['Errors'][0]['Message'] ?? '';
-			$regex = [
-				'/\s(?<![A-Z0-9])[A-Z0-9]{20}(?![A-Z0-9])/',
-				'/\sPlease visit associate(s|) central at https:\/\/.*/',
-				'/\sPlease sign up for Product Advertising API at https:\/\/.*/',
-				'/\sIf you are using an AWS SDK, requests are signed for you automatically;.*/'
-			];
-			$error = preg_replace($regex, '', $error);
-			$error = str_replace(['[', ']'], '"', $error);
+			$error = self::removeRegex('/\s(?<![A-Z0-9])[A-Z0-9]{20}(?![A-Z0-9])/', $error);
+			$error = self::removeRegex('/\sPlease visit associate(s|) central at.*/', $error);
+			$error = self::removeRegex('/\sPlease sign up for Product Advertising API at.*/', $error);
+			$error = self::removeRegex('/\sPlease verify the number of requests made per second to.*/', $error);
+			$error = self::removeRegex('/\sIf you are using an AWS SDK.*/', $error);
+			$error = self::removeRegex('/\s\[.*\]/', $error);
+			$error = self::replaceRegex('/ItemId .*? provided/', 'ItemId provided', $error);
 			$error = rtrim($error, '.');
+
+		} else {
+
+			$error = self::stripTags($body);
+			$error = self::stripSpace($error, ' ');
+			$error = self::replaceRegex('/webservices.amazon.*/', 'Amazon server', $error);
+			$error = self::removeRegex('/Not Found/', $error);
+			$error = self::removeRegex('/[0-9]/', $error);
+			$error = rtrim(trim($error), '.');
 		}
-		return $error ?: 'Unknown error';
+
+		if ( self::$error ) {
+
+			$search = [
+				'The Access Key ID or security token included in the request is invalid',
+				'Your access key is not mapped to Primary of approved associate store',
+				'The request was denied due to request throttling',
+				'The partner tag is not mapped to a valid associate store with your access key',
+				'PartnerTag should be provided',
+				'The value provided in the request for ItemIds is invalid',
+				'The ItemId provided in the request is invalid',
+			];
+			$format = [
+				'The API key or secret key is incorrect',
+				'The API key is not associated with the specified store',
+				'The request was refused due to Amazon API limitation',
+				'The partner tag is invalid',
+				'The partner tag is required',
+				'The Id is not a valid ASIN or ISBN',
+				'The Id is not a valid ASIN or ISBN',
+			];
+			$error = self::replaceString($search, $format, $error);
+
+		}
+
+		return $error;
 	}
 
 	/**
@@ -429,7 +477,7 @@ final class Normalizer
 	 */
 	public static function formatPath(string $path) : string
 	{
-		$path = str_replace(['\\', '//'], '/', $path);
+		$path = self::replaceString(['\\', '//'], '/', $path);
 		return rtrim($path, '/');
 	}
 
@@ -561,7 +609,7 @@ final class Normalizer
 				}
 				
 			} elseif ( is_string($item) ) {
-				$item = str_replace(
+				$item = self::replaceString(
 					array_keys($args),
 					array_values($args),
 					$item
@@ -1069,16 +1117,43 @@ final class Normalizer
 	private static function formatString(string $string) : string
 	{
 		if ( !self::$format ) {
-			$string = preg_replace('/[^\x{0000}-\x{FFFF}]/u', ' ', $string);
-			$string = str_replace(['【', ], ' [', $string);
-			$string = str_replace(['】', ], '] ', $string);
+			$string = self::replaceRegex('/[^\x{0000}-\x{FFFF}]/u', ' ', $string);
+			$string = self::replaceString(['【', ], ' [', $string);
+			$string = self::replaceString(['】', ], '] ', $string);
 		}
 		
 		$string = trim($string);
-		$string = str_replace("\r", "\n", $string);
-		$string = preg_replace(['/\n+/', '/[ \t]+/'], ["\n", ' '], $string);
+		$string = self::replaceString("\r", "\n", $string);
+		$string = self::replaceRegex(['/\n+/', '/[ \t]+/'], ["\n", ' '], $string);
 
 		return $string;
+	}
+
+	/**
+	 * Replace string.
+	 *
+	 * @access private
+	 * @param mixed $search
+	 * @param mixed $replace
+	 * @param mixed $string
+	 * @return string
+	 */
+	private static function replaceString($search, $replace, $string) : string
+	{
+		return (string)str_replace($search, $replace, $string);
+	}
+
+	/**
+	 * Remove string.
+	 *
+	 * @access private
+	 * @param string $search
+	 * @param string $string
+	 * @return string
+	 */
+	private static function removeString($search, $string) : string
+	{
+		return self::replaceString($search, '', $string);
 	}
 
 	/**
@@ -1086,13 +1161,53 @@ final class Normalizer
 	 *
 	 * @access private
 	 * @param string $string
+	 * @param string $replace
 	 * @return string
 	 */
-	private static function stripSpace(string $string) : string
+	private static function stripSpace(string $string, string $replace = '') : string
 	{
 		$string = trim($string);
-		$string = preg_replace('/\s+/', '', $string);
+		$string = self::replaceRegex('/\s+/', $replace, $string);
 		return $string;
+	}
+
+	/**
+	 * Strip tags.
+	 *
+	 * @access private
+	 * @param string $string
+	 * @return string
+	 */
+	private static function stripTags(string $string) : string
+	{
+		return strip_tags($string);
+	}
+
+	/**
+	 * Replace string using regex.
+	 *
+	 * @access private
+	 * @param mixed $regex
+	 * @param mixed $replace
+	 * @param mixed $subject
+	 * @return string
+	 */
+	private static function replaceRegex($regex, $replace, $subject) : string
+	{
+		return (string)preg_replace($regex, $replace, $subject);
+	}
+
+	/**
+	 * Remove string using regex.
+	 *
+	 * @access private
+	 * @param mixed $regex
+	 * @param mixed $subject
+	 * @return string
+	 */
+	private static function removeRegex($regex, $subject) : string
+	{
+		return (string)self::replaceRegex($regex, '', $subject);
 	}
 
 	/**
