@@ -38,23 +38,49 @@ final class Builder
      * @var string $tag, API tag
      * @var string $locale, API locale|region
      * @var object $operation, API operation
+     * @var array $resources, API resources
      * @var object $request, API request
      * @var string $error, API response error
      * @var bool $cache, API response cache
      * @var array $redirect, Geotargeting args
      * @var mixed $order, Response order
+     * @var array resources, Default resources
      */
     private $key;
     private $secret;
     private $tag;
     private $locale;
     private $operation;
+    private $resources;
     private $request;
     private $error = false;
     private $cache = true;
     private $redirect;
     private $order = ['title', 'price'];
 
+    private const RESOURCES = [
+        'BrowseNodeInfo.BrowseNodes.Ancestor',
+        'ItemInfo.ByLineInfo',
+        'ItemInfo.ManufactureInfo',
+        'ItemInfo.ExternalIds',
+        'ItemInfo.Features',
+        'ItemInfo.Title',
+        'Offers.Listings.Price',
+        'Offers.Listings.Condition',
+        'Offers.Listings.Promotions',
+        'Offers.Listings.SavingBasis',
+        'Offers.Listings.DeliveryInfo.IsAmazonFulfilled',
+        'Offers.Listings.DeliveryInfo.IsFreeShippingEligible',
+        'Offers.Listings.DeliveryInfo.IsPrimeEligible',
+        'Offers.Listings.Availability.Message',
+        'Images.Primary.Large',
+        'Images.Variants.Large'
+    ];
+
+    /**
+     * @access private
+     * @var bool $isCategory
+     */
     public static $isCategory = false;
 
     /**
@@ -71,6 +97,20 @@ final class Builder
         $this->secret = $secret;
         $this->tag    = $tag;
         $this->locale = $locale;
+        $this->setResources();
+    }
+
+    /**
+     * Set resources.
+     *
+     * @access public
+     * @param array $resources
+     * @return object
+     */
+    public function setResources(array $resources = []) : self
+    {
+        $this->resources = $resources;
+        return $this;
     }
 
     /**
@@ -701,26 +741,11 @@ final class Builder
 	 */
 	private function getDefaultResources(array $resources = []) : array
 	{
-		return array_merge([
-			'BrowseNodeInfo.BrowseNodes.Ancestor',
-			'Images.Primary.Large',
-			'Images.Variants.Large',
-			'Offers.Listings.Price',
-			'Offers.Listings.Condition',
-			'Offers.Listings.Promotions',
-			'Offers.Listings.SavingBasis',
-			'Offers.Listings.DeliveryInfo.IsAmazonFulfilled',
-			'Offers.Listings.DeliveryInfo.IsFreeShippingEligible',
-			'Offers.Listings.DeliveryInfo.IsPrimeEligible',
-            'Offers.Listings.Availability.Message',
-			'ItemInfo.ExternalIds',
-			'ItemInfo.Features',
-			'ItemInfo.Title'
-		], $resources);
+		return array_merge($this->resources, $resources);
 	}
 
 	/**
-     * Get filter ressources.
+     * Get filter resources.
      *
 	 * @access private
 	 * @param array $resources
