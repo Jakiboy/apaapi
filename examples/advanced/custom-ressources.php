@@ -21,7 +21,7 @@ use Apaapi\lib\Response;
 $operation = new SearchItems();
 $operation->setPartnerTag('_TAG_')->setKeywords('_KEYWORDS_');
 
-// Set ressources (3)
+// Set resources (3)
 $operation->setResources([
     'Images.Primary.Small',
     'ItemInfo.Title',
