@@ -167,7 +167,7 @@ $operation->setBrowseNodeIds(['_NODE_']); // Array
 
 ```
 
-### Ressources:
+### Resources:
 
 Optimize response time by setting only the needed resources.
 
@@ -179,13 +179,13 @@ use Apaapi\operations\SearchItems;
 $operation = new SearchItems();
 $operation->setPartnerTag('_TAG_')->setKeywords('_KEYWORDS_');
 
-// Set Ressources (3)
+// Set Resources (3)
 $operation->setResources(['Images.Primary.Small', 'ItemInfo.Title', 'Offers.Listings.Price']);
 
 ```
 
 > [!Note]  
-> *See all available ressources used by setResources() at [/wiki/Ressources](https://github.com/Jakiboy/apaapi/wiki/Ressources)*
+> *See all available resources used by setResources() at [/wiki/Resources](https://github.com/Jakiboy/apaapi/wiki/Resources)*
 
 ### Cart:
 
