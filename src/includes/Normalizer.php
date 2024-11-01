@@ -680,9 +680,9 @@ final class Normalizer
 			'rank'         => self::sanitizeRank($item),
 			'title'        => self::sanitizeTitle($item),
 			'category'     => self::sanitizeCategory($item),
+			'brand'        => self::sanitizeBrand($item),
 			'url'          => self::sanitizeUrl($item),
 			'image'        => self::sanitizeImage($item),
-			'gallery'      => self::sanitizeGallery($item),
 			'price'        => self::sanitizePrice($item),
 			'discount'     => self::sanitizeDiscount($item),
 			'discounted'   => self::sanitizeDiscounted($item),
@@ -690,6 +690,8 @@ final class Normalizer
 			'currency'     => self::sanitizeCurrency($item),
 			'availability' => self::sanitizeAvailability($item),
 			'shipping'     => self::sanitizeShipping($item),
+			'gallery'      => self::sanitizeGallery($item),
+			'attributes'   => self::sanitizeAttributes($item),
 			'features'     => self::sanitizeFeatures($item)
 		];
 	}
@@ -899,26 +901,6 @@ final class Normalizer
 	}
 
 	/**
-	 * Sanitize item gallery.
-	 * 
-	 * @access private
-	 * @param array $item
-	 * @return array
-	 */
-	private static function sanitizeGallery(array $item) : array
-	{
-		$gallery = [];
-		$variants = $item['Images']['Variants'] ?? [];
-		foreach ($variants as $variant) {
-			$gallery[] = $variant['Large']['URL'];
-		}
-		if ( self::$limit ) {
-			$gallery = array_slice($gallery, 0, self::$limit);
-		}
-		return $gallery;
-	}
-
-	/**
 	 * Sanitize item category.
 	 *
 	 * @access private
@@ -1075,6 +1057,18 @@ final class Normalizer
 	}
 
 	/**
+	 * Sanitize item brand.
+	 * 
+	 * @access private
+	 * @param array $item
+	 * @return string
+	 */
+	private static function sanitizeBrand(array $item) : string
+	{
+		return $item['ItemInfo']['ByLineInfo']['Brand']['DisplayValue'] ?? '';
+	}
+
+	/**
 	 * Sanitize item features.
 	 * 
 	 * @access private
@@ -1092,6 +1086,66 @@ final class Normalizer
 			$features[$key] = $feature;
 		}
 		return $features;
+	}
+
+	/**
+	 * Sanitize item gallery.
+	 * 
+	 * @access private
+	 * @param array $item
+	 * @return array
+	 */
+	private static function sanitizeGallery(array $item) : array
+	{
+		$gallery = [];
+		$variants = $item['Images']['Variants'] ?? [];
+		foreach ($variants as $variant) {
+			$gallery[] = $variant['Large']['URL'];
+		}
+		if ( self::$limit ) {
+			$gallery = array_slice($gallery, 0, self::$limit);
+		}
+		return $gallery;
+	}
+
+	/**
+	 * Sanitize item attributes.
+	 * 
+	 * @access private
+	 * @param array $item
+	 * @return array
+	 */
+	private static function sanitizeAttributes(array $item) : array
+	{
+		$info = $item['ItemInfo']['ManufactureInfo'] ?? [];
+		$atts = $item['ItemInfo']['ProductInfo'] ?? [];
+		$dims = $atts['ItemDimensions'] ?? [];
+
+		return [
+			'model'    => $info['Model']['DisplayValue'] ?? '',
+			'warranty' => $info['Warranty']['DisplayValue'] ?? '',
+			'color'    => $atts['Color']['DisplayValue'] ?? '',
+			'size'     => $atts['Size']['DisplayValue'] ?? '',
+			'date'     => $atts['ReleaseDate']['DisplayValue'] ?? '',
+			'count'    => $atts['UnitCount']['DisplayValue'] ?? 1,
+			'adult'    => $atts['IsAdultProduct']['DisplayValue'] ?? false,
+			'height'   => [
+				'value' => $dims['Height']['DisplayValue'] ?? 0,
+				'unit'  => $dims['Height']['Unit'] ?? ''
+			],
+			'length'   => [
+				'value' => $dims['Length']['DisplayValue'] ?? 0,
+				'unit'  => $dims['Length']['Unit'] ?? ''
+			],
+			'weight'   => [
+				'value' => $dims['Weight']['DisplayValue'] ?? 0,
+				'unit'  => $dims['Weight']['Unit'] ?? ''
+			],
+			'width'    => [
+				'value' => $dims['Width']['DisplayValue'] ?? 0,
+				'unit'  => $dims['Width']['Unit'] ?? ''
+			]
+		];
 	}
 
 	/**
