@@ -109,7 +109,7 @@ final class Builder
      */
     public function setResources(array $resources = []) : self
     {
-        $this->resources = $resources;
+        $this->resources = $resources ?: self::RESOURCES;
         return $this;
     }
 
