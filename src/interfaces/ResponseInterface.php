@@ -18,13 +18,13 @@ namespace Apaapi\interfaces;
 interface ResponseInterface
 {
     /**
-	 * Send request then get response.
-	 *
+     * Send request then get response.
+     *
      * @param RequestInterface $request
      * @param bool $normalize
      * @param bool $cache
      */
-	function __construct(RequestInterface $request, bool $normalize = false, bool $cache = true);
+    function __construct(RequestInterface $request, bool $normalize = false, bool $cache = true);
 
     /**
      * Get response data.
@@ -32,26 +32,26 @@ interface ResponseInterface
      * @param array $geo
      * @return array
      */
-	function get(?array $geo = null) : array;
+    function get(?array $geo = null) : array;
 
     /**
      * Get response body.
      *
      * @return string
      */
-	function getBody() : string;
+    function getBody() : string;
 
     /**
      * Get response error.
-	 *
+     *
      * @return string
      */
-	function getError() : string;
+    function getError() : string;
 
     /**
      * Check response error.
      *
      * @return bool
      */
-	function hasError() : bool;
+    function hasError() : bool;
 }

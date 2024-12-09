@@ -14,17 +14,8 @@ declare(strict_types=1);
 
 namespace Apaapi\includes;
 
-use Apaapi\lib\{
-    Request,
-    Response,
-    Cart
-};
-use Apaapi\operations\{
-    GetItems,
-    SearchItems,
-    GetVariations,
-    GetBrowseNodes
-};
+use Apaapi\lib\{Request, Response, Cart};
+use Apaapi\operations\{GetItems, SearchItems, GetVariations, GetBrowseNodes};
 
 /**
  * Apaapi request builder.
@@ -36,6 +27,7 @@ final class Builder
      * @var string $key, API key
      * @var string $secret, API secret
      * @var string $tag, API tag
+     * @var string $customTag, API custom tag
      * @var string $locale, API locale|region
      * @var object $operation, API operation
      * @var array $resources, API resources
@@ -49,6 +41,7 @@ final class Builder
     private $key;
     private $secret;
     private $tag;
+    private $customTag;
     private $locale;
     private $operation;
     private $resources;
@@ -93,9 +86,9 @@ final class Builder
      */
     public function __construct(string $key, string $secret, string $tag, string $locale)
     {
-        $this->key    = $key;
+        $this->key = $key;
         $this->secret = $secret;
-        $this->tag    = $tag;
+        $this->tag = $tag;
         $this->locale = $locale;
         $this->setResources();
     }
@@ -129,7 +122,7 @@ final class Builder
         $this->prepare();
         $response = new Response($this->request, false, false);
         $response->get();
-        
+
         if ( $response->hasError() ) {
             $this->error = $response->getError();
             return false;
@@ -409,7 +402,7 @@ final class Builder
             '{locale}' => $this->locale,
             '{tag}'    => $this->tag
         ]);
-        
+
         return (array)$node;
     }
 
@@ -554,7 +547,7 @@ final class Builder
         if ( !isset($filter['title']) ) {
             $filter['title'] = $keyword;
         }
-        
+
         $this->setup('search')->filter($filter);
 
         $this->operation->setResources(
@@ -584,59 +577,59 @@ final class Builder
     public function getNewest(string $keyword, int $count = 5, int $page = 1, array $filter = []) : array
     {
         $keyword = Normalizer::formatKeyword($keyword);
-        $filter['sort']  = 'newest';
+        $filter['sort'] = 'newest';
         $filter['title'] = $keyword;
         return $this->search($keyword, $count, $page, $filter);
     }
 
-	/**
-	 * Get cart (URL).
-	 *
-	 * @access public
-	 * @param mixed $items
-	 * @return string
-	 */
-	public function getCart($items) : string
-	{
-		$cart = new Cart();
-		$cart->setLocale($this->locale);
-		$cart->setPartnerTag($this->tag);
+    /**
+     * Get cart (URL).
+     *
+     * @access public
+     * @param mixed $items
+     * @return string
+     */
+    public function getCart($items) : string
+    {
+        $cart = new Cart();
+        $cart->setLocale($this->locale);
+        $cart->setPartnerTag($this->tag);
 
-		return $cart->set(
+        return $cart->set(
             Normalizer::formatCart($items)
         );
-	}
+    }
 
-	/**
-	 * Get rating.
-	 *
-	 * @access public
-	 * @param string $keyword
-	 * @return array
-	 */
-	public function getRating(string $keyword) : array
-	{
-		$rating = new Rating($keyword, $this->locale, $this->tag);
+    /**
+     * Get rating.
+     *
+     * @access public
+     * @param string $keyword
+     * @return array
+     */
+    public function getRating(string $keyword) : array
+    {
+        $rating = new Rating($keyword, $this->locale, $this->tag);
         return $rating->get();
-	}
+    }
 
-	/**
-	 * Search rating.
-	 *
-	 * @access public
-	 * @param string $keyword
-	 * @param array $filter
-	 * @return array
-	 */
-	public function searchRating(string $keyword, array $filter = []) : array
-	{
+    /**
+     * Search rating.
+     *
+     * @access public
+     * @param string $keyword
+     * @param array $filter
+     * @return array
+     */
+    public function searchRating(string $keyword, array $filter = []) : array
+    {
         $id = Normalizer::formatId($keyword);
         if ( !Keyword::isASIN($id) ) {
             $keyword = $this->toASIN($keyword, $filter);
         }
         return $this->getRating($keyword);
-	}
-    
+    }
+
     /**
      * Set order.
      *
@@ -649,7 +642,7 @@ final class Builder
         $this->order = $order;
         return $this;
     }
-    
+
     /**
      * Disable cache.
      *
@@ -675,6 +668,19 @@ final class Builder
             'tag'    => $this->tag,
             'locale' => $this->locale
         ], $redirect);
+        return $this;
+    }
+
+    /**
+     * Set custom tag (override).
+     *
+     * @access public
+     * @param string $tag
+     * @return object
+     */
+    public function setTag(string $tag) : self
+    {
+        $this->customTag = $tag;
         return $this;
     }
 
@@ -709,56 +715,43 @@ final class Builder
      */
     private function setup(string $operation) : self
     {
-        switch ($operation) {
-            case 'get':
-                $this->operation = new GetItems();
-                break;
-
-            case 'search':
-                $this->operation = new SearchItems();
-                break;
-
-            case 'variation':
-                $this->operation = new GetVariations();
-                break;
-
-            case 'node':
-                $this->operation = new GetBrowseNodes();
-                break;
-        }
-
+        $this->operation = match ($operation) {
+            'get'       => new GetItems(),
+            'search'    => new SearchItems(),
+            'variation' => new GetVariations(),
+            'node'      => new GetBrowseNodes()
+        };
         $this->operation->setPartnerTag($this->tag);
-
         return $this;
     }
 
-	/**
+    /**
      * Get default resources.
      *
-	 * @access private
-	 * @param array $resources
-	 * @return array
-	 */
-	private function getDefaultResources(array $resources = []) : array
-	{
-		return array_merge($this->resources, $resources);
-	}
+     * @access private
+     * @param array $resources
+     * @return array
+     */
+    private function getDefaultResources(array $resources = []) : array
+    {
+        return array_merge($this->resources, $resources);
+    }
 
-	/**
+    /**
      * Get filter resources.
      *
-	 * @access private
-	 * @param array $resources
-	 * @return array
-	 */
-	private function getFilterResources(array $filter = []) : array
-	{
+     * @access private
+     * @param array $resources
+     * @return array
+     */
+    private function getFilterResources(array $filter = []) : array
+    {
         $resources = [];
         if ( isset($filter['rank']) && $filter['rank'] === true ) {
             $resources[] = 'BrowseNodeInfo.BrowseNodes.SalesRank';
         }
         return $resources;
-	}
+    }
 
     /**
      * Filter request.
@@ -777,7 +770,7 @@ final class Builder
                     Normalizer::formatPrice($min)
                 );
             }
-    
+
             $max = $filter['max'] ?? null;
             if ( $max ) {
                 $this->operation->setMaxPrice(
@@ -854,7 +847,7 @@ final class Builder
             if ( $artist ) {
                 $this->operation->setArtist($artist);
             }
-            
+
             $author = $filter['author'] ?? null;
             $author = (string)$author;
             if ( $author ) {
@@ -862,7 +855,7 @@ final class Builder
             }
 
         }
-        
+
         $condition = $filter['condition'] ?? null;
         $condition = (string)$condition;
         if ( $condition ) {
@@ -870,7 +863,7 @@ final class Builder
                 Normalizer::formatCondition($condition)
             );
         }
-        
+
         $merchant = $filter['merchant'] ?? null;
         $merchant = (string)$merchant;
         if ( $merchant ) {
@@ -899,7 +892,7 @@ final class Builder
                 Normalizer::formatMarketplace($marketplace)
             );
         }
-        
+
         return $this;
     }
 
@@ -938,13 +931,24 @@ final class Builder
     {
         $response = new Response($this->request, Response::NORMALIZE, $this->cache);
 
+        // Get response error
         $this->error = false;
         if ( $response->hasError() ) {
             $this->error = $response->getError();
         }
 
-        return $response->get(
+        // Get response data
+        $data = $response->get(
             $this->redirect
         );
+
+        // Set custom tag
+        if ( $this->customTag ) {
+            $data = Normalizer::applyArgs($data, [
+                $this->tag => $this->customTag
+            ]);
+        }
+
+        return $data;
     }
 }

@@ -70,11 +70,11 @@ interface ClientInterface
      * @return int
      */
     function getCode() : int;
-    
+
     /**
      * Close request handler.
      *
      * @return void
      */
-    function close();
+    function close() : void;
 }

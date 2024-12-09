@@ -1,29 +1,29 @@
 {
-   "eu-west-1":[
-       "ae",
-       "co.uk",
-       "com.be",
-       "com.tr",
-       "de",
-       "eg",
-       "es",
-       "fr",
-       "in",
-       "it",
-       "nl",
-       "pl",
-       "sa",
-       "se"
-   ],
-   "us-east-1":[
-       "ca",
-       "com",
-       "com.br",
-       "com.mx"
-   ],
-   "us-west-2":[
-       "co.jp",
-       "com.au",
-       "sg"
-   ]
+    "eu-west-1": [
+        "ae",
+        "co.uk",
+        "com.be",
+        "com.tr",
+        "de",
+        "eg",
+        "es",
+        "fr",
+        "in",
+        "it",
+        "nl",
+        "pl",
+        "sa",
+        "se"
+    ],
+    "us-east-1": [
+        "ca",
+        "com",
+        "com.br",
+        "com.mx"
+    ],
+    "us-west-2": [
+        "co.jp",
+        "com.au",
+        "sg"
+    ]
 }

@@ -1,65 +1,65 @@
 {
-    "com.au":[
+    "com.au": [
         "AUD"
     ],
-    "com.be":[
+    "com.be": [
         "EUR"
     ],
-    "com.br":[
+    "com.br": [
         "BRL"
     ],
-    "ca":[
+    "ca": [
         "CAD"
     ],
-    "eg":[
+    "eg": [
         "EGP"
     ],
-    "fr":[
+    "fr": [
         "EUR"
     ],
-    "de":[
+    "de": [
         "EUR"
     ],
-    "in":[
+    "in": [
         "INR"
     ],
-    "it":[
+    "it": [
         "EUR"
     ],
-    "co.jp":[
+    "co.jp": [
         "JPY"
     ],
-    "com.mx":[
+    "com.mx": [
         "MXN"
     ],
-    "nl":[
+    "nl": [
         "EUR"
     ],
-    "pl":[
+    "pl": [
         "PLN"
     ],
-    "sg":[
+    "sg": [
         "SGD"
     ],
-    "sa":[
+    "sa": [
         "SAR"
     ],
-    "es":[
+    "es": [
         "EUR"
     ],
-    "se":[
+    "se": [
         "SEK"
     ],
-    "com.tr":[
+    "com.tr": [
         "TRY"
     ],
-    "ae":[
+    "ae": [
         "AED"
     ],
-    "co.uk":[
+    "co.uk": [
         "GBP"
     ],
-    "com":[
+    "com": [
         "AED",
         "AMD",
         "ARS",

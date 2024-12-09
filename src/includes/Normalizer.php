@@ -19,18 +19,18 @@ namespace Apaapi\includes;
  */
 final class Normalizer
 {
-    /**
-     * @access private
-     * @var int $limit, List limit
-     * @var bool $format, String format
-     * @var bool $format, Error format
-     * @var bool $order, Data order
-     */
+	/**
+	 * @access private
+	 * @var int $limit, List limit
+	 * @var bool $format, String format
+	 * @var bool $format, Error format
+	 * @var bool $order, Data order
+	 */
 	private static $limit = 5;
 	private static $format = true;
 	private static $error = true;
 	private static $order = true;
-	
+
 	/**
 	 * Set lists limit.
 	 *
@@ -38,7 +38,7 @@ final class Normalizer
 	 * @param int $limit
 	 * @return void
 	 */
-	public static function limit(int $limit)
+	public static function limit(int $limit) : void
 	{
 		self::$limit = $limit;
 	}
@@ -49,7 +49,7 @@ final class Normalizer
 	 * @access public
 	 * @return void
 	 */
-	public static function noFormat()
+	public static function noFormat() : void
 	{
 		self::$format = false;
 	}
@@ -60,7 +60,7 @@ final class Normalizer
 	 * @access public
 	 * @return void
 	 */
-	public static function noError()
+	public static function noError() : void
 	{
 		self::$error = false;
 	}
@@ -71,7 +71,7 @@ final class Normalizer
 	 * @access public
 	 * @return void
 	 */
-	public static function noOrder()
+	public static function noOrder() : void
 	{
 		self::$order = false;
 	}
@@ -93,40 +93,29 @@ final class Normalizer
 		if ( isset($data['category']) ) {
 			return self::normalizeCategory($data['category']);
 		}
-		return array_map(function($item) {
+		return array_map(function ($item) {
 			return self::normalize($item);
 		}, $data);
 	}
 
-    /**
-     * Parse response data items.
-     *
-     * @access public
-     * @param array $data
-     * @param string $operation
-     * @return array
-     */
-    public static function parse(array $data, string $operation) : array
-    {
-        switch ($operation) {
-            case 'GetItems':
-                return self::parseItem($data);
-                break;
-
-            case 'SearchItems':
-				return self::parseSearch($data);
-                break;
-				
-            case 'GetVariations':
-				return self::parseVariation($data);
-                break;
-				
-            case 'GetBrowseNodes':
-                return self::parseNode($data);
-                break;
-        }
-		return $data;
-    }
+	/**
+	 * Parse response data items.
+	 *
+	 * @access public
+	 * @param array $data
+	 * @param string $operation
+	 * @return array
+	 */
+	public static function parse(array $data, string $operation) : array
+	{
+		return match ($operation) {
+			'GetItems'       => self::parseItem($data),
+			'SearchItems'    => self::parseSearch($data),
+			'GetVariations'  => self::parseVariation($data),
+			'GetBrowseNodes' => self::parseNode($data),
+			default          => $data
+		};
+	}
 
 	/**
 	 * Format single id.
@@ -145,7 +134,7 @@ final class Normalizer
 		}
 		return $id;
 	}
-	
+
 	/**
 	 * Format ids.
 	 *
@@ -155,14 +144,14 @@ final class Normalizer
 	 */
 	public static function formatIds($ids) : array
 	{
-        if ( is_string($ids) ) {
+		if ( is_string($ids) ) {
 			$ids = self::stripSpace(
 				strtoupper($ids)
 			);
-            $ids = explode(',', $ids);
-        }
-		
-		$ids = array_map(function($id) {
+			$ids = explode(',', $ids);
+		}
+
+		$ids = array_map(function ($id) {
 			return self::formatId($id);
 		}, (array)$ids);
 
@@ -207,7 +196,7 @@ final class Normalizer
 			$keywords = explode(',', $keywords);
 		}
 
-		$keywords = array_map(function($keyword) {
+		$keywords = array_map(function ($keyword) {
 			return self::formatKeyword($keyword);
 		}, $keywords);
 
@@ -223,12 +212,12 @@ final class Normalizer
 	 */
 	public static function formatCart($items) : array
 	{
-        if ( is_string($items) ) {
+		if ( is_string($items) ) {
 			$items = self::formatIds($items);
-        }
+		}
 
 		$items = (array)$items;
-		$cart  = [];
+		$cart = [];
 
 		foreach ($items as $key => $item) {
 			if ( is_int($key) ) {
@@ -240,7 +229,7 @@ final class Normalizer
 				$cart[$key] = (string)intval($item);
 			}
 		}
-		
+
 		return $cart;
 	}
 
@@ -274,17 +263,17 @@ final class Normalizer
 	 */
 	public static function formatDelivery($delivery) : array
 	{
-        if ( is_string($delivery) ) {
+		if ( is_string($delivery) ) {
 			$delivery = self::stripSpace(
 				strtolower($delivery)
 			);
-            $delivery = explode(',', $delivery);
-        }
+			$delivery = explode(',', $delivery);
+		}
 
 		$delivery = (array)$delivery;
-		$flags    = [];
+		$flags = [];
 
-		$delivery = array_map(function($item) {
+		$delivery = array_map(function ($item) {
 			return trim($item);
 		}, $delivery);
 
@@ -394,7 +383,7 @@ final class Normalizer
 	 * @param string $locale
 	 * @return mixed
 	 */
-	public static function formatLocale(string $locale)
+	public static function formatLocale(string $locale) : mixed
 	{
 		$locale = self::stripSpace(
 			strtolower($locale)
@@ -499,30 +488,30 @@ final class Normalizer
 		return rtrim($path, '/');
 	}
 
-    /**
-     * Parse keyword.
-     *
-     * @access public
-     * @param string $keyword
-     * @param int $limit
-     * @return string
-     */
-    public static function parseKeyword(string $keyword, int $limit = 30) : string
-    {
-        return substr($keyword, 0, $limit);
-    }
+	/**
+	 * Parse keyword.
+	 *
+	 * @access public
+	 * @param string $keyword
+	 * @param int $limit
+	 * @return string
+	 */
+	public static function parseKeyword(string $keyword, int $limit = 30) : string
+	{
+		return substr($keyword, 0, $limit);
+	}
 
-    /**
-     * Decode data.
-     *
-     * @access public
-     * @param string $data
-     * @return array
-     */
-    public static function decode(string $data) : array
-    {
-        return (array)@json_decode($data, true);
-    }
+	/**
+	 * Decode data.
+	 *
+	 * @access public
+	 * @param string $data
+	 * @return array
+	 */
+	public static function decode(string $data) : array
+	{
+		return (array)@json_decode($data, true);
+	}
 
 	/**
 	 * Format country code (Fix 3 DIGIT ISO),
@@ -547,35 +536,16 @@ final class Normalizer
 	 */
 	public static function formatTLD(string $code) : string
 	{
-		switch ($code) {
-			case 'au':
-				return 'com.au';
-				break;
-			case 'be':
-				return 'com.be';
-				break;
-			case 'br':
-				return 'com.br';
-				break;
-			case 'jp':
-				return 'co.jp';
-				break;
-			case 'mx':
-				return 'com.mx';
-				break;
-			case 'tr':
-				return 'com.tr';
-				break;
-			case 'uk':
-			case 'gb':
-				return 'co.uk';
-				break;
-			case 'us':
-				return 'com';
-				break;
-			default:
-				return $code;
-				break;
+		return match ($code) {
+			'au'       => 'com.au',
+			'be'       => 'com.be',
+			'br'       => 'com.br',
+			'jp'       => 'co.jp',
+			'mx'       => 'com.mx',
+			'tr'       => 'com.tr',
+			'uk', 'gb' => 'co.uk',
+			'us'       => 'com',
+			default    => $code
 		};
 	}
 
@@ -587,36 +557,34 @@ final class Normalizer
 	 * @param array $args
 	 * @return mixed
 	 */
-	public static function applyArgs($data, array $args)
+	public static function applyArgs($data, array $args) : mixed
 	{
-		$recursive = function ($item) use (&$recursive, $args) {
-			if ( is_array($item) ) {
-				foreach ($item as $key => $value) {
-					$item[$key] = $recursive($value);
-				}
-				
-			} elseif ( is_string($item) ) {
-				$item = self::replaceString(
-					array_keys($args),
-					array_values($args),
-					$item
-				);
-			}
-			return $item;
-		};
-		return $recursive($data);
+		if ( is_array($data) ) {
+			return array_map(function ($item) use ($args) {
+				return self::applyArgs($item, $args);
+			}, $data);
+
+		} elseif ( is_string($data) ) {
+			return self::replaceString(
+				array_keys($args),
+				array_values($args),
+				$data
+			);
+		}
+
+		return $data;
 	}
 
-    /**
-     * Order data.
-     *
-     * @access public
-     * @param array $data
-     * @param mixed $orderby
-     * @param string $order
-     * @param bool $preserve (keys)
-     * @return array
-     */
+	/**
+	 * Order data.
+	 *
+	 * @access public
+	 * @param array $data
+	 * @param mixed $orderby
+	 * @param string $order
+	 * @param bool $preserve (keys)
+	 * @return array
+	 */
 	public static function order(array $data, $orderby, string $order = 'asc') : array
 	{
 		if ( !self::$order ) {
@@ -625,42 +593,42 @@ final class Normalizer
 
 		$orderby = self::formatOrderBy($orderby);
 
-	    foreach ($orderby as $key => $dir) {
-	        $orderby[$key] = ('desc' === strtolower($dir)) ? 'desc' : 'asc';
-	    }
+		foreach ($orderby as $key => $dir) {
+			$orderby[$key] = ('desc' === strtolower($dir)) ? 'desc' : 'asc';
+		}
 
-	    $sort = function($a, $b) use ($orderby) {
+		$sort = function ($a, $b) use ($orderby) {
 
-	        $a = (array)$a;
-	        $b = (array)$b;
+			$a = (array)$a;
+			$b = (array)$b;
 
-	        foreach ($orderby as $key => $dir) {
+			foreach ($orderby as $key => $dir) {
 
-	            if ( !isset($a[$key]) || !isset($b[$key]) ) {
-	                continue;
-	            }
+				if ( !isset($a[$key]) || !isset($b[$key]) ) {
+					continue;
+				}
 
-				if ($a[$key] == 0) return 1;
-				if ($b[$key] == 0) return -1;
+				if ( $a[$key] == 0 ) return 1;
+				if ( $b[$key] == 0 ) return -1;
 
-	            if ( $a[$key] == $b[$key] ) {
-	                continue;
-	            }
+				if ( $a[$key] == $b[$key] ) {
+					continue;
+				}
 
-	            $val = ('desc' === $dir) ? [1, -1] : [-1, 1];
+				$val = ('desc' === $dir) ? [1, -1] : [-1, 1];
 
-	            if ( is_numeric($a[$key]) && is_numeric($b[$key]) ) {
-	                return ($a[$key] < $b[$key]) ? $val[0] : $val[1];
-	            }
+				if ( is_numeric($a[$key]) && is_numeric($b[$key]) ) {
+					return ($a[$key] < $b[$key]) ? $val[0] : $val[1];
+				}
 
-	            return 0 > strcmp($a[$key], $b[$key]) ? $val[0] : $val[1];
-	        }
+				return 0 > strcmp($a[$key], $b[$key]) ? $val[0] : $val[1];
+			}
 
-	        return 0;
-	    };
+			return 0;
+		};
 
-	    usort($data, $sort);
-	    return $data;
+		usort($data, $sort);
+		return $data;
 	}
 
 	/**
@@ -695,7 +663,7 @@ final class Normalizer
 			'features'     => self::sanitizeFeatures($item)
 		];
 	}
-	
+
 	/**
 	 * Normalize node.
 	 *
@@ -752,7 +720,7 @@ final class Normalizer
 		$data = $data['BrowseNodesResult']['BrowseNodes'][0] ?? [];
 		return ['node' => $data];
 	}
-	
+
 	/**
 	 * Parse item.
 	 *
@@ -764,7 +732,7 @@ final class Normalizer
 	{
 		return $data['ItemsResult']['Items'] ?? [];
 	}
-	
+
 	/**
 	 * Parse search.
 	 *
@@ -783,7 +751,7 @@ final class Normalizer
 		}
 		return $data['SearchResult']['Items'] ?? [];
 	}
-	
+
 	/**
 	 * Parse variation.
 	 *
@@ -795,7 +763,7 @@ final class Normalizer
 	{
 		return $data['VariationsResult']['Items'] ?? [];
 	}
-	
+
 	/**
 	 * Parse node ancestor.
 	 *
@@ -815,7 +783,7 @@ final class Normalizer
 		}
 		return $ancestor;
 	}
-	
+
 	/**
 	 * Parse node children.
 	 *
@@ -1023,7 +991,8 @@ final class Normalizer
 	 */
 	private static function sanitizeDiscounted(array $item) : float
 	{
-		return (self::sanitizePrice($item) + self::sanitizeDiscount($item));
+		$discounted = self::sanitizePrice($item) + self::sanitizeDiscount($item);
+		return round($discounted, 2);
 	}
 
 	/**
@@ -1157,9 +1126,9 @@ final class Normalizer
 	 */
 	private static function formatOrderBy($order) : array
 	{
-	    if ( is_string($order) ) {
-	        $order = [$order => 'asc'];
-	    }
+		if ( is_string($order) ) {
+			$order = [$order => 'asc'];
+		}
 
 		$order = (array)$order;
 
@@ -1178,7 +1147,7 @@ final class Normalizer
 
 		return $order;
 	}
-	
+
 	/**
 	 * Format string.
 	 *
@@ -1190,10 +1159,10 @@ final class Normalizer
 	{
 		if ( !self::$format ) {
 			$string = self::replaceRegex('/[^\x{0000}-\x{FFFF}]/u', ' ', $string);
-			$string = self::replaceString(['【', ], ' [', $string);
-			$string = self::replaceString(['】', ], '] ', $string);
+			$string = self::replaceString(['【',], ' [', $string);
+			$string = self::replaceString(['】',], '] ', $string);
 		}
-		
+
 		$string = trim($string);
 		$string = self::replaceString("\r", "\n", $string);
 		$string = self::replaceRegex(['/\n+/', '/[ \t]+/'], ["\n", ' '], $string);

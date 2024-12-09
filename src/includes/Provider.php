@@ -27,9 +27,9 @@ final class Provider
      * @var array SORT, API product sort filter
      * @var array SHIPPING, API product delivery filter
      */
-    public const HOST = 'https://www.amazon.{locale}';
+    public const HOST      = 'https://www.amazon.{locale}';
     public const CONDITION = ['Any', 'New', 'Used', 'Refurbished', 'Collectible'];
-    public const SORT = [
+    public const SORT      = [
         'featured'  => 'Featured',
         'newest'    => 'NewestArrivals',
         'relevance' => 'Relevance',
@@ -37,7 +37,7 @@ final class Provider
         'highest'   => 'Price:HighToLow',
         'lowest'    => 'Price:LowToHigh'
     ];
-    public const SHIPPING = [
+    public const SHIPPING  = [
         'global'    => 'AmazonGlobal',
         'free'      => 'FreeShipping',
         'fulfilled' => 'FulfilledByAmazon',
@@ -206,7 +206,7 @@ final class Provider
 
             $categories = self::getCategories($locale);
             $column = array_column($categories, 'name');
-            $index  = array_search($category, $column);
+            $index = array_search($category, $column);
             if ( is_int($index) ) {
                 $cached = $categories[$index]['id'] ?? '';
                 Cache::set($key, $cached);
@@ -228,37 +228,37 @@ final class Provider
         return self::HOST . "/b?node={$id}&tag={tag}";
     }
 
-	/**
-	 * Generate header.
-	 *
-	 * @access public
-	 * @return string
-	 */
+    /**
+     * Generate header.
+     *
+     * @access public
+     * @return string
+     */
     public static function generateHeader(string $locale = 'com') : string
-	{
-		$currency = 'USD';
-		if ( $locale !== 'com' ) {
-			$currency = self::getCurrency($locale)[0] ?? $currency;
-		}
+    {
+        $currency = 'USD';
+        if ( $locale !== 'com' ) {
+            $currency = self::getCurrency($locale)[0] ?? $currency;
+        }
 
         $time = time() . 'l';
 
-		$id  = mt_rand(100, 999);
-		$id .= '-' . mt_rand(1000000, 9999999);
-		$id .= '-' . mt_rand(1000000, 9999999);
+        $id = mt_rand(100, 999);
+        $id .= '-' . mt_rand(1000000, 9999999);
+        $id .= '-' . mt_rand(1000000, 9999999);
 
         $cookie = [
             "i18n-prefs={$currency}",
             "session-id={$id}",
             "session-id-time={$time}"
         ];
-        
+
         $header = [
             'Cookie'     => implode('; ', $cookie),
             'Connection' => 'close'
         ];
 
-        return implode("\n", array_map(function($key, $value) {
+        return implode("\n", array_map(function ($key, $value) {
             return "{$key}: {$value}";
         }, array_keys($header), $header));
     }

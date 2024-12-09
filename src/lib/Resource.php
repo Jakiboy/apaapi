@@ -23,5 +23,5 @@ class Resource implements ResourceInterface
      * @access public
      * @var array $items
      */
-	public $items = false;
+    public $items = false;
 }

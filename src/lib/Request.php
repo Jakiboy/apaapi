@@ -12,17 +12,8 @@
 
 namespace Apaapi\lib;
 
-use Apaapi\interfaces\{
-    RequestInterface,
-    ClientInterface,
-    OperationInterface
-};
-use Apaapi\includes\{
-    Client,
-    Parser,
-    Provider,
-    Normalizer
-};
+use Apaapi\interfaces\{RequestInterface, ClientInterface, OperationInterface};
+use Apaapi\includes\{Client, Parser, Provider, Normalizer};
 use Apaapi\exceptions\RequestException;
 
 /**
@@ -55,7 +46,7 @@ final class Request extends Signature implements RequestInterface
     {
         $this->accessKeyID = $accessKeyID;
         $this->secretAccessKey = $secretAccessKey;
-        
+
         $this->setTimeStamp();
         $this->setDate();
         $this->setRequestHeader('content-encoding', 'amz-1.0');
@@ -65,13 +56,13 @@ final class Request extends Signature implements RequestInterface
     /**
      * @inheritdoc
      */
-    public function setPayload(OperationInterface $operation)
+    public function setPayload(OperationInterface $operation) : void
     {
         // Setup params
         $this->operation = Parser::getName($operation);
-        $this->payload   = Parser::convert($operation);
-        $this->path      = $this->path . strtolower($this->operation);
-        $this->target    = "{$this->target}.{$this->operation}";
+        $this->payload = Parser::convert($operation);
+        $this->path = $this->path . strtolower($this->operation);
+        $this->target = "{$this->target}.{$this->operation}";
         $host = self::HOST . ".{$this->locale}";
 
         // Setup headers
@@ -80,9 +71,9 @@ final class Request extends Signature implements RequestInterface
         $this->setRequestHeader('x-amz-date', $this->timestamp);
 
         $headers = $this->getHeaders();
-        $header  = '';
+        $header = '';
 
-        foreach ( $headers as $key => $value ) {
+        foreach ($headers as $key => $value) {
             $header .= "{$key}:{$value}\n";
         }
 
@@ -97,7 +88,7 @@ final class Request extends Signature implements RequestInterface
     /**
      * @inheritdoc
      */
-    public function setClient(?ClientInterface $client = null)
+    public function setClient(?ClientInterface $client = null) : void
     {
         if ( !($this->client = $client) ) {
             $this->client = new Client(
@@ -112,8 +103,8 @@ final class Request extends Signature implements RequestInterface
      */
     public function setTimeStamp(?string $timestamp = null) : object
     {
-        $this->timestamp = ($timestamp) 
-        ? $timestamp : gmdate('Ymd\THis\Z');
+        $this->timestamp = ($timestamp)
+            ? $timestamp : gmdate('Ymd\THis\Z');
         return $this;
     }
 
@@ -122,8 +113,8 @@ final class Request extends Signature implements RequestInterface
      */
     public function setDate(?string $date = null) : object
     {
-        $this->currentDate = ($date) 
-        ? $date : gmdate('Ymd');
+        $this->currentDate = ($date)
+            ? $date : gmdate('Ymd');
         return $this;
     }
 
@@ -174,7 +165,7 @@ final class Request extends Signature implements RequestInterface
     /**
      * @inheritdoc
      */
-    public function setRequestHeader(string $name, $value)
+    public function setRequestHeader(string $name, $value) : void
     {
         $this->headers[$name] = $value;
     }
@@ -192,7 +183,7 @@ final class Request extends Signature implements RequestInterface
                 RequestException::invalidLocale($locale)
             );
         }
-        
+
         return $this;
     }
 }

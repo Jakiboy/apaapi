@@ -12,10 +12,7 @@
 
 namespace Apaapi\lib;
 
-use Apaapi\interfaces\{
-    OperationInterface,
-    ClientInterface
-};
+use Apaapi\interfaces\{OperationInterface, ClientInterface};
 
 /**
  * Apaapi Amazon signature request wrapper class.
@@ -116,18 +113,18 @@ abstract class Signature
         return $this->headers;
     }
 
-	/**
+    /**
      * Prepare canonical request.
      *
-	 * @access private
-	 * @return string
-	 */
+     * @access private
+     * @return string
+     */
     private function prepareCanonicalRequest() : string
     {
-        $url  = "{$this->method}\n";
+        $url = "{$this->method}\n";
         $url .= "{$this->path}\n\n";
         $signedHeaders = '';
-        foreach ( $this->headers as $key => $value ) {
+        foreach ($this->headers as $key => $value) {
             $signedHeaders .= "{$key};";
             $url .= "{$key}:{$value}\n";
         }
@@ -138,16 +135,16 @@ abstract class Signature
         return $url;
     }
 
-	/**
+    /**
      * Prepare string to be sign.
      *
-	 * @access private
-	 * @param string $url
-	 * @return string
-	 */
+     * @access private
+     * @param string $url
+     * @return string
+     */
     private function prepareStringToSign(string $url) : string
     {
-        $string  = "{$this->hmac}\n";
+        $string = "{$this->hmac}\n";
         $string .= "{$this->timestamp}\n";
         $string .= "{$this->currentDate}/{$this->region}/";
         $string .= "{$this->service}/{$this->request}\n";
@@ -155,13 +152,13 @@ abstract class Signature
         return $string;
     }
 
-	/**
+    /**
      * Calculate signature.
      *
-	 * @access private
-	 * @param string $data
-	 * @return string
-	 */
+     * @access private
+     * @param string $data
+     * @return string
+     */
     private function calculateSignature(string $data) : string
     {
         $key = $this->getSignatureKey(
@@ -174,66 +171,66 @@ abstract class Signature
         return strtolower(bin2hex($signature));
     }
 
-	/**
+    /**
      * Build authorization string.
      *
-	 * @access private
-	 * @param string $signature
-	 * @return string
-	 */
+     * @access private
+     * @param string $signature
+     * @return string
+     */
     private function buildAuthorizationString(string $signature) : string
     {
-    	$auth  = "{$this->hmac} ";
-    	$auth .= "Credential={$this->accessKeyID}/";
-    	$auth .= "{$this->currentDate}/";
-    	$auth .= "{$this->region}/";
+        $auth = "{$this->hmac} ";
+        $auth .= "Credential={$this->accessKeyID}/";
+        $auth .= "{$this->currentDate}/";
+        $auth .= "{$this->region}/";
         $auth .= "{$this->service}/";
-    	$auth .= "{$this->request},";
-    	$auth .= "SignedHeaders={$this->signedHeaders},";
-    	$auth .= "Signature={$signature}";
-    	return $auth;
+        $auth .= "{$this->request},";
+        $auth .= "SignedHeaders={$this->signedHeaders},";
+        $auth .= "Signature={$signature}";
+        return $auth;
     }
 
-	/**
+    /**
      * Generate hex.
      *
-	 * @access private
-	 * @param string $date
-	 * @return string
-	 */
+     * @access private
+     * @param string $date
+     * @return string
+     */
     private function generateHex(string $date) : string
     {
         $hex = bin2hex(hash($this->algo, $date, true));
         return strtolower($hex);
     }
 
-	/**
+    /**
      * Get signature key.
      *
-	 * @access private
-	 * @param string $key
-	 * @param string $date
-	 * @param string $region
-	 * @param string $service
-	 * @return string
-	 */
+     * @access private
+     * @param string $key
+     * @param string $date
+     * @param string $region
+     * @param string $service
+     * @return string
+     */
     private function getSignatureKey(string $key, string $date, string $region, string $service) : string
     {
-        $secret  = "AWS4{$key}";
-        $date    = $this->hash($date, $secret);
-        $region  = $this->hash($region, $date);
+        $secret = "AWS4{$key}";
+        $date = $this->hash($date, $secret);
+        $region = $this->hash($region, $date);
         $service = $this->hash($service, $region);
         return $this->hash($this->request, $service);
     }
 
-	/**
+    /**
      * Hash data.
      *
-	 * @access private
-	 * @param string $data
-	 * @param string $key
-	 * @return string
-	 */
+     * @access private
+     * @param string $data
+     * @param string $key
+     * @return string
+     */
     private function hash(string $data, string $key) : string
     {
         return hash_hmac($this->algo, $data, $key, true);

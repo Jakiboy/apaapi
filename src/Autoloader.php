@@ -49,17 +49,17 @@ final class Autoloader
 	 * @param string $class
 	 * @return void
 	 */
-	private function autoload(string $class)
+	private function autoload(string $class) : void
 	{
 		$namespace = __NAMESPACE__ . '\\';
-	    if ( strpos($class, $namespace) === 0 ) {
-	        $class = str_replace($namespace, '', $class);
+		if ( strpos($class, $namespace) === 0 ) {
+			$class = str_replace($namespace, '', $class);
 			$class = dirname(__DIR__) . "/src/{$class}.php";
 			$class = str_replace('\\', '/', $class);
 			if ( file_exists($class) ) {
 				require_once $class;
 			}
-	    }
+		}
 	}
 
 	/**
@@ -68,7 +68,7 @@ final class Autoloader
 	 * @access public
 	 * @return void
 	 */
-	public static function init()
+	public static function init() : void
 	{
 		if ( !static::$initialized ) {
 			new self;

@@ -30,7 +30,7 @@ final class Rating
 	private $locale;
 	private $tag;
 
-	private const ACTION = '/product-reviews/';
+	private const ACTION     = '/product-reviews/';
 	private const VALUExPATH = "//i[contains(@class,'averageStarRating')]";
 	private const COUNTxPATH = "//div[contains(@class,'averageStarRatingNumerical')]";
 
@@ -44,8 +44,8 @@ final class Rating
 	public function __construct(string $keyword, string $locale = 'com', ?string $tag = null)
 	{
 		$this->keyword = Normalizer::formatId($keyword);
-		$this->locale  = Normalizer::formatTLD($locale);
-		$this->tag     = $tag;
+		$this->locale = Normalizer::formatTLD($locale);
+		$this->tag = $tag;
 	}
 
 	/**
@@ -58,8 +58,10 @@ final class Rating
 	{
 		$rating = $this->getDefault();
 
-		if ( !Keyword::isASIN($this->keyword) 
-		  && !Keyword::isISBN($this->keyword) ) {
+		if (
+			!Keyword::isASIN($this->keyword)
+			&& !Keyword::isISBN($this->keyword)
+		) {
 			return $rating;
 		}
 
@@ -69,22 +71,22 @@ final class Rating
 		if ( !($rating = Cache::get($key)) ) {
 
 			$host = Provider::HOST;
-			$url  = str_replace('{locale}', $this->locale, $host);
+			$url = str_replace('{locale}', $this->locale, $host);
 			$url .= self::ACTION;
 			$url .= $this->keyword;
-	
+
 			$client = new Client($url, [
 				'header' => Provider::generateHeader()
 			]);
-	
+
 			$client->setMethod('GET')
-			->setRedirect(1)
-			->setEncoding('')
-			->setTimeout(0);
-	
+				->setRedirect(1)
+				->setEncoding('')
+				->setTimeout(0);
+
 			$response = $client->getResponse();
 			$client->close();
-			
+
 			if ( $client->getCode() == 200 ) {
 				$rating = $this->extract($response);
 				$rating['url'] = "{$url}?tag={$this->tag}&linkCode=ll2";
@@ -113,15 +115,15 @@ final class Rating
 			libxml_use_internal_errors(true);
 
 			// Init DOM document
-        	$dom = new DOMDocument();
-        	$dom->loadHTML($html);
-        	$xPath = new DOMXPath($dom);
+			$dom = new DOMDocument();
+			$dom->loadHTML($html);
+			$xPath = new DOMXPath($dom);
 
-        	// Extract rating value
-        	$nodes = $xPath->query(self::VALUExPATH);
+			// Extract rating value
+			$nodes = $xPath->query(self::VALUExPATH);
 			if ( $nodes instanceof DOMNodeList && ($nodes->length > 0) ) {
-				$node  = $nodes[0];
-				$data  = explode(' ', (string)$node->nodeValue);
+				$node = $nodes[0];
+				$data = explode(' ', (string)$node->nodeValue);
 				$value = $data[0];
 				$value = str_replace(',', '.', $value);
 				$rating['value'] = (float)$value;
@@ -130,7 +132,7 @@ final class Rating
 			// Extract rating count
 			$nodes = $xPath->query(self::COUNTxPATH);
 			if ( $nodes instanceof DOMNodeList && ($nodes->length > 0) ) {
-				$node  = $nodes[0];
+				$node = $nodes->item(0);
 				$count = (string)$node->nodeValue;
 				$count = preg_replace('/\D/', '', $count);
 				$rating['count'] = (int)$count;

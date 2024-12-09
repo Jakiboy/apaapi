@@ -14,10 +14,7 @@ namespace Apaapi\lib;
 
 use Apaapi\exceptions\RequestException;
 use Apaapi\interfaces\CartInterface;
-use Apaapi\includes\{
-    Provider,
-    Normalizer
-};
+use Apaapi\includes\{Provider, Normalizer};
 
 /**
  * Basic Apaapi cart wrapper class.
@@ -69,9 +66,9 @@ class Cart implements CartInterface
      */
     public function set(array $items) : string
     {
-		if ( static::$limit ) {
-			$items = array_slice($items, 0, static::$limit);
-		}
+        if ( static::$limit ) {
+            $items = array_slice($items, 0, static::$limit);
+        }
 
         $url = Provider::HOST . self::ENDPOINT;
         $url = str_replace('{locale}', $this->locale, $url);
@@ -85,14 +82,14 @@ class Cart implements CartInterface
     }
 
     /**
-	 * Set limit.
-	 *
-	 * @access public
-	 * @param int $limit
-	 * @return void
-	 */
-	public static function limit(int $limit)
-	{
-		self::$limit = $limit;
-	}
+     * Set limit.
+     *
+     * @access public
+     * @param int $limit
+     * @return void
+     */
+    public static function limit(int $limit) : void
+    {
+        self::$limit = $limit;
+    }
 }

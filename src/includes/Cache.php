@@ -27,12 +27,12 @@ final class Cache
 	private const SALT = '0RhuksYDF';
 	private const EXT  = 'db';
 
-    /**
-     * @access private
+	/**
+	 * @access private
 	 * @var int $ttl, Cache TTL
 	 * @var string $salt, Cache salt
 	 * @var string $ext, Cache extension
-     */
+	 */
 	private static $ttl;
 	private static $salt;
 	private static $ext;
@@ -44,7 +44,7 @@ final class Cache
 	 * @param int $ttl
 	 * @return void
 	 */
-	public static function setTtl(int $ttl = self::TTL)
+	public static function setTtl(int $ttl = self::TTL) : void
 	{
 		self::$ttl = $ttl;
 	}
@@ -56,7 +56,7 @@ final class Cache
 	 * @param string $salt
 	 * @return void
 	 */
-	public static function setSalt(string $salt = self::SALT)
+	public static function setSalt(string $salt = self::SALT) : void
 	{
 		self::$salt = $salt;
 	}
@@ -68,7 +68,7 @@ final class Cache
 	 * @param string $ext
 	 * @return void
 	 */
-	public static function setExt(string $ext = self::EXT)
+	public static function setExt(string $ext = self::EXT) : void
 	{
 		self::$ext = $ext;
 	}
@@ -82,7 +82,7 @@ final class Cache
 	 */
 	public static function getKey(RequestInterface $request) : string
 	{
-		$params  = $request->getParams();
+		$params = $request->getParams();
 		$payload = $params['payload'] ?? '';
 		return self::generateKey((string)$payload);
 	}
@@ -108,7 +108,7 @@ final class Cache
 	 * @param string $key
 	 * @return mixed
 	 */
-	public static function get(string $key)
+	public static function get(string $key) : mixed
 	{
 		if ( self::isCached($key) ) {
 			$file = self::getFile($key);
@@ -138,27 +138,27 @@ final class Cache
 	}
 
 	/**
-     * Auto purge expired cache files.
-     *
-     * @access public
-     * @return void
-     */
-    public static function purge()
-    {
-        $path = sys_get_temp_dir();
-        $iterator = new \DirectoryIterator($path);
+	 * Auto purge expired cache files.
+	 *
+	 * @access public
+	 * @return void
+	 */
+	public static function purge() : void
+	{
+		$path = sys_get_temp_dir();
+		$iterator = new \DirectoryIterator($path);
 
-        foreach ($iterator as $fileinfo) {
-            if ( $fileinfo->isFile() && $fileinfo->getExtension() === self::$ext ) {
-                $file = $fileinfo->getPathname();
-                $time = time() - self::$ttl;
+		foreach ($iterator as $fileinfo) {
+			if ( $fileinfo->isFile() && $fileinfo->getExtension() === self::$ext ) {
+				$file = $fileinfo->getPathname();
+				$time = time() - self::$ttl;
 
-                if ( $time >= $fileinfo->getMTime() ) {
-                    @unlink($file);
-                }
-            }
-        }
-    }
+				if ( $time >= $fileinfo->getMTime() ) {
+					@unlink($file);
+				}
+			}
+		}
+	}
 
 	/**
 	 * Check cache key.
@@ -171,7 +171,7 @@ final class Cache
 	{
 		self::init();
 		$file = self::getFile($key);
-		
+
 		if ( @file_exists($file) ) {
 			$time = time() - self::$ttl;
 			if ( $time < filemtime($file) ) {
@@ -181,7 +181,7 @@ final class Cache
 				@unlink($file);
 			}
 		}
-		
+
 		return false;
 	}
 
@@ -206,7 +206,7 @@ final class Cache
 	 * @access private
 	 * @return void
 	 */
-	private static function init()
+	private static function init() : void
 	{
 		if ( !self::$ttl ) {
 			self::setTTL();
@@ -216,6 +216,6 @@ final class Cache
 		}
 		if ( !self::$ext ) {
 			self::setExt();
-		}		
+		}
 	}
 }

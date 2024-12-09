@@ -22,7 +22,7 @@ interface CartInterface
      *
      * @param string $locale
      * @return object
-     * @throws RequestException
+     * @throws \Apaapi\exceptions\RequestException
      */
     function setLocale(string $locale) : object;
 

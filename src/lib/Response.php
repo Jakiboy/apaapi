@@ -12,15 +12,8 @@
 
 namespace Apaapi\lib;
 
-use Apaapi\interfaces\{
-	ResponseInterface,
-	RequestInterface
-};
-use Apaapi\includes\{
-    Cache,
-    Geotargeting,
-    Normalizer
-};
+use Apaapi\interfaces\{ResponseInterface, RequestInterface};
+use Apaapi\includes\{Cache, Geotargeting, Normalizer};
 
 /**
  * Basic Apaapi response wrapper class.
@@ -28,33 +21,33 @@ use Apaapi\includes\{
  */
 class Response implements ResponseInterface
 {
-    /**
-     * @access public
-     */
+	/**
+	 * @access public
+	 */
 	public const NORMALIZE = true;
-	public const NOCACHE = false;
+	public const NOCACHE   = false;
 
-    /**
-     * @access protected
-     * @var int $code, Response code
+	/**
+	 * @access protected
+	 * @var int $code, Response code
 	 * @var string $body, Response body
-     * @var array $data, Response data
-     */
+	 * @var array $data, Response data
+	 */
 	protected $code = 200;
 	protected $body = false;
 	protected $data = [];
 
-    /**
-     * @inheritdoc
-     */
+	/**
+	 * @inheritdoc
+	 */
 	public function __construct(RequestInterface $request, bool $normalize = false, bool $cache = true)
 	{
-		($cache) ? $this->getCached($request) : $this->send($request);
+		$cache ? $this->getCached($request) : $this->send($request);
 
 		if ( !$this->hasError() ) {
 
 			$this->data = Normalizer::decode($this->body);
-			
+
 			if ( $normalize ) {
 				$this->data = Normalizer::get($this->data, $request->getOperation());
 			}
@@ -62,9 +55,9 @@ class Response implements ResponseInterface
 		}
 	}
 
-    /**
-     * @inheritdoc
-     */
+	/**
+	 * @inheritdoc
+	 */
 	public function get(?array $geo = null) : array
 	{
 		if ( $geo ) {
@@ -73,17 +66,17 @@ class Response implements ResponseInterface
 		return $this->data;
 	}
 
-    /**
-     * @inheritdoc
-     */
+	/**
+	 * @inheritdoc
+	 */
 	public function getBody() : string
 	{
 		return (string)$this->body;
 	}
 
-    /**
-     * @inheritdoc
-     */
+	/**
+	 * @inheritdoc
+	 */
 	public function getError() : string
 	{
 		return Normalizer::formatError(
@@ -91,9 +84,9 @@ class Response implements ResponseInterface
 		);
 	}
 
-    /**
-     * @inheritdoc
-     */
+	/**
+	 * @inheritdoc
+	 */
 	public function hasError() : bool
 	{
 		if ( !$this->code || $this->code >= 400 ) {
@@ -101,20 +94,20 @@ class Response implements ResponseInterface
 		}
 
 		if ( $this->code == 200 ) {
-			return (strpos($this->body, '#ErrorData') !== false);
+			return strpos($this->body, '#ErrorData') !== false;
 		}
 
 		return false;
 	}
 
-    /**
-     * Get cached response.
-     *
-     * @access protected
+	/**
+	 * Get cached response.
+	 *
+	 * @access protected
 	 * @param RequestInterface $request
-     * @return void
-     */
-	protected function getCached(RequestInterface $request)
+	 * @return void
+	 */
+	protected function getCached(RequestInterface $request) : void
 	{
 		$key = Cache::getKey($request);
 		if ( ($cached = Cache::get($key)) ) {
@@ -128,14 +121,14 @@ class Response implements ResponseInterface
 		}
 	}
 
-    /**
-     * Send request.
-     *
-     * @access protected
-     * @param RequestInterface $request
-     * @return void
-     */
-	protected function send(RequestInterface $request)
+	/**
+	 * Send request.
+	 *
+	 * @access protected
+	 * @param RequestInterface $request
+	 * @return void
+	 */
+	protected function send(RequestInterface $request) : void
 	{
 		if ( !$request->hasClient() ) {
 			$request->setClient();

@@ -17,12 +17,12 @@ namespace Apaapi\interfaces;
  */
 interface OperationInterface extends ParsableInterface
 {
-	/**
+    /**
      * Set partner type.
      *
-	 * @param string $type
-	 * @return object
-	 */
+     * @param string $type
+     * @return object
+     */
     function setPartnerType(string $type) : object;
 
     /**
@@ -33,14 +33,14 @@ interface OperationInterface extends ParsableInterface
      */
     function setPartnerTag(string $tag) : object;
 
-	/**
+    /**
      * Set resources.
      *
-	 * @param array $resources
-	 * @param bool $throwable
-	 * @return object
-     * @throws OperationException
-	 */
+     * @param array $resources
+     * @param bool $throwable
+     * @return object
+     * @throws \Apaapi\exceptions\OperationException
+     */
     function setResources(array $resources, bool $throwable = true) : object;
 
     /**

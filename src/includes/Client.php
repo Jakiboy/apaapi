@@ -25,7 +25,7 @@ class Client implements ClientInterface
     /**
      * @access protected
      */
-    protected const CURL = 'curl';
+    protected const CURL   = 'curl';
     protected const STREAM = 'stream';
 
     /**
@@ -36,7 +36,7 @@ class Client implements ClientInterface
      * @var int $redirect, Request redirect
      * @var string $encoding, Request encoding
      * @var array $params, Request params
-     * @var CurlHandle|ressource $handler, Request handler 
+     * @var \CurlHandle $handler, Request handler 
      * @var string $gateway, curl|stream
      * @var mixed $response, Request response content
      * @var bool $throwable, Request exception throw
@@ -61,8 +61,8 @@ class Client implements ClientInterface
      */
     public function __construct(string $endpoint, array $params = [], bool $throwable = false)
     {
-        $this->endpoint  = $endpoint;
-        $this->params    = $params;
+        $this->endpoint = $endpoint;
+        $this->params = $params;
         $this->throwable = $throwable;
         $this->setGateway();
     }
@@ -114,7 +114,7 @@ class Client implements ClientInterface
         if ( $this->hasError() ) {
             return $this->error;
         }
-        
+
         return (string)$this->response;
     }
 
@@ -125,11 +125,11 @@ class Client implements ClientInterface
     {
         return $this->code;
     }
-    
+
     /**
      * @inheritdoc
      */
-    public function close()
+    public function close() : void
     {
         if ( $this->isCurl() ) {
             curl_close($this->handler);
@@ -169,7 +169,7 @@ class Client implements ClientInterface
      * @access protected
      * @return void
      */
-    protected function setHandler()
+    protected function setHandler() : void
     {
         if ( $this->isCurl() ) {
 
@@ -218,7 +218,7 @@ class Client implements ClientInterface
      */
     protected function hasError() : bool
     {
-       return (bool)$this->error;
+        return (bool)$this->error;
     }
 
     /**
@@ -227,7 +227,7 @@ class Client implements ClientInterface
      * @access protected
      * @return void
      */
-    protected function send()
+    protected function send() : void
     {
         if ( $this->isCurl() ) {
             $this->sendCurl();
@@ -254,7 +254,7 @@ class Client implements ClientInterface
             }
 
         } elseif ( isset($_SERVER['SERVER_PORT']) ) {
-            return ($_SERVER['SERVER_PORT'] === '443');
+            return $_SERVER['SERVER_PORT'] === '443';
         }
         return false;
     }
@@ -266,7 +266,7 @@ class Client implements ClientInterface
      * @return void
      * @throws RequestException
      */
-    protected function setGateway()
+    protected function setGateway() : void
     {
         if ( !self::hasCurl() && !self::hasStream() ) {
             $this->code = 0;
@@ -278,7 +278,7 @@ class Client implements ClientInterface
         } else {
             if ( self::hasCurl() ) {
                 $this->gateway = self::CURL;
-    
+
             } elseif ( self::hasStream() ) {
                 $this->gateway = self::STREAM;
             }
@@ -306,13 +306,13 @@ class Client implements ClientInterface
     protected function getRequestHeader() : array
     {
         $header = $this->params['header'] ?? '';
-        if ( is_array($header)) {
+        if ( is_array($header) ) {
             return $header;
         }
         $header = explode("\n", (string)$header);
-        return ($header) ? $header : [];
+        return $header ?: [];
     }
-    
+
     /**
      * Get HTTP headers.
      *
@@ -322,7 +322,7 @@ class Client implements ClientInterface
      * @param mixed $context
      * @return mixed
      */
-    protected function getHeaders(string $url, $associative = 0, $context = null)
+    protected function getHeaders(string $url, $associative = 0, $context = null) : mixed
     {
         if ( version_compare(phpversion(), '8.0.0', '>=') ) {
             $associative = (bool)$associative;
@@ -336,19 +336,19 @@ class Client implements ClientInterface
      * @access protected
      * @return void
      */
-    protected function sendCurl()
+    protected function sendCurl() : void
     {
         $this->response = curl_exec($this->handler);
         $info = curl_getinfo($this->handler);
         $this->code = $info['http_code'] ?? 0;
 
         if ( curl_errno($this->handler) ) {
-            $this->code  = 0;
+            $this->code = 0;
             $this->error = curl_error($this->handler);
         }
 
         if ( $this->response && $this->code !== 200 ) {
-            $this->error    = $this->response;
+            $this->error = $this->response;
             $this->response = false;
         }
     }
@@ -359,7 +359,7 @@ class Client implements ClientInterface
      * @access protected
      * @return void
      */
-    protected function sendStream()
+    protected function sendStream() : void
     {
         $this->response = @file_get_contents($this->endpoint, false, $this->handler);
         $headers = $this->getHeaders($this->endpoint, 0, $this->handler);
@@ -372,7 +372,7 @@ class Client implements ClientInterface
             }
 
         } else {
-            $this->code  = 0;
+            $this->code = 0;
             $this->error = 'Failed to open stream';
         }
     }
@@ -384,7 +384,7 @@ class Client implements ClientInterface
      * @param mixed $context
      * @return void
      */
-    protected function closeStream($context)
+    protected function closeStream($context) : void
     {
         if ( !version_compare(phpversion(), '8.0.0', '>=') ) {
             @fclose($context);
@@ -399,7 +399,7 @@ class Client implements ClientInterface
      */
     protected function isCurl() : bool
     {
-        return ($this->gateway == self::CURL);
+        return $this->gateway == self::CURL;
     }
 
     /**
@@ -410,7 +410,7 @@ class Client implements ClientInterface
      */
     protected function isStream() : bool
     {
-        return ($this->gateway == self::STREAM);
+        return $this->gateway == self::STREAM;
     }
 
     /**
@@ -421,6 +421,6 @@ class Client implements ClientInterface
      */
     protected function isPost() : bool
     {
-        return ($this->method == 'POST');
+        return $this->method == 'POST';
     }
 }

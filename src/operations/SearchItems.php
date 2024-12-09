@@ -50,7 +50,7 @@ final class SearchItems extends ItemOperation
      * @var string $sortBy
      * @var string $title
      */
-    public $searchIndex  = 'All';
+    public $searchIndex = 'All';
     public $availability = 'Available';
     public $itemCount = 10;
     public $itemPage = 1;
@@ -68,21 +68,21 @@ final class SearchItems extends ItemOperation
     public $sortBy = null;
     public $title = null;
 
-	/**
-	 * Set resources.
-	 */
-	public function __construct()
-	{
-		$this->resources = Parser::convert([
-			new BrowseNodeInfo,
-			new Images,
-			new ItemInfo,
-			new Offers,
+    /**
+     * Set resources.
+     */
+    public function __construct()
+    {
+        $this->resources = Parser::convert([
+            new BrowseNodeInfo,
+            new Images,
+            new ItemInfo,
+            new Offers,
             new RentalOffers,
-			new ParentASIN,
-			new SearchRefinements
-		]);
-	}
+            new ParentASIN,
+            new SearchRefinements
+        ]);
+    }
 
     /**
      * Set keywords.

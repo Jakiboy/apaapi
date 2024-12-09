@@ -41,9 +41,9 @@ final class Parser
      * @param mixed $items
      * @return mixed
      */
-    public static function convert($items)
+    public static function convert($items) : mixed
     {
-    	if ( is_array($items) ) {
+        if ( is_array($items) ) {
             return self::resourcesToArray($items);
         }
         return self::operationToString($items);
@@ -65,7 +65,7 @@ final class Parser
                 foreach ($resource->items as $item) {
                     $wrapper[] = "{$parent}.{$item}";
                 }
-                
+
             } elseif ( $resource->items === false ) {
                 $wrapper[] = $parent;
             }
@@ -82,12 +82,12 @@ final class Parser
      */
     private static function operationToString(ParsableInterface $operation) : string
     {
-    	$wrapper = [];
-    	foreach ($operation as $key => $value) {
+        $wrapper = [];
+        foreach ($operation as $key => $value) {
             if ( $value ) {
                 $wrapper[ucfirst($key)] = $value;
             }
-    	}
+        }
         return json_encode($wrapper);
     }
 }

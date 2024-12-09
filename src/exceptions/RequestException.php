@@ -24,7 +24,7 @@ final class RequestException extends \Exception
 
 	public static function invalidLocale(?string $locale = null) : string
 	{
-		if ( !$locale ) $locale = 'undefined';
+		$locale = $locale ?: 'undefined';
 		return "Invalid request locale '{$locale}'";
 	}
 }

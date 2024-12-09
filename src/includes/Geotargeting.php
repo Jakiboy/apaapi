@@ -49,18 +49,18 @@ final class Geotargeting
 	private $locale;
 	private $redirect = [];
 
-    /**
-     * Set redirection args.
-     *
-     * @param array $args
-     */
-    public function __construct(array $args)
+	/**
+	 * Set redirection args.
+	 *
+	 * @param array $args
+	 */
+	public function __construct(array $args)
 	{
-		$this->api    = $args['api']    ?? [];
+		$this->api = $args['api'] ?? [];
 		$this->target = $args['target'] ?? [];
-		$this->tag    = $args['tag']    ?? '';
+		$this->tag = $args['tag'] ?? '';
 		$this->locale = $args['locale'] ?? '';
-		$this->code   = $args['code']   ?? '';
+		$this->code = $args['code'] ?? '';
 
 		$this->api = array_merge([
 			'ip'  => ['address' => null, 'param' => null],
@@ -80,7 +80,7 @@ final class Geotargeting
 	public function get(array $data) : array
 	{
 		if ( $this->isDetected ) {
-			$data = array_map(function($item) {
+			$data = array_map(function ($item) {
 				return self::redirect($item);
 			}, $data);
 		}
@@ -94,7 +94,7 @@ final class Geotargeting
 	 * @param string $visitorKey
 	 * @return void
 	 */
-	public static function setVisitorKey(string $visitorKey)
+	public static function setVisitorKey(string $visitorKey) : void
 	{
 		self::$visitorKey = $visitorKey;
 	}
@@ -106,7 +106,7 @@ final class Geotargeting
 	 * @param array $exception
 	 * @return void
 	 */
-	public static function setException(array $exception)
+	public static function setException(array $exception) : void
 	{
 		self::$exception = $exception;
 	}
@@ -117,7 +117,7 @@ final class Geotargeting
 	 * @access public
 	 * @return void
 	 */
-	public static function redirectNotFound()
+	public static function redirectNotFound() : void
 	{
 		self::$redirectNotFound = true;
 	}
@@ -135,7 +135,7 @@ final class Geotargeting
 
 			$host = Provider::HOST;
 			$from = str_replace('{locale}', $this->locale, $host);
-			$to   = str_replace('{locale}', $this->redirect['tld'], $host);
+			$to = str_replace('{locale}', $this->redirect['tld'], $host);
 
 			$item['url'] = str_replace([
 				$from,
@@ -154,9 +154,9 @@ final class Geotargeting
 				]);
 
 				$client->setMethod('GET')
-				->setRedirect(2)
-				->setTimeout(0);
-	
+					->setRedirect(2)
+					->setTimeout(0);
+
 				$client->getResponse();
 				$client->close();
 
@@ -184,7 +184,7 @@ final class Geotargeting
 	 * @access private
 	 * @return void
 	 */
-	private function detect()
+	private function detect() : void
 	{
 		$code = $this->getCountryCode();
 		if ( $this->target ) {
@@ -200,7 +200,7 @@ final class Geotargeting
 			$this->isDetected = false;
 		}
 	}
-	
+
 	/**
 	 * Get current country code.
 	 *
@@ -236,9 +236,9 @@ final class Geotargeting
 	 */
 	private function getApiCountryCode(string $ip = '0.0.0.0') : string
 	{
-		$code	 = 'us';
+		$code = 'us';
 		$address = $this->api['geo']['address'] ?? '';
-		$param   = $this->api['geo']['param'] ?? '';
+		$param = $this->api['geo']['param'] ?? '';
 
 		if ( !$address || !$param ) {
 			return $code;
@@ -274,9 +274,9 @@ final class Geotargeting
 	 */
 	private function getApiAddressIp() : string
 	{
-		$ip      = '0.0.0.0';
+		$ip = '0.0.0.0';
 		$address = $this->api['ip']['address'] ?? '';
-		$param   = $this->api['ip']['param'] ?? '';
+		$param = $this->api['ip']['param'] ?? '';
 
 		if ( !$address || !$param ) {
 			return $ip;
@@ -345,15 +345,15 @@ final class Geotargeting
 	 * @access private
 	 * @return string
 	 */
-    private function getVisitorId() : string
+	private function getVisitorId() : string
 	{
-        if ( isset($_COOKIE[self::$visitorKey]) ) {
-            return $_COOKIE[self::$visitorKey];
-        }
+		if ( isset($_COOKIE[self::$visitorKey]) ) {
+			return $_COOKIE[self::$visitorKey];
+		}
 
-        $visitorId = uniqid();
-        setcookie(self::$visitorKey, $visitorId, time() + (86400 * 30), '/');
+		$visitorId = uniqid();
+		setcookie(self::$visitorKey, $visitorId, time() + (86400 * 30), '/');
 
-        return $visitorId;
-    }
+		return $visitorId;
+	}
 }
