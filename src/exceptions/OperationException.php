@@ -19,7 +19,7 @@ final class OperationException extends \Exception
 {
 	public static function invalidRessources(?string $item = null) : string
 	{
-		if ( !$item ) $item = 'undefined';
+		$item = $item ?: 'undefined';
 		return "Invalid operation resources '{$item}'";
 	}
 }

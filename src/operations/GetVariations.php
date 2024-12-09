@@ -28,7 +28,7 @@ use Apaapi\includes\Parser;
  * Apaapi <GetVariations> operation.
  * @see https://webservices.amazon.com/paapi5/documentation/get-variations.html
  */
-final class GetVariations extends ItemOperation 
+final class GetVariations extends ItemOperation
 {
 	/**
 	 * @access public
@@ -63,11 +63,11 @@ final class GetVariations extends ItemOperation
 	 * @param string $ASIN
 	 * @return object
 	 */
-    public function setASIN(string $ASIN) : object
-    {
-    	$this->ASIN = $ASIN;
-    	return $this;
-    }
+	public function setASIN(string $ASIN) : object
+	{
+		$this->ASIN = $ASIN;
+		return $this;
+	}
 
 	/**
 	 * Set variation count.
@@ -76,11 +76,11 @@ final class GetVariations extends ItemOperation
 	 * @param int $count
 	 * @return object
 	 */
-    public function setVariationCount(int $count) : object
-    {
-    	$this->variationCount = $count;
-    	return $this;
-    }
+	public function setVariationCount(int $count) : object
+	{
+		$this->variationCount = $count;
+		return $this;
+	}
 
 	/**
 	 * Set variation page.
@@ -89,9 +89,9 @@ final class GetVariations extends ItemOperation
 	 * @param int $page
 	 * @return object
 	 */
-    public function setVariationPage(int $page) : object
-    {
-    	$this->variationPage = $page;
-    	return $this;
-    }
+	public function setVariationPage(int $page) : object
+	{
+		$this->variationPage = $page;
+		return $this;
+	}
 }

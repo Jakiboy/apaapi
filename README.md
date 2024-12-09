@@ -1,14 +1,13 @@
 # APAAPI
 
-<img src="https://raw.githubusercontent.com/Jakiboy/apaapi/main/banner.png" width="100%" alt="Amazon Product Advertising API PHP">
+<img src="./banner.png" width="100%" alt="Amazon Product Advertising API PHP">
 
-Amazon Product Advertising API V5.0 (**Without Amazon SDK**).  
-This repository contains a lightweight PHP (190 KB) wrapper library,  
+Amazon Product Advertising API V5.0 (**Without Amazon SDK**). This repository contains a lightweight PHP (~200 KB) wrapper library,  
 Easily access the [Amazon Product Advertising API V5.0](https://webservices.amazon.com/paapi5/documentation/index.html) from your app.
 
 -- Become an Amazon Affiliate With PHP --
 
-## 🔧 Installing:
+## 🔧 Installing
 
 #### Using Composer:
 
@@ -16,7 +15,7 @@ Easily access the [Amazon Product Advertising API V5.0](https://webservices.amaz
 composer require jakiboy/apaapi
 ```
 
-#### Without Composer?
+#### Without Composer:
 
 * **1** - [Download repository ZIP](https://github.com/Jakiboy/apaapi/archive/refs/heads/main.zip) (*Latest version*).
 * **2** - Extract ZIP (*apaapi-main*).
@@ -29,11 +28,7 @@ include('apaapi-main/src/Autoloader.php');
 
 * **4** - You can now use the [Quickstart examples](#quickstart).
 
-## 💡 Upgrade :
-
-**See changes before migrate**: 
-
-This version includes:  
+## 💡 Features
 
 * **Request Builder** (Easier way to fetch data).
 * **Response Normalizer** (Normalize response items).
@@ -41,13 +36,12 @@ This version includes:
 * **Geotargeting** (Automatically redirect links based on the visitor's region).
 * **Rating Stars** (Lagacy).
 * **Keyword Converter** (ASIN, ISBN, EAN, Node, Root).
-* **Caching System** (Basic built-in cache to reduce API calls). 
-* [Full Changelog](https://github.com/Jakiboy/apaapi/releases). 
+* **Caching System** (Basic built-in cache to reduce API calls).
 
 > [!TIP]
-> In case of any complication, please revert to the [previous version](https://github.com/Jakiboy/apaapi/tree/1.1.7).
+> For PHP < 8.2, please use [previous version](https://github.com/Jakiboy/apaapi/tree/1.1.7).
 
-## ⚡ Getting Started:
+## ⚡ Getting Started
 
 ### Variables:
 
@@ -59,9 +53,9 @@ This version includes:
 * "\_ASIN\_" : Accepts (ISBN), Amazon Standard Identification Number (*your locale*), [More](https://webservices.amazon.com/paapi5/documentation/get-items.html#ItemLookup-rp). 
 * "\_NODE\_" : Browse Node ID (*your locale*), [More](https://webservices.amazon.com/paapi5/documentation/use-cases/organization-of-items-on-amazon/browse-nodes/browse-node-properties.html#browse-node-ids). 
 
-### Quickstart:
+### Quickstart
 
-Using Apaapi builder is **recommended**.
+**Recommended**: Using Apaapi builder.
 
 ```php
 
@@ -81,7 +75,7 @@ $data = $builder->searchOne('Sony Xperia Pro-I'); // Normalized array
 ```
 
 > [!Note]  
-> *See advanced builder usage at [/wiki/Builder](https://github.com/Jakiboy/apaapi/wiki/Builder)*
+> *See full builder usage at [/wiki/Builder](https://github.com/Jakiboy/apaapi/wiki/Builder)*
 
 ### Basic (Search):
 
@@ -223,11 +217,16 @@ $data = $rating->get(); // Array
 > [!NOTE]  
 > *All available use case examples are located in [/examples](https://github.com/Jakiboy/apaapi/tree/main/examples)*.
 
----
+## 🔧 Incoming
 
-### Authors:
+* Credentials-free : Amazon affiliation without credentials to unlock API access.
+* [Integrated design (HTML/CSS)](https://github.com/Jakiboy/rapaapi) for both React.js & PHP
+* [apaapi.js](https://github.com/Jakiboy/appapi.js) React.js component
+
+## Authors
 
 * [Jakiboy](https://github.com/Jakiboy) (*Initial work*)
+* [Contributors](https://github.com/Jakiboy/apaapi/graphs/contributors)
 * Any PR is welcome!
 
 ### ⭐ Support:
@@ -235,5 +234,5 @@ $data = $rating->get(); // Array
 Don't buy me a coffee! Just **star the project** if you like it.
 
 > [!IMPORTANT]  
-> *The Amazon logo included in top of this page refers only to the [Amazon Product Advertising API V5](https://webservices.amazon.com/paapi5/documentation/index.html)*.
-
+> *The Amazon logo included in top of this page refers only to the [Amazon Product Advertising API V5](https://webservices.amazon.com/paapi5/documentation/index.html)*.  
+[The Official Amazon SDK (PAAPI5)](https://webservices.amazon.com/paapi5/documentation/quick-start/using-sdk.html)

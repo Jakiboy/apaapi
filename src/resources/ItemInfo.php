@@ -26,17 +26,17 @@ final class ItemInfo extends Resource
 	public function __construct()
 	{
 		$this->items = [
-	        'ByLineInfo',
-	        'ContentInfo',
-	        'ContentRating',
-	        'Classifications',
-	        'ExternalIds',
-	        'Features',
-	        'ManufactureInfo',
-	        'ProductInfo',
-	        'TechnicalInfo',
-	        'Title',
-	        'TradeInInfo'
+			'ByLineInfo',
+			'ContentInfo',
+			'ContentRating',
+			'Classifications',
+			'ExternalIds',
+			'Features',
+			'ManufactureInfo',
+			'ProductInfo',
+			'TechnicalInfo',
+			'Title',
+			'TradeInInfo'
 		];
 	}
 }

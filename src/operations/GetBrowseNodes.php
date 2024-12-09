@@ -45,9 +45,9 @@ final class GetBrowseNodes extends Operation
 	 * @param array $ids
 	 * @return object
 	 */
-    public function setBrowseNodeIds(array $ids) : object
-    {
-    	$this->browseNodeIds = $ids;
-    	return $this;
-    }
+	public function setBrowseNodeIds(array $ids) : object
+	{
+		$this->browseNodeIds = $ids;
+		return $this;
+	}
 }

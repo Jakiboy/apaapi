@@ -25,19 +25,19 @@ final class RentalOffers extends Resource
 	public function __construct()
 	{
 		$this->items = [
-		    'Listings.BasePrice',
-		    'Listings.Condition',
-		    'Listings.Availability.MaxOrderQuantity',
-		    'Listings.Availability.MinOrderQuantity',
-		    'Listings.Availability.Type',
-		    'Listings.Availability.Message',
-		    'Listings.Condition.ConditionNote',
-		    'Listings.Condition.SubCondition',
-		    'Listings.DeliveryInfo.IsAmazonFulfilled',
-		    'Listings.DeliveryInfo.IsFreeShippingEligible',
-		    'Listings.DeliveryInfo.IsPrimeEligible',
-		    'Listings.DeliveryInfo.ShippingCharges',
-		    'Listings.MerchantInfo'
+			'Listings.BasePrice',
+			'Listings.Condition',
+			'Listings.Availability.MaxOrderQuantity',
+			'Listings.Availability.MinOrderQuantity',
+			'Listings.Availability.Type',
+			'Listings.Availability.Message',
+			'Listings.Condition.ConditionNote',
+			'Listings.Condition.SubCondition',
+			'Listings.DeliveryInfo.IsAmazonFulfilled',
+			'Listings.DeliveryInfo.IsFreeShippingEligible',
+			'Listings.DeliveryInfo.IsPrimeEligible',
+			'Listings.DeliveryInfo.ShippingCharges',
+			'Listings.MerchantInfo'
 		];
 	}
 }

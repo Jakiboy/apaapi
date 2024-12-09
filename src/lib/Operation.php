@@ -20,7 +20,7 @@ use Apaapi\exceptions\OperationException;
  */
 class Operation implements OperationInterface
 {
-	/**
+    /**
      * @access public
      * @var array $resources
      * @var string $partnerType
@@ -39,8 +39,8 @@ class Operation implements OperationInterface
      */
     public function setPartnerType(string $type) : object
     {
-    	$this->partnerType = $type;
-    	return $this;
+        $this->partnerType = $type;
+        return $this;
     }
 
     /**
@@ -97,7 +97,7 @@ class Operation implements OperationInterface
      * @param array $resources
      * @return mixed
      */
-    private function isValidResources(array $resources)
+    private function isValidResources(array $resources) : mixed
     {
         foreach ($resources as $resource) {
             if ( !in_array($resource, $this->resources) ) {

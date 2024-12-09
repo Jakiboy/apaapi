@@ -61,11 +61,11 @@ final class GetItems extends ItemOperation
 	 * @param string $type
 	 * @return object
 	 */
-    public function setItemIdType(string $type) : object
-    {
-    	$this->itemIdType = $type;
-    	return $this;
-    }
+	public function setItemIdType(string $type) : object
+	{
+		$this->itemIdType = $type;
+		return $this;
+	}
 
 	/**
 	 * Set item Ids.
@@ -74,9 +74,9 @@ final class GetItems extends ItemOperation
 	 * @param array $ids
 	 * @return object
 	 */
-    public function setItemIds(array $ids) : object
-    {
-    	$this->itemIds = $ids;
-    	return $this;
-    }
+	public function setItemIds(array $ids) : object
+	{
+		$this->itemIds = $ids;
+		return $this;
+	}
 }

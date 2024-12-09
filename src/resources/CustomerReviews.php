@@ -25,8 +25,8 @@ final class CustomerReviews extends Resource
 	public function __construct()
 	{
 		$this->items = [
-		    'Count',
-		    'StarRating'
+			'Count',
+			'StarRating'
 		];
 	}
 }
