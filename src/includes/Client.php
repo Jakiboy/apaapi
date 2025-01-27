@@ -178,8 +178,12 @@ class Client implements ClientInterface
             curl_setopt($this->handler, CURLOPT_URL, $this->endpoint);
             curl_setopt($this->handler, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($this->handler, CURLOPT_HTTPHEADER, $this->getRequestHeader());
-            curl_setopt($this->handler, CURLOPT_SSL_VERIFYPEER, $this->isSsl());
             curl_setopt($this->handler, CURLOPT_TIMEOUT, $this->timeout);
+
+            $isSSl = $this->isSsl();
+            $status = $isSSl == true ? 2 : false;
+            curl_setopt($this->handler, CURLOPT_SSL_VERIFYHOST, $status);
+            curl_setopt($this->handler, CURLOPT_SSL_VERIFYPEER, $isSSl);
 
             if ( $this->encoding !== false ) {
                 curl_setopt($this->handler, CURLOPT_ENCODING, $this->encoding);
