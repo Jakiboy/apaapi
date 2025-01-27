@@ -1,13 +1,22 @@
 # APAAPI
 
-[![Amazon Product Advertising API PHP](./.static/banner.jpg)](#)
+[![Amazon Product Advertising API PHP](./.static/banner.png)](#)
 
-Amazon Product Advertising API V5.0 (**Without Amazon SDK**). This repository contains a lightweight PHP (~200 KB) wrapper library (Unofficial),  
-Easily access the [Amazon Product Advertising API V5.0](https://webservices.amazon.com/paapi5/documentation/index.html) from your app.
+Amazon Product Advertising API V5.0 (**Without Amazon SDK**). This repository contains a lightweight PHP (~200 KB) wrapper library (Unofficial), Easily access the [Amazon Product Advertising API V5.0](https://webservices.amazon.com/paapi5/documentation/index.html) from your app.
 
 -- Become an Amazon Affiliate With PHP --
 
-## 🔧 Installing
+## 💡 Features
+
+* **Request Builder** (Easier way to fetch data).
+* **Response Normalizer** (Normalize response items).
+* **Search Filters** (Using builder).
+* **Geotargeting** (Automatically redirect links based on the visitor's region).
+* **Rating Stars** (Lagacy).
+* **Keyword Converter** (ASIN, ISBN, EAN, Node, Root).
+* **Caching System** (Basic built-in cache to reduce API calls).
+
+## ⚡ Installing
 
 #### Using Composer:
 
@@ -28,15 +37,9 @@ include('apaapi-main/src/Autoloader.php');
 
 * **4** - You can now use the [Quickstart examples](#quickstart).
 
-## 💡 Features
+## ⚡ Requirements
 
-* **Request Builder** (Easier way to fetch data).
-* **Response Normalizer** (Normalize response items).
-* **Search Filters** (Using builder).
-* **Geotargeting** (Automatically redirect links based on the visitor's region).
-* **Rating Stars** (Lagacy).
-* **Keyword Converter** (ASIN, ISBN, EAN, Node, Root).
-* **Caching System** (Basic built-in cache to reduce API calls).
+* **PHP** ^8.2
 
 > [!TIP]
 > For PHP < 8.2, please use [previous version](https://github.com/Jakiboy/apaapi/tree/1.1.7).
@@ -227,7 +230,7 @@ $data = $rating->get(); // Array
 
 * [Jakiboy](https://github.com/Jakiboy) (*Initial work*)
 * [Contributors](https://github.com/Jakiboy/apaapi/graphs/contributors)
-* Any PR is welcome!
+* [Any PR is welcome!](./CODE-OF-CONDUCT.md)
 
 ### ⭐ Support:
 
