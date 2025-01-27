@@ -3,14 +3,16 @@
  * @author    : Jakiboy
  * @package   : Amazon Product Advertising API Library (v5)
  * @version   : 1.3.x
- * @copyright : (c) 2019 - 2024 Jihad Sinnaour <mail@jihadsinnaour.com>
+ * @copyright : (c) 2019 - 2025 Jihad Sinnaour <mail@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
  *
  * This file if a part of Apaapi Lib.
  */
 
-include('../../src/Autoloader.php');
+declare(strict_types=1);
+
+include '../../src/Autoloader.php';
 \apaapi\Autoloader::init();
 
 use Apaapi\operations\SearchItems;
@@ -23,28 +25,28 @@ use Apaapi\includes\Client;
  */
 class MyClient extends Client
 {
-    /**
-     * Override parent constructor.
-     *
-     * @inheritdoc
-     */
-    public function __construct(string $endpoint, array $params = [])
-    {
+	/**
+	 * Override parent constructor.
+	 *
+	 * @inheritdoc
+	 */
+	public function __construct(string $endpoint, array $params = [])
+	{
 		// Enable request client exception
-    	parent::__construct($endpoint, $params, true);
+		parent::__construct($endpoint, $params, true);
 
-		$this->timeout  = 5;      // Custom timeout
+		$this->timeout = 5;      // Custom timeout
 		$this->redirect = 3;      // Custom redirection
 		$this->encoding = 'gzip'; // Custom encoding
-    }
+	}
 
-    /**
-     * Override handler behavior.
-     *
-     * @inheritdoc
-     */
-    protected function setHandler()
-    {
+	/**
+	 * Override handler behavior.
+	 *
+	 * @inheritdoc
+	 */
+	protected function setHandler() : void
+	{
 		$this->handler = curl_init();
 		curl_setopt_array($this->handler, [
 			CURLOPT_URL            => $this->endpoint,
@@ -58,7 +60,7 @@ class MyClient extends Client
 			CURLOPT_ENCODING       => $this->encoding,
 			CURLOPT_MAXREDIRS      => $this->redirect
 		]);
-    }
+	}
 }
 
 // Set operation
