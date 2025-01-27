@@ -1,9 +1,17 @@
 {
   "name": "jakiboy/apaapi",
-  "version" : "1.3.2",
+  "version": "1.3.3",
   "type": "library",
   "description": "Quick connection to Amazon Affiliate Program using the lightweight Amazon Product Advertising API Library v5 (APAAPI)",
-  "keywords": ["php","amazon","amazon-affiliate-program","product","api","apaapi","paapi5"],
+  "keywords": [
+    "php",
+    "amazon",
+    "amazon-affiliate-program",
+    "product",
+    "api",
+    "apaapi",
+    "paapi5"
+  ],
   "homepage": "https://jakiboy.github.io/apaapi/",
   "license": "MIT",
   "authors": [
@@ -13,21 +21,16 @@
       "role": "Founder"
     },
     {
-      "name": "Softgine",
-      "email": "mail@soft-gine.com",
-      "role": "Contributor"
-    },
-    {
       "name": "Kay Marquardt",
       "role": "Contributor"
     }
   ],
   "require": {
-    "php": ">=7.4"
+    "php": ">=8.2"
   },
   "autoload": {
-    "psr-4" : {
-      "Apaapi\\" : "src/"
+    "psr-4": {
+      "Apaapi\\": "src/"
     }
   }
 }
