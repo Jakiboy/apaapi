@@ -1,0 +1,69 @@
+{
+    "folders": [
+        {
+            "path": "."
+        }
+    ],
+    "launch": {},
+    "settings": {
+        "php.version": "8.2",
+        "editor.formatOnSave": false,
+        "intelephense.format.enable": false,
+        "editor.defaultFormatter": "vscode.php-language-features",
+        "php.format.rules.indentBraces":false,
+        "php.format.rules.spaceAfterCast":false,
+        "php.format.rules.spaceAroundConcatenation":true,
+        "php.format.rules.spaceBeforeColonInReturnType":true,
+        "php.format.rules.alignMatchArmBodies":true,
+        "php.format.rules.alignConstants": true,
+        "php.format.rules.arrayInitializersAlignKeyValuePairs":true,
+        "php.format.rules.spaceWithinIfParens":true,
+        "php.format.rules.chainedMethodCallsSemicolonOnNewLine":true,
+        "php.format.rules.groupUseNewLineBeforeFirstDeclaration":true,
+        "php.format.rules.keepControlStatementsOnOneLine":true,
+        "php.format.rules.addCommaAfterLastArrayElement":false,
+        "php.format.rules.arrayInitializersNewLineBeforeFirstElement": true,
+        "php.format.rules.alignProperties": false,
+        "php.problems.excludeGitIgnore": true,
+        "php.sortUses.caseSensitive": true,
+        "php.docblock.variableSnippet": {
+            "@access":"public",
+            "@param":"mixed $VAR",
+            "@return":"void"
+        },
+        "[php]": {
+            "editor.defaultFormatter": "DEVSENSE.phptools-vscode",
+            "editor.formatOnSave": true
+        },
+        "[javascript]": {
+            "editor.defaultFormatter": "vscode.typescript-language-features",
+            "editor.formatOnSave": true
+        },
+        "[json]": {
+            "editor.defaultFormatter": "vscode.json-language-features",
+            "editor.formatOnSave": true
+        },
+        "[css]": {
+            "editor.defaultFormatter": "vscode.css-language-features",
+            "editor.formatOnSave": true
+        },
+        "[html]": {
+            "editor.defaultFormatter": "vscode.html-language-features",
+            "editor.formatOnSave": true
+        },
+        "[xml]": {
+            "editor.formatOnSave": false
+        },
+        "[twig]": {
+            "editor.formatOnSave": false,
+            "editor.defaultFormatter": "serhatkaya.twig-formatter"
+        },
+        "files.associations": {
+            "*.tpl.html": "twig"
+        },
+        "[yaml]": {
+            "editor.defaultFormatter": "redhat.vscode-yaml",
+            "editor.formatOnSave": false
+        }
+    }
+}
