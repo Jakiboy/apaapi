@@ -10,4 +10,5 @@
 .gitignore export-ignore
 .gitattributes export-ignore
 _config.yml export-ignore
+*.code-workspacel export-ignore
 * !text !filter !merge !diff
