@@ -1,7 +1,6 @@
 # Text break
 * text=auto
 * text eol=lf
-
 # Archive ignore
 /.github export-ignore
 /examples export-ignore
@@ -11,3 +10,4 @@
 .gitattributes export-ignore
 _config.yml export-ignore
 *.code-workspacel export-ignore
+*.png filter=lfs diff=lfs merge=lfs -text
