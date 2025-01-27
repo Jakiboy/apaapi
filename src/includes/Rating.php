@@ -14,9 +14,7 @@ declare(strict_types=1);
 
 namespace Apaapi\includes;
 
-use DOMDocument;
-use DOMNodeList;
-use DOMXPath;
+use DOMDocument, DOMNodeList, DOMXPath;
 
 final class Rating
 {
@@ -30,8 +28,8 @@ final class Rating
 	private $locale;
 	private $tag;
 
-	private const ACTION     = '/product-reviews/';
-	private const VALUExPATH = "//i[contains(@class,'averageStarRating')]";
+	private const ACTION     = '/dp/';
+	private const VALUExPATH = "//div[contains(@class,'AverageCustomerReviews')]";
 	private const COUNTxPATH = "//div[contains(@class,'averageStarRatingNumerical')]";
 
 	/**
@@ -56,13 +54,10 @@ final class Rating
 	 */
 	public function get() : array
 	{
-		$rating = $this->getDefault();
+		$default = $this->getDefault();
 
-		if (
-			!Keyword::isASIN($this->keyword)
-			&& !Keyword::isISBN($this->keyword)
-		) {
-			return $rating;
+		if ( !Keyword::isASIN($this->keyword) && !Keyword::isISBN($this->keyword) ) {
+			return $default;
 		}
 
 		$key = "rating-{$this->locale}-{$this->keyword}";
@@ -90,12 +85,13 @@ final class Rating
 			if ( $client->getCode() == 200 ) {
 				$rating = $this->extract($response);
 				$rating['url'] = "{$url}?tag={$this->tag}&linkCode=ll2";
+				$rating = array_merge($default, $rating);
 				Cache::set($key, $rating);
 			}
 
 		}
 
-		return ($rating) ? $rating : $this->getDefault();
+		return $rating ?: $default;
 	}
 
 	/**
@@ -122,7 +118,7 @@ final class Rating
 			// Extract rating value
 			$nodes = $xPath->query(self::VALUExPATH);
 			if ( $nodes instanceof DOMNodeList && ($nodes->length > 0) ) {
-				$node = $nodes[0];
+				$node = $nodes->item(0);
 				$data = explode(' ', (string)$node->nodeValue);
 				$value = $data[0];
 				$value = str_replace(',', '.', $value);
