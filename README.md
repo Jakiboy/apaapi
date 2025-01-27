@@ -39,10 +39,8 @@ include('apaapi-main/src/Autoloader.php');
 
 ## ⚡ Requirements
 
-* **PHP** ^8.2
-
 > [!TIP]
-> For PHP < 8.2, please use [previous version](https://github.com/Jakiboy/apaapi/tree/1.1.7).
+> **PHP ^8.2** is required. For older versions, please use [previous version](https://github.com/Jakiboy/apaapi/tree/1.1.7).
 
 ## ⚡ Getting Started
 
