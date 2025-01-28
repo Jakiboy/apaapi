@@ -514,6 +514,55 @@ final class Normalizer
 	}
 
 	/**
+	 * Convert types to string.
+	 *
+	 * @access public
+	 * @param mixed $value
+	 * @param bool $null Nullable
+	 * @return string
+	 * @internal
+	 */
+	public static function toString(mixed $value, bool $null = false) : string
+	{
+		return match (true) {
+			$value === false         => 'false',
+			$value === true          => 'true',
+			$value === null && $null => 'null',
+			is_array($value)         => self::serialize($value),
+			is_object($value)        => self::serialize($value),
+			default                  => (string)$value
+		};
+	}
+
+	/**
+	 * Serialize value.
+	 *
+	 * @access public
+	 * @param mixed $values
+	 * @return string
+	 * @internal
+	 */
+	public static function serialize(mixed $value) : string
+	{
+		$value = self::toJson($value, 256);
+		return (string)@serialize(trim($value));
+	}
+
+	/**
+	 * Encode JSON using flags.
+	 *
+	 * @access public
+	 * @param mixed $value
+	 * @param int $flags
+	 * @param int $depth
+	 * @return mixed
+	 */
+	public static function toJson($value, int $flags = 64 | 256, int $depth = 512) : mixed
+	{
+		return json_encode($value, $flags, $depth);
+	}
+
+	/**
 	 * Format country code (Fix 3 DIGIT ISO),
 	 * Lowercased ISO (3166‑1 alpha‑2).
 	 *
@@ -629,6 +678,152 @@ final class Normalizer
 
 		usort($data, $sort);
 		return $data;
+	}
+
+	/**
+	 * Format string.
+	 *
+	 * @access public
+	 * @param string $string
+	 * @return string
+	 */
+	public static function formatString(string $string) : string
+	{
+		if ( !self::$format ) {
+			$string = self::replaceRegex('/[^\x{0000}-\x{FFFF}]/u', ' ', $string);
+			$string = self::replaceString(['【',], ' [', $string);
+			$string = self::replaceString(['】',], '] ', $string);
+		}
+
+		$string = trim($string);
+		$string = self::replaceString("\r", "\n", $string);
+		$string = self::replaceRegex(['/\n+/', '/[ \t]+/'], ["\n", ' '], $string);
+
+		return $string;
+	}
+
+	/**
+	 * Replace string.
+	 *
+	 * @access public
+	 * @param mixed $search
+	 * @param mixed $replace
+	 * @param mixed $string
+	 * @return string
+	 */
+	public static function replaceString($search, $replace, $string) : string
+	{
+		return (string)str_replace($search, $replace, $string);
+	}
+
+	/**
+	 * Remove string.
+	 *
+	 * @access public
+	 * @param string $search
+	 * @param string $string
+	 * @return string
+	 */
+	public static function removeString($search, $string) : string
+	{
+		return self::replaceString($search, '', $string);
+	}
+
+	/**
+	 * Strip space.
+	 *
+	 * @access public
+	 * @param string $string
+	 * @param string $replace
+	 * @return string
+	 */
+	public static function stripSpace(string $string, string $replace = '') : string
+	{
+		$string = trim($string);
+		$string = self::replaceRegex('/\s+/', $replace, $string);
+		return $string;
+	}
+
+	/**
+	 * Strip tags.
+	 *
+	 * @access public
+	 * @param string $string
+	 * @return string
+	 */
+	public static function stripTags(string $string) : string
+	{
+		return strip_tags($string);
+	}
+
+	/**
+	 * Replace string using regex.
+	 *
+	 * @access public
+	 * @param mixed $regex
+	 * @param mixed $replace
+	 * @param mixed $subject
+	 * @return string
+	 */
+	public static function replaceRegex($regex, $replace, $subject) : string
+	{
+		return (string)preg_replace($regex, $replace, $subject);
+	}
+
+	/**
+	 * Remove string using regex.
+	 *
+	 * @access public
+	 * @param mixed $regex
+	 * @param mixed $subject
+	 * @return string
+	 */
+	public static function removeRegex($regex, $subject) : string
+	{
+		return (string)self::replaceRegex($regex, '', $subject);
+	}
+
+	/**
+	 * Remove trailing slashes and backslashes if exist.
+	 * 
+	 * @access public
+	 * @param string $string
+	 * @return string
+	 */
+	public static function untrailingSlash(string $string) : string
+	{
+		return rtrim($string, '/\\');
+	}
+
+	/**
+	 * Format order by.
+	 *
+	 * @access private
+	 * @param mixed $order
+	 * @return array
+	 */
+	private static function formatOrderBy($order) : array
+	{
+		if ( is_string($order) ) {
+			$order = [$order => 'asc'];
+		}
+
+		$order = (array)$order;
+
+		foreach ($order as $key => $dir) {
+			if ( is_int($key) ) {
+				unset($order[$key]);
+				$key = (string)$dir;
+				$dir = 'asc';
+
+			} else {
+				$key = (string)$key;
+				$dir = (string)$dir;
+			}
+			$order[$key] = $dir;
+		}
+
+		return $order;
 	}
 
 	/**
@@ -1115,140 +1310,6 @@ final class Normalizer
 				'unit'  => $dims['Width']['Unit'] ?? ''
 			]
 		];
-	}
-
-	/**
-	 * Format order by.
-	 *
-	 * @access private
-	 * @param mixed $order
-	 * @return array
-	 */
-	private static function formatOrderBy($order) : array
-	{
-		if ( is_string($order) ) {
-			$order = [$order => 'asc'];
-		}
-
-		$order = (array)$order;
-
-		foreach ($order as $key => $dir) {
-			if ( is_int($key) ) {
-				unset($order[$key]);
-				$key = (string)$dir;
-				$dir = 'asc';
-
-			} else {
-				$key = (string)$key;
-				$dir = (string)$dir;
-			}
-			$order[$key] = $dir;
-		}
-
-		return $order;
-	}
-
-	/**
-	 * Format string.
-	 *
-	 * @access private
-	 * @param string $string
-	 * @return string
-	 */
-	private static function formatString(string $string) : string
-	{
-		if ( !self::$format ) {
-			$string = self::replaceRegex('/[^\x{0000}-\x{FFFF}]/u', ' ', $string);
-			$string = self::replaceString(['【',], ' [', $string);
-			$string = self::replaceString(['】',], '] ', $string);
-		}
-
-		$string = trim($string);
-		$string = self::replaceString("\r", "\n", $string);
-		$string = self::replaceRegex(['/\n+/', '/[ \t]+/'], ["\n", ' '], $string);
-
-		return $string;
-	}
-
-	/**
-	 * Replace string.
-	 *
-	 * @access private
-	 * @param mixed $search
-	 * @param mixed $replace
-	 * @param mixed $string
-	 * @return string
-	 */
-	private static function replaceString($search, $replace, $string) : string
-	{
-		return (string)str_replace($search, $replace, $string);
-	}
-
-	/**
-	 * Remove string.
-	 *
-	 * @access private
-	 * @param string $search
-	 * @param string $string
-	 * @return string
-	 */
-	private static function removeString($search, $string) : string
-	{
-		return self::replaceString($search, '', $string);
-	}
-
-	/**
-	 * Strip space.
-	 *
-	 * @access private
-	 * @param string $string
-	 * @param string $replace
-	 * @return string
-	 */
-	private static function stripSpace(string $string, string $replace = '') : string
-	{
-		$string = trim($string);
-		$string = self::replaceRegex('/\s+/', $replace, $string);
-		return $string;
-	}
-
-	/**
-	 * Strip tags.
-	 *
-	 * @access private
-	 * @param string $string
-	 * @return string
-	 */
-	private static function stripTags(string $string) : string
-	{
-		return strip_tags($string);
-	}
-
-	/**
-	 * Replace string using regex.
-	 *
-	 * @access private
-	 * @param mixed $regex
-	 * @param mixed $replace
-	 * @param mixed $subject
-	 * @return string
-	 */
-	private static function replaceRegex($regex, $replace, $subject) : string
-	{
-		return (string)preg_replace($regex, $replace, $subject);
-	}
-
-	/**
-	 * Remove string using regex.
-	 *
-	 * @access private
-	 * @param mixed $regex
-	 * @param mixed $subject
-	 * @return string
-	 */
-	private static function removeRegex($regex, $subject) : string
-	{
-		return (string)self::replaceRegex($regex, '', $subject);
 	}
 
 	/**
