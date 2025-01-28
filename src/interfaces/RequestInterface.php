@@ -55,6 +55,34 @@ interface RequestInterface
     function getOperation() : string;
 
     /**
+     * Set request path.
+     *
+     * @return string
+     */
+    function setPath() : void;
+
+    /**
+     * Set request target.
+     *
+     * @return string
+     */
+    function setTarget() : void;
+
+    /**
+     * Set request host.
+     *
+     * @return string
+     */
+    function setHost() : void;
+
+    /**
+     * Get request host.
+     *
+     * @return string
+     */
+    function getHost() : string;
+
+    /**
      * Set request header.
      *
      * @param string $name

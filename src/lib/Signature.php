@@ -102,7 +102,7 @@ abstract class Signature
      * @access protected
      * @return array
      */
-    protected function getHeaders() : array
+    protected function getHeader() : array
     {
         ksort($this->headers);
         $canonicalUrl = $this->prepareCanonicalRequest();

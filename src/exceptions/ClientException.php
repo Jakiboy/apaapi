@@ -13,18 +13,13 @@
 namespace Apaapi\exceptions;
 
 /**
- * Apaapi request exception.
+ * Apaapi client exception.
  */
-final class RequestException extends \Exception
+final class ClientException extends \Exception
 {
-	public static function invalidGateway() : string
-	{
-		return 'Invalid Http Gateway (Missing cURL and Stream functions)';
-	}
-
-	public static function invalidLocale(?string $item = null) : string
+	public static function invalidGateway(?string $item = null) : string
 	{
 		$item = $item ?: 'undefined';
-		return "Invalid request locale '{$item}'";
+		return "The gateway '{$item}' does not implement GatewayInterface";
 	}
 }

@@ -29,15 +29,15 @@ final class Request extends Signature implements RequestInterface
 
     /**
      * @access private
-     * @var array $params
-     * @var string $endpoint
-     * @var Client $client
+     * @var string $host
      * @var string $operation
+     * @var array $params
+     * @var Client $client
      */
-    private $params = [];
-    private $endpoint;
-    private $client;
+    private $host;
     private $operation;
+    private $params = [];
+    private $client;
 
     /**
      * @inheritdoc
@@ -61,27 +61,21 @@ final class Request extends Signature implements RequestInterface
         // Setup params
         $this->operation = Parser::getName($operation);
         $this->payload = Parser::convert($operation);
-        $this->path = $this->path . strtolower($this->operation);
-        $this->target = "{$this->target}.{$this->operation}";
-        $host = self::HOST . ".{$this->locale}";
 
-        // Setup headers
-        $this->setRequestHeader('host', $host);
+        // Setup host
+        $this->setHost();
+        $this->setPath();
+        $this->setTarget();
+
+        // Setup header
+        $this->setRequestHeader('host', $this->host);
         $this->setRequestHeader('x-amz-target', $this->target);
         $this->setRequestHeader('x-amz-date', $this->timestamp);
 
-        $headers = $this->getHeaders();
-        $header = '';
-
-        foreach ($headers as $key => $value) {
-            $header .= "{$key}:{$value}\n";
-        }
-
-        $this->endpoint = "https://{$host}{$this->path}";
         $this->params = [
-            'method'  => 'POST',
-            'header'  => $header,
-            'payload' => $this->payload
+            'method' => Client::POST,
+            'header' => Client::formatHeader($this->getHeader(), true),
+            'body'   => $this->payload
         ];
     }
 
@@ -103,8 +97,7 @@ final class Request extends Signature implements RequestInterface
      */
     public function setTimeStamp(?string $timestamp = null) : object
     {
-        $this->timestamp = ($timestamp)
-            ? $timestamp : gmdate('Ymd\THis\Z');
+        $this->timestamp = $timestamp ?: gmdate('Ymd\THis\Z');
         return $this;
     }
 
@@ -113,8 +106,7 @@ final class Request extends Signature implements RequestInterface
      */
     public function setDate(?string $date = null) : object
     {
-        $this->currentDate = ($date)
-            ? $date : gmdate('Ymd');
+        $this->currentDate = $date ?: gmdate('Ymd');
         return $this;
     }
 
@@ -143,7 +135,7 @@ final class Request extends Signature implements RequestInterface
      */
     public function getEndpoint() : string
     {
-        return $this->endpoint;
+        return "https://{$this->host}{$this->path}";
     }
 
     /**
@@ -160,6 +152,38 @@ final class Request extends Signature implements RequestInterface
     public function getOperation() : string
     {
         return $this->operation;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setPath() : void
+    {
+        $this->path .= strtolower($this->operation);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setTarget() : void
+    {
+        $this->target = "{$this->target}.{$this->operation}";
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setHost() : void
+    {
+        $this->host = self::HOST . ".{$this->locale}";
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getHost() : string
+    {
+        return $this->host;
     }
 
     /**
