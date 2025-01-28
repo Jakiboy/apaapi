@@ -16,6 +16,9 @@ namespace Apaapi\includes;
 
 use DOMDocument, DOMNodeList, DOMXPath;
 
+/**
+ * @deprecated Use Scrapper Class instead
+ */
 final class Rating
 {
 	/**
@@ -70,19 +73,16 @@ final class Rating
 			$url .= self::ACTION;
 			$url .= $this->keyword;
 
+			$header = Scrapper::generateHeader($this->locale);
 			$client = new Client($url, [
-				'header' => Provider::generateHeader()
+				'header'  => $header,
+				'timeout' => 30
 			]);
 
-			$client->setMethod('GET')
-				->setRedirect(1)
-				->setEncoding('')
-				->setTimeout(0);
+			$client->setEncoding()->get();
+			$response = $client->getBody();
 
-			$response = $client->getResponse();
-			$client->close();
-
-			if ( $client->getCode() == 200 ) {
+			if ( $client->getStatusCode() == 200 ) {
 				$rating = $this->extract($response);
 				$rating['url'] = "{$url}?tag={$this->tag}&linkCode=ll2";
 				$rating = array_merge($default, $rating);
