@@ -2,17 +2,20 @@
 
 [![Amazon Product Advertising API PHP](https://media.githubusercontent.com/media/Jakiboy/apaapi/refs/heads/main/.static/banner.png)](#)
 
-Amazon Product Advertising API V5.0 (**Without Amazon SDK**). This repository contains a lightweight PHP (~200 KB) wrapper library (Unofficial), Easily access the [Amazon Product Advertising API V5.0](https://webservices.amazon.com/paapi5/documentation/index.html) from your app.
+Amazon Product Advertising API V5.0 (**Without Amazon SDK**). This repository contains a lightweight PHP (~250 KB) wrapper library (Unofficial), Easily access the [Amazon Product Advertising API V5.0](https://webservices.amazon.com/paapi5/documentation/index.html) from your app.
 
 -- Become an Amazon Affiliate With PHP --
 
 ## 💡 Features
 
 * **Request Builder** (Easier way to fetch data).
-* **Response Normalizer** (Normalize response items).
+* **Credential-less** (No credentials required using scrapper).
 * **Search Filters** (Using builder).
 * **Geotargeting** (Automatically redirect links based on the visitor's region).
-* **Rating Stars** (Lagacy).
+* **Cart Generator** (Add to cart URL).
+* **Rating** (Customer reviews).
+* **Response Normalizer** (Normalize response data structure).
+* **Response Error Handling** (Including semantic errors with HTTP status code 200).
 * **Keyword Converter** (ASIN, ISBN, EAN, Node, Root).
 * **Caching System** (Basic built-in cache to reduce API calls).
 
@@ -35,12 +38,15 @@ include('apaapi-main/src/Autoloader.php');
 \apaapi\Autoloader::init();
 ```
 
-* **4** - You can now use the [Quickstart examples](#quickstart).
+* **4** - Use the [Quickstart examples](#quickstart).
 
 ## ⚡ Requirements
 
+* **PHP ^8.2**
+* **cURL | Stream (file)**
+
 > [!TIP]
-> **PHP ^8.2** is required. For older versions, please use [previous version](https://github.com/Jakiboy/apaapi/tree/1.1.7).
+>  For older PHP versions, please use [previous version](https://github.com/Jakiboy/apaapi/tree/1.1.7).
 
 ## ⚡ Getting Started
 
@@ -56,7 +62,11 @@ include('apaapi-main/src/Autoloader.php');
 
 ### Quickstart
 
-**Recommended**: Using Apaapi builder.
+**Recommended** using Apaapi builder or Apaapi scrapper without API credentials.
+
+[![Product](https://media.githubusercontent.com/media/Jakiboy/apaapi/refs/heads/main/.static/product.png)](#)
+
+#### Builder:
 
 ```php
 
@@ -77,6 +87,68 @@ $data = $builder->searchOne('Sony Xperia Pro-I'); // Normalized array
 
 > [!Note]  
 > *See full builder usage at [/wiki/Builder](https://github.com/Jakiboy/apaapi/wiki/Builder)*
+
+#### Scrapper:
+
+```php
+
+/**
+ * @see Use Composer, 
+ * Or include Apaapi Autoloader Here.
+ */
+
+use Apaapi\includes\Scrapper;
+
+// (1) Init scrapper
+$scrapper = new Scrapper('B0D1C9HRFP', '_LOCALE_', '_TAG_');
+
+// (2) Get response
+$data = $scrapper->getOne(); // Normalized array
+
+```
+
+> [!Note]  
+> *See full builder usage at [/wiki/Scrapper](https://github.com/Jakiboy/apaapi/wiki/Scrapper)*
+
+### Cart:
+
+Get affiliate cart URL.
+
+[![Cart](https://media.githubusercontent.com/media/Jakiboy/apaapi/refs/heads/main/.static/cart.png)](#)
+
+```php
+
+use Apaapi\lib\Cart;
+
+// Init Cart
+$cart = new Cart();
+$cart->setLocale('_LOCALE_')->setPartnerTag('_TAG_');
+
+// Get Response
+$data = $cart->set(['_ASIN_' => 3]); // String
+
+```
+
+### Rating:
+
+Get customer reviews of product as average rating and count (Scrapper).
+
+[![Rating](https://media.githubusercontent.com/media/Jakiboy/apaapi/refs/heads/main/.static/rating.png)](#)
+
+```php
+
+use Apaapi\includes\Rating;
+
+// Init Rating
+$rating = new Rating('_ASIN_', '_LOCALE_', '_TAG_');
+
+// Get Response
+$data = $rating->get(); // Array
+
+```
+
+> [!NOTE]  
+> *All available use case examples are located in [/examples](https://github.com/Jakiboy/apaapi/tree/main/examples)*.
 
 ### Basic (Search):
 
@@ -182,47 +254,10 @@ $operation->setResources(['Images.Primary.Small', 'ItemInfo.Title', 'Offers.List
 > [!Note]  
 > *See all available resources used by setResources() at [/wiki/Resources](https://github.com/Jakiboy/apaapi/wiki/Resources)*
 
-### Cart:
-
-Get affiliate cart URL.
-
-```php
-
-use Apaapi\lib\Cart;
-
-// Init Cart
-$cart = new Cart();
-$cart->setLocale('_LOCALE_')->setPartnerTag('_TAG_');
-
-// Get Response
-$data = $cart->set(['_ASIN_' => 3]); // String
-
-```
-
-### Rating:
-
-Get product average rating and count (Legacy).
-
-```php
-
-use Apaapi\includes\Rating;
-
-// Init Rating
-$rating = new Rating('_ASIN_', '_LOCALE_');
-
-// Get Response
-$data = $rating->get(); // Array
-
-```
-
-> [!NOTE]  
-> *All available use case examples are located in [/examples](https://github.com/Jakiboy/apaapi/tree/main/examples)*.
-
 ## 🔧 Incoming
 
-* Credential-less : Amazon affiliation without using credentials to unlock API access.
-* [Integrated design (HTML/CSS)](https://github.com/Jakiboy/rapaapi) for both React.js & PHP
-* [apaapi.js](https://github.com/Jakiboy/appapi.js) React.js component
+* [Integrated design](https://github.com/Jakiboy/rapaapi) (PHP, TypeScript)
+* [apaapi.js](https://github.com/Jakiboy/appapi.js) React.js component (TypeScript)
 
 ## Authors
 
