@@ -220,7 +220,7 @@ $data = $rating->get(); // Array
 
 ## 🔧 Incoming
 
-* Credentials-free : Amazon affiliation without credentials to unlock API access.
+* Credential-less : Amazon affiliation without using credentials to unlock API access.
 * [Integrated design (HTML/CSS)](https://github.com/Jakiboy/rapaapi) for both React.js & PHP
 * [apaapi.js](https://github.com/Jakiboy/appapi.js) React.js component
 
