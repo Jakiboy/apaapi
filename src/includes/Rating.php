@@ -19,14 +19,14 @@ namespace Apaapi\includes;
  */
 final class Rating extends Scrapper
 {
-	/**
-	 * Get item rating data.
-	 *
-	 * @access public
-	 * @return array
-	 */
-	public function get() : array
-	{
-		return $this->getRating();
-	}
+    /**
+     * Get item rating data.
+     *
+     * @access public
+     * @return array
+     */
+    public function get() : array
+    {
+        return $this->getRating();
+    }
 }
