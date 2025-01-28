@@ -42,11 +42,8 @@ include('apaapi-main/src/Autoloader.php');
 
 ## ⚡ Requirements
 
-* **PHP ^8.2**
+* **PHP ^8.2** (For older versions, please use [previous version](https://github.com/Jakiboy/apaapi/tree/1.1.7))
 * **cURL | Stream (file)**
-
-> [!TIP]
->  For older PHP versions, please use [previous version](https://github.com/Jakiboy/apaapi/tree/1.1.7).
 
 ## ⚡ Getting Started
 
