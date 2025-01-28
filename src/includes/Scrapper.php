@@ -16,21 +16,21 @@ namespace Apaapi\includes;
 
 use DOMDocument, DOMNodeList, DOMXPath;
 
-final class Scrapper
+class Scrapper
 {
 	/**
-	 * @access private
+	 * @access protected
 	 * @var string $keyword
 	 * @var string $locale
 	 * @var string $tag
 	 * @var string $baseUrl
 	 * @var array $selectors
 	 */
-	private $keyword;
-	private $locale;
-	private $tag;
-	private $baseUrl;
-	private $selectors = [];
+	protected $keyword;
+	protected $locale;
+	protected $tag;
+	protected $baseUrl;
+	protected $selectors = [];
 
 	public const BASEURL   = '/dp/';
 	public const SEARCH    = '/s/?field-keywords={keyword}';
@@ -160,12 +160,12 @@ final class Scrapper
 	/**
 	 * Parse HTML response (Cached).
 	 *
-	 * @access private
+	 * @access protected
 	 * @param string $item
 	 * @param array $selectors
 	 * @return array
 	 */
-	private function parse(string $item, array $selectors) : array
+	protected function parse(string $item, array $selectors) : array
 	{
 		$url = $this->getUrl();
 
@@ -205,13 +205,13 @@ final class Scrapper
 	/**
 	 * Parse many HTML response (Cached).
 	 *
-	 * @access private
+	 * @access protected
 	 * @param string $item
 	 * @param array $selectors
 	 * @return array
 	 * @todo Implement
 	 */
-	private function parseMany(string $item, array $selectors) : array
+	protected function parseMany(string $item, array $selectors) : array
 	{
 		return [];
 	}
@@ -219,12 +219,12 @@ final class Scrapper
 	/**
 	 * Process HTML response.
 	 *
-	 * @access private
+	 * @access protected
 	 * @param string $response
 	 * @param array $selectors
 	 * @return array
 	 */
-	private static function process(string $response, array $selectors) : array
+	protected static function process(string $response, array $selectors) : array
 	{
 		$data = [];
 
@@ -273,12 +273,12 @@ final class Scrapper
 	/**
 	 * Format scrapped data.
 	 *
-	 * @access private
+	 * @access protected
 	 * @param string $item
 	 * @param array $data
 	 * @return array
 	 */
-	private static function format(string $item, array $data) : array
+	protected static function format(string $item, array $data) : array
 	{
 		if ( $item === 'rating' ) {
 			$value = $data['value'] ?? '';
@@ -311,10 +311,10 @@ final class Scrapper
 	/**
 	 * Get scrapper URL.
 	 *
-	 * @access private
+	 * @access protected
 	 * @return string
 	 */
-	private function getUrl() : string
+	protected function getUrl() : string
 	{
 		$host = Provider::HOST;
 		$url = str_replace('{locale}', $this->locale, $host);
@@ -325,11 +325,11 @@ final class Scrapper
 	/**
 	 * Get default response.
 	 *
-	 * @access private
+	 * @access protected
 	 * @param string $item
 	 * @return array
 	 */
-	private function getDefault(string $item) : array
+	protected function getDefault(string $item) : array
 	{
 		$keys = array_keys($this->selectors[$item]);
 		return array_fill_keys($keys, null);
