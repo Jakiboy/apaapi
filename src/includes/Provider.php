@@ -229,41 +229,6 @@ final class Provider
     }
 
     /**
-     * Generate header.
-     *
-     * @access public
-     * @return string
-     */
-    public static function generateHeader(string $locale = 'com') : string
-    {
-        $currency = 'USD';
-        if ( $locale !== 'com' ) {
-            $currency = self::getCurrency($locale)[0] ?? $currency;
-        }
-
-        $time = time() . 'l';
-
-        $id = mt_rand(100, 999);
-        $id .= '-' . mt_rand(1000000, 9999999);
-        $id .= '-' . mt_rand(1000000, 9999999);
-
-        $cookie = [
-            "i18n-prefs={$currency}",
-            "session-id={$id}",
-            "session-id-time={$time}"
-        ];
-
-        $header = [
-            'Cookie'     => implode('; ', $cookie),
-            'Connection' => 'close'
-        ];
-
-        return implode("\n", array_map(function ($key, $value) {
-            return "{$key}: {$value}";
-        }, array_keys($header), $header));
-    }
-
-    /**
      * Load file.
      *
      * @access private
