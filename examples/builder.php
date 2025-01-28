@@ -22,6 +22,11 @@ $builder = new Builder('_KEY_', '_SECRET_', '_TAG_', '_LOCALE_');
 
 // Get response
 $data = $builder->search('_KEYWORDS_'); // Normalized Array
+
+// Handle response error
+if ( $builder->hasError() ) {
+    echo $builder->getError(); // String
+}
 var_dump($data);
 
 // Any PR is welcome!
