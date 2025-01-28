@@ -133,11 +133,10 @@ class Response implements ResponseInterface
 		if ( !$request->hasClient() ) {
 			$request->setClient();
 		}
-		$client = $request->getClient();
 
-		$this->body = $client->getResponse();
-		$this->code = $client->getCode();
+		$client = $request->getClient()->return()->post();
 
-		$client->close();
+		$this->body = $client->getBody();
+		$this->code = $client->getStatusCode();
 	}
 }

@@ -55,14 +55,12 @@ class Operation implements OperationInterface
     /**
      * @inheritdoc
      */
-    public function setResources(array $resources, bool $throwable = true) : object
+    public function setResources(array $resources) : object
     {
-        if ( $throwable ) {
-            if ( ($ressource = $this->isValidResources($resources)) !== true ) {
-                throw new OperationException(
-                    OperationException::invalidRessources($ressource)
-                );
-            }
+        if ( ($item = $this->isValidResources($resources)) !== true ) {
+            throw new OperationException(
+                OperationException::invalidRessources($item)
+            );
         }
 
         if ( !empty($resources) ) {

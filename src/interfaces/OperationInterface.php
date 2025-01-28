@@ -37,11 +37,10 @@ interface OperationInterface extends ParsableInterface
      * Set resources.
      *
      * @param array $resources
-     * @param bool $throwable
      * @return object
      * @throws \Apaapi\exceptions\OperationException
      */
-    function setResources(array $resources, bool $throwable = true) : object;
+    function setResources(array $resources) : object;
 
     /**
      * Set languages of preference.

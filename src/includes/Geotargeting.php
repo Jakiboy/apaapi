@@ -147,20 +147,13 @@ final class Geotargeting
 
 			if ( self::$redirectNotFound ) {
 
-				$client = new Client($item['url'], [
-					'header' => Provider::generateHeader(
-						$this->redirect['tld']
-					)
-				]);
+				$header = Scrapper::generateHeader($this->redirect['tld']);
 
-				$client->setMethod('GET')
-					->setRedirect(2)
-					->setTimeout(0);
+				$client = new Client($item['url']);
+				$client->setHeader($header)->setRedirect(2)->setTimeout(0);
+				$client->get();
 
-				$client->getResponse();
-				$client->close();
-
-				if ( $client->getCode() == 404 ) {
+				if ( $client->getStatusCode() == 404 ) {
 
 					$title = $item['title'] ?? '';
 					$keyword = substr($title, 0, 30);
@@ -248,12 +241,13 @@ final class Geotargeting
 		if ( !($code = Cache::get($key)) ) {
 
 			$address = str_replace('{ip}', $ip, $address);
-			$client = new Client($address);
-			$client->setMethod('GET')->setTimeout(5);
-			$response = $client->getResponse();
-			$client->close();
+			$client = new Client($address, [
+				'timeout' => 5
+			]);
 
-			if ( $client->getCode() == 200 ) {
+			$response = $client->get()->getBody();
+
+			if ( $client->getStatusCode() == 200 ) {
 				$response = Normalizer::decode($response);
 				$code = $response[$param] ?? '';
 			}
@@ -285,12 +279,13 @@ final class Geotargeting
 		$key = Cache::generateKey("ip-{$this->getVisitorId()}");
 		if ( !($ip = Cache::get($key)) ) {
 
-			$client = new Client($address);
-			$client->setMethod('GET')->setTimeout(5);
-			$response = $client->getResponse();
-			$client->close();
+			$client = new Client($address, [
+				'timeout' => 5
+			]);
 
-			if ( $client->getCode() == 200 ) {
+			$response = $client->get()->getBody();
+
+			if ( $client->getStatusCode() == 200 ) {
 				$response = Normalizer::decode($response);
 				$ip = $response[$param] ?? '';
 			}
