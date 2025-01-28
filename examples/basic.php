@@ -29,7 +29,10 @@ $request->setLocale('_LOCALE_')->setPayload($operation);
 
 // Get response
 $response = new Response($request);
+
 $body = $response->getBody(); // String
+echo $body;
+
 $data = $response->get(); // Array
 var_dump($data);
 
