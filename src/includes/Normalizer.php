@@ -15,7 +15,7 @@ declare(strict_types=1);
 namespace Apaapi\includes;
 
 /**
- * Apaapi data normalizer.
+ * Apaapi data structure normalizer.
  */
 final class Normalizer
 {
@@ -252,6 +252,32 @@ final class Normalizer
 		}
 
 		return (int)$price;
+	}
+
+	/**
+	 * Convert string to float.
+	 *
+	 * @access public
+	 * @param string $string
+	 * @return float
+	 */
+	public static function toFloat(string $string) : float
+	{
+		$string = self::stripSpace($string);
+		return (float)self::replaceString(',', '.', $string);
+	}
+
+	/**
+	 * Convert string to int.
+	 *
+	 * @access public
+	 * @param string $string
+	 * @return int
+	 */
+	public static function toInt(string $string) : int
+	{
+		$string = self::stripSpace($string);
+		return (int)self::removeString(',', $string);
 	}
 
 	/**
@@ -739,9 +765,7 @@ final class Normalizer
 	 */
 	public static function stripSpace(string $string, string $replace = '') : string
 	{
-		$string = trim($string);
-		$string = self::replaceRegex('/\s+/', $replace, $string);
-		return $string;
+		return self::replaceRegex('/\s+/u', $replace, trim($string));
 	}
 
 	/**
@@ -836,26 +860,26 @@ final class Normalizer
 	private static function normalize(array $item) : array
 	{
 		return [
-			'asin'         => self::sanitizeASIN($item),
-			'ean'          => self::sanitizeEAN($item),
-			'node'         => self::sanitizeNode($item),
-			'root'         => self::sanitizeRoot($item),
-			'rank'         => self::sanitizeRank($item),
-			'title'        => self::sanitizeTitle($item),
-			'category'     => self::sanitizeCategory($item),
-			'brand'        => self::sanitizeBrand($item),
-			'url'          => self::sanitizeUrl($item),
-			'image'        => self::sanitizeImage($item),
-			'price'        => self::sanitizePrice($item),
-			'discount'     => self::sanitizeDiscount($item),
-			'discounted'   => self::sanitizeDiscounted($item),
-			'percent'      => self::sanitizePercent($item),
-			'currency'     => self::sanitizeCurrency($item),
-			'availability' => self::sanitizeAvailability($item),
-			'shipping'     => self::sanitizeShipping($item),
-			'gallery'      => self::sanitizeGallery($item),
-			'attributes'   => self::sanitizeAttributes($item),
-			'features'     => self::sanitizeFeatures($item)
+			'asin'         => self::extractASIN($item),
+			'ean'          => self::extractEAN($item),
+			'node'         => self::extractNode($item),
+			'root'         => self::extractRoot($item),
+			'rank'         => self::extractRank($item),
+			'title'        => self::extractTitle($item),
+			'category'     => self::extractCategory($item),
+			'brand'        => self::extractBrand($item),
+			'url'          => self::extractUrl($item),
+			'image'        => self::extractImage($item),
+			'price'        => self::extractPrice($item),
+			'discount'     => self::extractDiscount($item),
+			'discounted'   => self::extractDiscounted($item),
+			'percent'      => self::extractPercent($item),
+			'currency'     => self::extractCurrency($item),
+			'availability' => self::extractAvailability($item),
+			'shipping'     => self::extractShipping($item),
+			'gallery'      => self::extractGallery($item),
+			'attributes'   => self::extractAttributes($item),
+			'features'     => self::extractFeatures($item)
 		];
 	}
 
@@ -1003,74 +1027,74 @@ final class Normalizer
 	}
 
 	/**
-	 * Sanitize item EAN.
+	 * Extract item EAN.
 	 *
 	 * @access private
 	 * @param array $item
 	 * @return string
 	 */
-	private static function sanitizeEAN(array $item) : string
+	private static function extractEAN(array $item) : string
 	{
 		return $item['ItemInfo']['ExternalIds']['EANs']['DisplayValues'][0] ?? '';
 	}
 
 	/**
-	 * Sanitize item ASIN.
+	 * Extract item ASIN.
 	 * 
 	 * @access private
 	 * @param array $item
 	 * @return string
 	 */
-	private static function sanitizeASIN(array $item) : string
+	private static function extractASIN(array $item) : string
 	{
 		return $item['ASIN'] ?? '';
 	}
 
 	/**
-	 * Sanitize item title.
+	 * Extract item title.
 	 * 
 	 * @access private
 	 * @param array $item
 	 * @return string
 	 */
-	private static function sanitizeTitle(array $item) : string
+	private static function extractTitle(array $item) : string
 	{
 		$title = $item['ItemInfo']['Title']['DisplayValue'] ?? '';
 		return self::formatString($title);
 	}
 
 	/**
-	 * Sanitize item url.
+	 * Extract item url.
 	 * 
 	 * @access private
 	 * @param array $item
 	 * @return string
 	 */
-	private static function sanitizeUrl(array $item) : string
+	private static function extractUrl(array $item) : string
 	{
 		return $item['DetailPageURL'] ?? '';
 	}
 
 	/**
-	 * Sanitize item image.
+	 * Extract item image.
 	 * 
 	 * @access private
 	 * @param array $item
 	 * @return string
 	 */
-	private static function sanitizeImage(array $item) : string
+	private static function extractImage(array $item) : string
 	{
 		return $item['Images']['Primary']['Large']['URL'] ?? '';
 	}
 
 	/**
-	 * Sanitize item category.
+	 * Extract item category.
 	 *
 	 * @access private
 	 * @param array $item
 	 * @return string
 	 */
-	private static function sanitizeCategory(array $item) : string
+	private static function extractCategory(array $item) : string
 	{
 		$node = $item['BrowseNodeInfo']['BrowseNodes'][0] ?? [];
 		$count = count($node);
@@ -1082,26 +1106,26 @@ final class Normalizer
 	}
 
 	/**
-	 * Sanitize item node Id.
+	 * Extract item node Id.
 	 *
 	 * @access private
 	 * @param array $item
 	 * @return string
 	 */
-	private static function sanitizeNode(array $item) : string
+	private static function extractNode(array $item) : string
 	{
 		$node = $item['BrowseNodeInfo']['BrowseNodes'][0] ?? [];
 		return $node['Id'] ?? '';
 	}
 
 	/**
-	 * Sanitize item root Id.
+	 * Extract item root Id.
 	 *
 	 * @access private
 	 * @param array $item
 	 * @return string
 	 */
-	private static function sanitizeRoot(array $item) : string
+	private static function extractRoot(array $item) : string
 	{
 		$node = $item['BrowseNodeInfo']['BrowseNodes'][0] ?? [];
 		$count = count($node);
@@ -1113,91 +1137,91 @@ final class Normalizer
 	}
 
 	/**
-	 * Sanitize item rank.
+	 * Extract item rank.
 	 *
 	 * @access private
 	 * @param array $item
 	 * @return int
 	 */
-	private static function sanitizeRank(array $item) : int
+	private static function extractRank(array $item) : int
 	{
 		$node = $item['BrowseNodeInfo']['BrowseNodes'][0] ?? [];
 		return $node['SalesRank'] ?? 0;
 	}
 
 	/**
-	 * Sanitize item price.
+	 * Extract item price.
 	 * 
 	 * @access private
 	 * @param array $item
 	 * @return float
 	 */
-	private static function sanitizePrice(array $item) : float
+	private static function extractPrice(array $item) : float
 	{
 		$listing = $item['Offers']['Listings'][0] ?? [];
 		return $listing['Price']['Amount'] ?? 0;
 	}
 
 	/**
-	 * Sanitize item currency.
+	 * Extract item currency.
 	 * 
 	 * @access private
 	 * @param array $item
 	 * @return string
 	 */
-	private static function sanitizeCurrency(array $item) : string
+	private static function extractCurrency(array $item) : string
 	{
 		$listing = $item['Offers']['Listings'][0] ?? [];
 		return $listing['Price']['Currency'] ?? '';
 	}
 
 	/**
-	 * Sanitize item discount.
+	 * Extract item discount.
 	 *
 	 * @access private
 	 * @param array $item
 	 * @return float
 	 */
-	private static function sanitizeDiscount(array $item) : float
+	private static function extractDiscount(array $item) : float
 	{
 		$listing = $item['Offers']['Listings'][0] ?? [];
 		return $listing['Price']['Savings']['Amount'] ?? 0;
 	}
 
 	/**
-	 * Sanitize item discount percent.
+	 * Extract item discount percent.
 	 *
 	 * @access private
 	 * @param array $item
 	 * @return float
 	 */
-	private static function sanitizePercent(array $item) : float
+	private static function extractPercent(array $item) : float
 	{
 		$listing = $item['Offers']['Listings'][0] ?? [];
 		return $listing['Price']['Savings']['Percentage'] ?? 0;
 	}
 
 	/**
-	 * Sanitize item discounted.
+	 * Extract item discounted.
 	 *
 	 * @access private
 	 * @param array $item
 	 * @return float
 	 */
-	private static function sanitizeDiscounted(array $item) : float
+	private static function extractDiscounted(array $item) : float
 	{
-		$discounted = self::sanitizePrice($item) + self::sanitizeDiscount($item);
+		$discounted = self::extractPrice($item) + self::extractDiscount($item);
 		return round($discounted, 2);
 	}
 
 	/**
-	 * Sanitize item shipping.
+	 * Extract item shipping.
 	 * 
 	 * @access private
 	 * @param array $item
 	 * @return array
 	 */
-	private static function sanitizeShipping(array $item) : array
+	private static function extractShipping(array $item) : array
 	{
 		$listing = $item['Offers']['Listings'][0] ?? [];
 		return [
@@ -1208,38 +1232,38 @@ final class Normalizer
 	}
 
 	/**
-	 * Sanitize item availability.
+	 * Extract item availability.
 	 * 
 	 * @access private
 	 * @param array $item
 	 * @return string
 	 */
-	private static function sanitizeAvailability(array $item) : string
+	private static function extractAvailability(array $item) : string
 	{
 		$listing = $item['Offers']['Listings'][0] ?? [];
 		return $listing['Availability']['Message'] ?? '';
 	}
 
 	/**
-	 * Sanitize item brand.
+	 * Extract item brand.
 	 * 
 	 * @access private
 	 * @param array $item
 	 * @return string
 	 */
-	private static function sanitizeBrand(array $item) : string
+	private static function extractBrand(array $item) : string
 	{
 		return $item['ItemInfo']['ByLineInfo']['Brand']['DisplayValue'] ?? '';
 	}
 
 	/**
-	 * Sanitize item features.
+	 * Extract item features.
 	 * 
 	 * @access private
 	 * @param array $item
 	 * @return array
 	 */
-	private static function sanitizeFeatures(array $item) : array
+	private static function extractFeatures(array $item) : array
 	{
 		$features = $item['ItemInfo']['Features']['DisplayValues'] ?? [];
 		if ( self::$limit ) {
@@ -1253,13 +1277,13 @@ final class Normalizer
 	}
 
 	/**
-	 * Sanitize item gallery.
+	 * Extract item gallery.
 	 * 
 	 * @access private
 	 * @param array $item
 	 * @return array
 	 */
-	private static function sanitizeGallery(array $item) : array
+	private static function extractGallery(array $item) : array
 	{
 		$gallery = [];
 		$variants = $item['Images']['Variants'] ?? [];
@@ -1273,13 +1297,13 @@ final class Normalizer
 	}
 
 	/**
-	 * Sanitize item attributes.
+	 * Extract item attributes.
 	 * 
 	 * @access private
 	 * @param array $item
 	 * @return array
 	 */
-	private static function sanitizeAttributes(array $item) : array
+	private static function extractAttributes(array $item) : array
 	{
 		$info = $item['ItemInfo']['ManufactureInfo'] ?? [];
 		$atts = $item['ItemInfo']['ProductInfo'] ?? [];
