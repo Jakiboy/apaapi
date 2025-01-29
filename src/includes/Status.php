@@ -15,7 +15,7 @@ declare(strict_types=1);
 namespace Apaapi\includes;
 
 /**
- * Advanced HTTP status manipulation.
+ * Apaapi HTTP status helper.
  */
 final class Status
 {
