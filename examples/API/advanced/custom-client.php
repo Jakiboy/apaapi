@@ -22,6 +22,7 @@ use Apaapi\includes\Client;
 
 /**
  * Custom request client class.
+ * @deprecated
  */
 class MyClient extends Client
 {

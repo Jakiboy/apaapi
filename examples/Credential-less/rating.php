@@ -18,7 +18,7 @@ include '../src/Autoloader.php';
 use Apaapi\includes\Rating;
 
 // Init Rating
-$rating = new Rating('_ASIN_', '_LOCALE_');
+$rating = new Rating('_ASIN_', '_LOCALE_', '__TAG__');
 $data = $rating->get(); // Array
 var_dump($data);
 
