@@ -78,7 +78,7 @@ use Apaapi\includes\Builder;
 $builder = new Builder('_KEY_', '_SECRET_', '_TAG_', '_LOCALE_');
 
 // (2) Get response (Search)
-$data = $builder->searchOne('Sony Xperia Pro-I'); // Normalized array
+$data = $builder->searchOne('Sony Xperia 1 VI'); // Normalized array
 
 ```
 
@@ -100,7 +100,7 @@ use Apaapi\includes\Product;
 $scraper = new Product('B0D1C9HRFP', '_LOCALE_', '_TAG_');
 
 // (2) Get response
-$data = $scraper->get(); // Normalized array
+$data = $scraper->get(); // Array
 
 ```
 
