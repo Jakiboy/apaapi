@@ -18,7 +18,7 @@ use Apaapi\interfaces\{ClientInterface, GatewayInterface};
 use Apaapi\exceptions\{RequestException, ClientException};
 
 /**
- * Advanced HTTP request client (cURL|Stream).
+ * Apaapi HTTP request client (cURL|Stream).
  */
 class Client implements ClientInterface
 {
@@ -538,7 +538,7 @@ class Client implements ClientInterface
         $gateway = "{$ns}\\{$this->gateway}";
         $this->gateway = new $gateway;
 
-        if (!$this->gateway instanceof GatewayInterface) {
+        if ( !$this->gateway instanceof GatewayInterface ) {
             throw new ClientException(
                 ClientException::invalidGateway($gateway)
             );
