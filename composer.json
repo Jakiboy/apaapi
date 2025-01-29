@@ -2,7 +2,7 @@
   "name": "jakiboy/apaapi",
   "version": "1.3.4",
   "type": "library",
-  "description": "Quick connection to Amazon Affiliate Program using the lightweight Amazon Product Advertising API Library v5 (APAAPI)",
+  "description": "Easily integrate with the Amazon Affiliate Program using the lightweight APAAPI library for Amazon Product Advertising API v5 (With Credential-less)",
   "keywords": [
     "php",
     "amazon",
@@ -19,10 +19,6 @@
       "name": "Jihad Sinnaour",
       "email": "mail@jihadsinnaour.com",
       "role": "Founder"
-    },
-    {
-      "name": "Kay Marquardt",
-      "role": "Contributor"
     }
   ],
   "require": {
