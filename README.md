@@ -2,14 +2,14 @@
 
 [![Amazon Product Advertising API PHP](https://media.githubusercontent.com/media/Jakiboy/apaapi/refs/heads/main/.static/banner.png)](#)
 
-Amazon Product Advertising API V5.0 (**Without Amazon SDK**). This repository contains a lightweight PHP (~250 KB) wrapper library (Unofficial), Easily access the [Amazon Product Advertising API V5.0](https://webservices.amazon.com/paapi5/documentation/index.html) from your app.
+Apaapi is an unofficial PHP library for accessing the Amazon Product Advertising API (PAAPI) V5.0, without relying on the **Amazon SDK**. It is lightweight (~250 KB) and simplifies interaction with the [Amazon PAAPI V5.0](https://webservices.amazon.com/paapi5/documentation/index.html), making it easier to integrate Amazon product data into PHP applications.
 
--- Become an Amazon Affiliate With PHP --
+-- Amazon Affiliate With PHP --
 
 ## 💡 Features
 
-* **Request Builder** (Easier way to fetch data).
-* **Credential-less** (No credentials required using scrapper).
+* **Request Builder** (Easier way to fetch API data).
+* **Credential-less** (No credentials required using scraper).
 * **Search Filters** (Using builder).
 * **Geotargeting** (Automatically redirect links based on the visitor's region).
 * **Cart Generator** (Add to cart URL).
@@ -59,9 +59,9 @@ include('apaapi-main/src/Autoloader.php');
 
 ### Quickstart
 
-**Recommended** using Apaapi builder or Apaapi scrapper without API credentials.
+**Recommended** using *Apaapi Builder* or *Apaapi Product* (Scraped data) if you dont have API credentials.
 
-[![Product](https://media.githubusercontent.com/media/Jakiboy/apaapi/refs/heads/main/.static/product.png)](#)
+[![Product](https://media.githubusercontent.com/media/Jakiboy/apaapi/refs/heads/main/.static/product.png)](#Quickstart)
 
 #### Builder:
 
@@ -83,9 +83,9 @@ $data = $builder->searchOne('Sony Xperia Pro-I'); // Normalized array
 ```
 
 > [!Note]  
-> *See full builder usage at [/wiki/Builder](https://github.com/Jakiboy/apaapi/wiki/Builder)*
+> *See full builder usage at [/wiki/Builder](https://github.com/Jakiboy/apaapi/wiki/Builder)* and use case *[/examples](https://github.com/Jakiboy/apaapi/tree/main/examples)*
 
-#### Scrapper:
+#### Product:
 
 ```php
 
@@ -94,43 +94,23 @@ $data = $builder->searchOne('Sony Xperia Pro-I'); // Normalized array
  * Or include Apaapi Autoloader Here.
  */
 
-use Apaapi\includes\Scrapper;
+use Apaapi\includes\Product;
 
-// (1) Init scrapper
-$scrapper = new Scrapper('B0D1C9HRFP', '_LOCALE_', '_TAG_');
+// (1) Init product
+$scraper = new Product('B0D1C9HRFP', '_LOCALE_', '_TAG_');
 
 // (2) Get response
-$data = $scrapper->getOne(); // Normalized array
+$data = $scraper->get(); // Normalized array
 
 ```
 
 > [!Note]  
-> *See full builder usage at [/wiki/Scrapper](https://github.com/Jakiboy/apaapi/wiki/Scrapper)*
-
-### Cart:
-
-Get affiliate cart URL.
-
-[![Cart](https://media.githubusercontent.com/media/Jakiboy/apaapi/refs/heads/main/.static/cart.png)](#)
-
-```php
-
-use Apaapi\lib\Cart;
-
-// Init Cart
-$cart = new Cart();
-$cart->setLocale('_LOCALE_')->setPartnerTag('_TAG_');
-
-// Get Response
-$data = $cart->set(['_ASIN_' => 3]); // String
-
-```
-
+> *See full product usage at [/wiki/Product](https://github.com/Jakiboy/apaapi/wiki/Product)*
 ### Rating:
 
-Get customer reviews of product as average rating and count (Scrapper).
+Get customer reviews of product as average rating and count (Scraped data).
 
-[![Rating](https://media.githubusercontent.com/media/Jakiboy/apaapi/refs/heads/main/.static/rating.png)](#)
+[![Rating](https://media.githubusercontent.com/media/Jakiboy/apaapi/refs/heads/main/.static/rating.png)](#Rating)
 
 ```php
 
@@ -144,8 +124,24 @@ $data = $rating->get(); // Array
 
 ```
 
-> [!NOTE]  
-> *All available use case examples are located in [/examples](https://github.com/Jakiboy/apaapi/tree/main/examples)*.
+### Cart:
+
+Get affiliate cart URL.
+
+[![Cart](https://media.githubusercontent.com/media/Jakiboy/apaapi/refs/heads/main/.static/cart.png)](#Cart)
+
+```php
+
+use Apaapi\lib\Cart;
+
+// Init Cart
+$cart = new Cart();
+$cart->setLocale('_LOCALE_')->setPartnerTag('_TAG_');
+
+// Get Response
+$data = $cart->set(['_ASIN_' => 3]); // String
+
+```
 
 ### Basic (Search):
 
@@ -172,7 +168,6 @@ $data = $response->get(); // Array
 ```
 > [!Note]  
 > *See all available TLDs used by setLocale() at [/wiki/TLDs](https://github.com/Jakiboy/apaapi/wiki/TLDs)*
-
 
 ### Basic (Get):
 
@@ -264,8 +259,7 @@ $operation->setResources(['Images.Primary.Small', 'ItemInfo.Title', 'Offers.List
 
 ### ⭐ Support:
 
-Don't buy me a coffee! Just **star the project** if you like it.
+Skip the coffee! If you like the project, a **star** would mean a lot.
 
 > [!IMPORTANT]  
-> *The Amazon logo included in top of this page refers only to the [Amazon Product Advertising API V5](https://webservices.amazon.com/paapi5/documentation/index.html)*.  
-[The Official Amazon SDK (PAAPI5)](https://webservices.amazon.com/paapi5/documentation/quick-start/using-sdk.html)
+> *The **Amazon logo** included in top of this page refers only to the [Amazon Product Advertising API](https://webservices.amazon.com/paapi5/documentation/index.html)*
