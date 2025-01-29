@@ -14,6 +14,9 @@ declare(strict_types=1);
 
 namespace Apaapi\includes;
 
+/**
+ * Apaapi Keyword Helper.
+ */
 final class Keyword
 {
 	/**
