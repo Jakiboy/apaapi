@@ -147,7 +147,7 @@ final class Geotargeting
 
 			if ( self::$redirectNotFound ) {
 
-				$header = Scrapper::generateHeader($this->redirect['tld']);
+				$header = Scraper::generateHeader($this->redirect['tld']);
 
 				$client = new Client($item['url']);
 				$client->setHeader($header)->setRedirect(2)->setTimeout(0);
