@@ -9,7 +9,7 @@ Apaapi is an unofficial PHP library for accessing the Amazon Product Advertising
 ## 💡 Features
 
 * **Request Builder** (Easier way to fetch API data).
-* **Credential-less** (No credentials required using scraper).
+* **Credential-less** (No credentials required using product scraper).
 * **Search Filters** (Using builder).
 * **Geotargeting** (Automatically redirect links based on the visitor's region).
 * **Cart Generator** (Add to cart URL).
@@ -97,10 +97,10 @@ $data = $builder->searchOne('Sony Xperia 1 VI'); // Normalized array
 use Apaapi\includes\Product;
 
 // (1) Init product
-$scraper = new Product('B0D1C9HRFP', '_LOCALE_', '_TAG_');
+$product = new Product('B00NLZUM36', 'com', 'test-21');
 
 // (2) Get response
-$data = $scraper->get(); // Array
+$data = $product->get(); // Array
 
 ```
 
@@ -117,7 +117,7 @@ Get customer reviews of product as average rating and count (Scraped data).
 use Apaapi\includes\Rating;
 
 // Init Rating
-$rating = new Rating('_ASIN_', '_LOCALE_', '_TAG_');
+$rating = new Rating('B00NLZUM36', 'com', 'test-21');
 
 // Get Response
 $data = $rating->get(); // Array
@@ -136,12 +136,14 @@ use Apaapi\lib\Cart;
 
 // Init Cart
 $cart = new Cart();
-$cart->setLocale('_LOCALE_')->setPartnerTag('_TAG_');
+$cart->setLocale('com')->setPartnerTag('test-21');
 
 // Get Response
-$data = $cart->set(['_ASIN_' => 3]); // String
+$data = $cart->set(['B00NLZUM36' => 3]); // String
 
 ```
+
+## ⚡ Advanced
 
 ### Basic (Search):
 
