@@ -17,7 +17,7 @@ namespace Apaapi\includes;
 use Apaapi\interfaces\GatewayInterface;
 
 /**
- * Advanced HTTP stream manipulation.
+ * Apaapi HTTP stream manipulation.
  */
 final class Stream implements GatewayInterface
 {
