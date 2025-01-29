@@ -18,7 +18,7 @@ use Apaapi\interfaces\GatewayInterface;
 use \CurlHandle;
 
 /**
- * Advanced cURL manipulation.
+ * Apaapi cURL manipulation.
  */
 final class Curl implements GatewayInterface
 {
