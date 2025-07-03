@@ -83,7 +83,7 @@ final class Cache
 	public static function getKey(RequestInterface $request) : string
 	{
 		$params = $request->getParams();
-		$payload = $params['payload'] ?? '';
+		$payload = $params['payload'] ?? $params['body'] ?? '';
 		return self::generateKey((string)$payload);
 	}
 
