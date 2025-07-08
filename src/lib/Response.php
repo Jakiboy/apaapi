@@ -43,7 +43,7 @@ class Response implements ResponseInterface
 	public function __construct(RequestInterface $request, bool $normalize = false, bool $cache = true)
 	{
 		$cache ? $this->getCached($request) : $this->send($request);
-
+		
 		if ( !$this->hasError() ) {
 
 			$this->data = Normalizer::decode($this->body);
@@ -51,7 +51,6 @@ class Response implements ResponseInterface
 			if ( $normalize ) {
 				$this->data = Normalizer::get($this->data, $request->getOperation());
 			}
-
 		}
 	}
 
@@ -110,9 +109,9 @@ class Response implements ResponseInterface
 	protected function getCached(RequestInterface $request) : void
 	{
 		$key = Cache::getKey($request);
+
 		if ( ($cached = Cache::get($key)) ) {
 			$this->body = $cached;
-
 		} else {
 			$this->send($request);
 			if ( !$this->hasError() ) {

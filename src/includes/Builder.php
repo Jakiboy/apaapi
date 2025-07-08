@@ -58,14 +58,9 @@ final class Builder
         'ItemInfo.ExternalIds',
         'ItemInfo.Features',
         'ItemInfo.Title',
-        'Offers.Listings.Price',
-        'Offers.Listings.Condition',
-        'Offers.Listings.Promotions',
-        'Offers.Listings.SavingBasis',
-        'Offers.Listings.DeliveryInfo.IsAmazonFulfilled',
-        'Offers.Listings.DeliveryInfo.IsFreeShippingEligible',
-        'Offers.Listings.DeliveryInfo.IsPrimeEligible',
-        'Offers.Listings.Availability.Message',
+        'OffersV2.Listings.Price',
+        'OffersV2.Listings.Condition',
+        'OffersV2.Listings.Availability',
         'Images.Primary.Large',
         'Images.Variants.Large'
     ];
