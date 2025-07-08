@@ -27,7 +27,7 @@ $operation->setPartnerTag('_TAG_')->setKeywords('_KEYWORDS_');
 $operation->setResources([
     'Images.Primary.Small',
     'ItemInfo.Title',
-    'Offers.Listings.Price'
+    'OffersV2.Listings.Price'
 ]);
 
 // Prapere request

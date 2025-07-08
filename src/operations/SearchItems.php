@@ -17,7 +17,7 @@ use Apaapi\resources\{
     BrowseNodeInfo,
     Images,
     ItemInfo,
-    Offers,
+    OffersV2,
     RentalOffers,
     SearchRefinements,
     ParentASIN
@@ -77,7 +77,7 @@ final class SearchItems extends ItemOperation
             new BrowseNodeInfo,
             new Images,
             new ItemInfo,
-            new Offers,
+            new OffersV2,
             new RentalOffers,
             new ParentASIN,
             new SearchRefinements

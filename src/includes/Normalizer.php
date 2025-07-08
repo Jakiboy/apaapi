@@ -1158,8 +1158,8 @@ final class Normalizer
 	 */
 	private static function extractPrice(array $item) : float
 	{
-		$listing = $item['Offers']['Listings'][0] ?? [];
-		return $listing['Price']['Amount'] ?? 0;
+		$listing = $item['OffersV2']['Listings'][0] ?? [];
+		return $listing['Price']['Money']['Amount'] ?? 0;
 	}
 
 	/**
@@ -1171,8 +1171,8 @@ final class Normalizer
 	 */
 	private static function extractCurrency(array $item) : string
 	{
-		$listing = $item['Offers']['Listings'][0] ?? [];
-		return $listing['Price']['Currency'] ?? '';
+		$listing = $item['OffersV2']['Listings'][0] ?? [];
+		return $listing['Price']['Money']['CurrencyCode'] ?? '';
 	}
 
 	/**
@@ -1184,8 +1184,8 @@ final class Normalizer
 	 */
 	private static function extractDiscount(array $item) : float
 	{
-		$listing = $item['Offers']['Listings'][0] ?? [];
-		return $listing['Price']['Savings']['Amount'] ?? 0;
+		$listing = $item['OffersV2']['Listings'][0] ?? [];
+		return $listing['Price']['Savings']['Money']['Amount'] ?? 0;
 	}
 
 	/**
@@ -1197,7 +1197,7 @@ final class Normalizer
 	 */
 	private static function extractPercent(array $item) : float
 	{
-		$listing = $item['Offers']['Listings'][0] ?? [];
+		$listing = $item['OffersV2']['Listings'][0] ?? [];
 		return $listing['Price']['Savings']['Percentage'] ?? 0;
 	}
 
@@ -1223,11 +1223,11 @@ final class Normalizer
 	 */
 	private static function extractShipping(array $item) : array
 	{
-		$listing = $item['Offers']['Listings'][0] ?? [];
+		$listing = $item['OffersV2']['Listings'][0] ?? [];
 		return [
-			'fulfilled' => $listing['DeliveryInfo']['IsAmazonFulfilled'] ?? false,
-			'free'      => $listing['DeliveryInfo']['IsFreeShippingEligible'] ?? false,
-			'prime'     => $listing['DeliveryInfo']['IsPrimeEligible'] ?? false
+			// 'fulfilled' => $listing['DeliveryInfo']['IsAmazonFulfilled'] ?? false,
+			// 'free'      => $listing['DeliveryInfo']['IsFreeShippingEligible'] ?? false,
+			// 'prime'     => $listing['DeliveryInfo']['IsPrimeEligible'] ?? false
 		];
 	}
 
@@ -1240,7 +1240,7 @@ final class Normalizer
 	 */
 	private static function extractAvailability(array $item) : string
 	{
-		$listing = $item['Offers']['Listings'][0] ?? [];
+		$listing = $item['OffersV2']['Listings'][0] ?? [];
 		return $listing['Availability']['Message'] ?? '';
 	}
 
