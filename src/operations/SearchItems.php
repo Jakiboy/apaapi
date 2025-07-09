@@ -77,7 +77,6 @@ final class SearchItems extends ItemOperation
             new BrowseNodeInfo,
             new Images,
             new ItemInfo,
-            new OffersV2,
             new RentalOffers,
             new ParentASIN,
             new SearchRefinements

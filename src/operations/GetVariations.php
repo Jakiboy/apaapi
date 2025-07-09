@@ -49,7 +49,6 @@ final class GetVariations extends ItemOperation
 			new BrowseNodeInfo,
 			new Images,
 			new ItemInfo,
-			new OffersV2,
 			new RentalOffers,
 			new VariationSummary,
 			new ParentASIN
