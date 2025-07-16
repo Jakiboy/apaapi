@@ -1,6 +1,6 @@
 {
   "name": "jakiboy/apaapi",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "type": "library",
   "description": "Easily integrate with the Amazon Affiliate Program using the lightweight APAAPI library for Amazon Product Advertising API v5 (With Credential-less)",
   "keywords": [
