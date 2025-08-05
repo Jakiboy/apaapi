@@ -13,12 +13,16 @@
 declare(strict_types=1);
 
 include '../../src/Autoloader.php';
+
 \apaapi\Autoloader::init();
 
 use Apaapi\includes\Rating;
+use Apaapi\includes\Env;
+
+Env::load('../.env');
 
 // Init Rating
-$rating = new Rating('_ASIN_', '_LOCALE_', '__TAG__');
+$rating = new Rating(Env::get('_ASIN_'), Env::get('_LOCALE_'), Env::get('_TAG_'));
 $data = $rating->get(); // Array
 var_dump($data);
 

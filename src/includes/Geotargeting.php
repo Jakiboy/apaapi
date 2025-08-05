@@ -44,7 +44,7 @@ final class Geotargeting
 	private $isDetected = false;
 	private $api = [];
 	private $target = [];
-	private $code = false;
+	private $code = '';
 	private $tag;
 	private $locale;
 	private $redirect = [];
@@ -202,7 +202,7 @@ final class Geotargeting
 	 */
 	private function getCountryCode() : string
 	{
-		if ( $this->code ) {
+		if ( !empty($this->code) && is_string($this->code) ) {
 			return $this->code;
 		}
 

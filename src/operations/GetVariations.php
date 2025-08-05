@@ -17,6 +17,7 @@ use Apaapi\resources\{
 	BrowseNodeInfo,
 	Images,
 	ItemInfo,
+	Offers,
 	OffersV2,
 	RentalOffers,
 	VariationSummary,
@@ -43,12 +44,13 @@ final class GetVariations extends ItemOperation
 	/**
 	 * Set resources.
 	 */
-	public function __construct()
+	public function __construct(bool $isOffersV2 = false)
 	{
 		$this->resources = Parser::convert([
 			new BrowseNodeInfo,
 			new Images,
 			new ItemInfo,
+			$isOffersV2 ? new OffersV2 : new Offers,
 			new RentalOffers,
 			new VariationSummary,
 			new ParentASIN

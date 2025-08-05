@@ -1158,8 +1158,16 @@ final class Normalizer
 	 */
 	private static function extractPrice(array $item) : float
 	{
-		$listing = $item['OffersV2']['Listings'][0] ?? [];
-		return $listing['Price']['Money']['Amount'] ?? 0;
+		$listing = $item['Offers']['Listings'][0] 
+		?? $item['OffersV2']['Listings'][0] ?? [];
+		
+		// OffersV2 format: Price.Money.Amount
+		if ( isset($listing['Price']['Money']['Amount']) ) {
+			return $listing['Price']['Money']['Amount'];
+		}
+		
+		// Original format: Price.Amount
+		return $listing['Price']['Amount'] ?? 0;
 	}
 
 	/**
@@ -1171,8 +1179,16 @@ final class Normalizer
 	 */
 	private static function extractCurrency(array $item) : string
 	{
-		$listing = $item['OffersV2']['Listings'][0] ?? [];
-		return $listing['Price']['Money']['CurrencyCode'] ?? '';
+		$listing = $item['Offers']['Listings'][0] 
+		?? $item['OffersV2']['Listings'][0] ?? [];
+		
+		// OffersV2 format: Price.Money.Currency
+		if ( isset($listing['Price']['Money']['Currency']) ) {
+			return $listing['Price']['Money']['Currency'];
+		}
+		
+		// Original format: Price.Currency
+		return $listing['Price']['Currency'] ?? '';
 	}
 
 	/**
@@ -1184,8 +1200,16 @@ final class Normalizer
 	 */
 	private static function extractDiscount(array $item) : float
 	{
-		$listing = $item['OffersV2']['Listings'][0] ?? [];
-		return $listing['Price']['Savings']['Money']['Amount'] ?? 0;
+		$listing = $item['Offers']['Listings'][0] 
+		?? $item['OffersV2']['Listings'][0] ?? [];
+		
+		// OffersV2 format: Price.Savings.Money.Amount
+		if ( isset($listing['Price']['Savings']['Money']['Amount']) ) {
+			return $listing['Price']['Savings']['Money']['Amount'];
+		}
+		
+		// Original format: Price.Savings.Amount
+		return $listing['Price']['Savings']['Amount'] ?? 0;
 	}
 
 	/**
@@ -1197,7 +1221,10 @@ final class Normalizer
 	 */
 	private static function extractPercent(array $item) : float
 	{
-		$listing = $item['OffersV2']['Listings'][0] ?? [];
+		$listing = $item['Offers']['Listings'][0] 
+		?? $item['OffersV2']['Listings'][0] ?? [];
+		
+		// Both formats use the same path: Price.Savings.Percentage
 		return $listing['Price']['Savings']['Percentage'] ?? 0;
 	}
 
@@ -1210,6 +1237,15 @@ final class Normalizer
 	 */
 	private static function extractDiscounted(array $item) : float
 	{
+		$listing = $item['Offers']['Listings'][0] 
+		?? $item['OffersV2']['Listings'][0] ?? [];
+		
+		// OffersV2 format: Price.SavingBasis.Money.Amount (original price)
+		if ( isset($listing['Price']['SavingBasis']['Money']['Amount']) ) {
+			return round($listing['Price']['SavingBasis']['Money']['Amount'], 2);
+		}
+		
+		// Fallback: calculate from current price + discount
 		$discounted = self::extractPrice($item) + self::extractDiscount($item);
 		return round($discounted, 2);
 	}
@@ -1223,11 +1259,14 @@ final class Normalizer
 	 */
 	private static function extractShipping(array $item) : array
 	{
-		$listing = $item['OffersV2']['Listings'][0] ?? [];
+		$listing = $item['Offers']['Listings'][0] 
+		?? $item['OffersV2']['Listings'][0] ?? [];
+		
+		// Both formats use the same DeliveryInfo structure
 		return [
-			// 'fulfilled' => $listing['DeliveryInfo']['IsAmazonFulfilled'] ?? false,
-			// 'free'      => $listing['DeliveryInfo']['IsFreeShippingEligible'] ?? false,
-			// 'prime'     => $listing['DeliveryInfo']['IsPrimeEligible'] ?? false
+			'fulfilled' => $listing['DeliveryInfo']['IsAmazonFulfilled'] ?? false,
+			'free'      => $listing['DeliveryInfo']['IsFreeShippingEligible'] ?? false,
+			'prime'     => $listing['DeliveryInfo']['IsPrimeEligible'] ?? false
 		];
 	}
 
@@ -1240,7 +1279,15 @@ final class Normalizer
 	 */
 	private static function extractAvailability(array $item) : string
 	{
-		$listing = $item['OffersV2']['Listings'][0] ?? [];
+		$listing = $item['Offers']['Listings'][0] 
+		?? $item['OffersV2']['Listings'][0] ?? [];
+		
+		// OffersV2 format: Availability.Type
+		if ( isset($listing['Availability']['Type']) ) {
+			return $listing['Availability']['Type'];
+		}
+		
+		// Original format: Availability.Message
 		return $listing['Availability']['Message'] ?? '';
 	}
 

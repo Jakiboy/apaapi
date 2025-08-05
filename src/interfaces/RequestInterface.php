@@ -100,4 +100,21 @@ interface RequestInterface
      * @throws \Apaapi\exceptions\RequestException
      */
     function setLocale(string $locale) : object;
+
+    /**
+     * Check valid client.
+     *
+     * @access public
+     * @return bool
+     */
+    function hasClient() : bool;
+
+    /**
+     * Set request client.
+     *
+     * @access public
+     * @param ClientInterface $client
+     * @return void
+     */
+    function setClient(?ClientInterface $client = null);
 }

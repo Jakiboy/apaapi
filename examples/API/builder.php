@@ -13,15 +13,19 @@
 declare(strict_types=1);
 
 include '../../src/Autoloader.php';
+
 \apaapi\Autoloader::init();
 
 use Apaapi\includes\Builder;
+use Apaapi\includes\Env;
 
-// Prapere request
-$builder = new Builder('_KEY_', '_SECRET_', '_TAG_', '_LOCALE_');
+Env::load('../.env');
+
+// Prepare request
+$builder = new Builder(Env::get('_KEY_'), Env::get('_SECRET_'), Env::get('_TAG_'), Env::get('_LOCALE_'));
 
 // Get response
-$data = $builder->search('_KEYWORDS_'); // Normalized Array
+$data = $builder->search(Env::get('_KEYWORDS_')); // Normalized Array
 
 // Handle response error
 if ( $builder->hasError() ) {

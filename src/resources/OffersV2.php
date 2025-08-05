@@ -27,15 +27,11 @@ final class OffersV2 extends Resource
 	{
 		$this->items = [
 			'Listings.Availability',
-
 			'Listings.Condition',
-
 			'Listings.IsBuyBoxWinner',
 			'Listings.LoyaltyPoints',
 			'Listings.MerchantInfo',
-
 			'Listings.Price',
-
 			'Listings.Type'
 		];
 	}

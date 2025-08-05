@@ -53,16 +53,21 @@ final class Builder
 
     private const RESOURCES = [
         'BrowseNodeInfo.BrowseNodes.Ancestor',
+        'Images.Primary.Large',
+        'Images.Variants.Large',
         'ItemInfo.ByLineInfo',
-        'ItemInfo.ManufactureInfo',
         'ItemInfo.ExternalIds',
         'ItemInfo.Features',
+        'ItemInfo.ManufactureInfo',
         'ItemInfo.Title',
-        'OffersV2.Listings.Price',
-        'OffersV2.Listings.Condition',
-        'OffersV2.Listings.Availability',
-        'Images.Primary.Large',
-        'Images.Variants.Large'
+        'Offers.Listings.Availability.Message',
+        'Offers.Listings.Condition',
+        'Offers.Listings.DeliveryInfo.IsAmazonFulfilled',
+        'Offers.Listings.DeliveryInfo.IsFreeShippingEligible',
+        'Offers.Listings.DeliveryInfo.IsPrimeEligible',
+        'Offers.Listings.Price',
+        'Offers.Listings.Promotions',
+        'Offers.Listings.SavingBasis',
     ];
 
     /**
@@ -911,7 +916,7 @@ final class Builder
      */
     private function prepare() : self
     {
-        $this->request = new Request($this->key, $this->secret);
+        $this->request = new Request((string)$this->key, (string)$this->secret);
         $this->request->setLocale($this->locale)->setPayload($this->operation);
         return $this;
     }
