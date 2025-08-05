@@ -9,6 +9,7 @@ Apaapi is an unofficial PHP library for accessing the Amazon Product Advertising
 ## 💡 Features
 
 * **Request Builder** (Easier way to fetch API data).
+* **AWS4 Signature**: Implements AWS4 signature generation.
 * **Credential-less** (No credentials required using product scraper).
 * **Search Filters** (Using builder).
 * **Geotargeting** (Automatically redirect links based on the visitor's region).
