@@ -12,7 +12,7 @@
 
 declare(strict_types=1);
 
-include '../src/Autoloader.php';
+include '../../src/Autoloader.php';
 \apaapi\Autoloader::init();
 
 use Apaapi\lib\Cart;
