@@ -263,7 +263,7 @@ $operation->setResources(['Images.Primary.Small', 'ItemInfo.Title', 'Offers.List
 
 ### ⭐ Support:
 
-Skip the coffee! If you like the project, a **star** would mean a lot.
+Skip the coffee! If you like the project, a **Star** would mean a lot.
 
 > [!IMPORTANT]  
-> *The **Amazon logo** included in top of this page refers only to the [Amazon Product Advertising API](https://webservices.amazon.com/paapi5/documentation/index.html)*
+> *The **Amazon logo** included in top of this page refers only to the [Amazon Product Advertising API](https://webservices.amazon.com/paapi5/documentation/index.html)*, Amazon Inc. or its affiliates.
