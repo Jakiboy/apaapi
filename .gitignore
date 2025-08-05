@@ -8,6 +8,7 @@
 .idea/
 .phpunit.result.cache
 .vscode/
+/.wiki/
 /build/
 /vendor/
 composer.lock
