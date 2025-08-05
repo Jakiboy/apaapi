@@ -13,18 +13,22 @@
 declare(strict_types=1);
 
 include '../../src/Autoloader.php';
+
 \apaapi\Autoloader::init();
 
 use Apaapi\lib\Cart;
+use Apaapi\includes\Env;
+
+Env::load('../.env');
 
 // Init cart
 $cart = new Cart();
-$cart->setLocale('_LOCALE_')->setPartnerTag('_TAG_');
+$cart->setLocale(Env::get('_LOCALE_'))->setPartnerTag(Env::get('_TAG_'));
 
 // Set items
 $items = [
-    '_ASIN_' => '3', // ({_ASIN_|_ISBN_} => {Quantity})
-    '_ISBN_' => '5'
+    Env::get('_ASIN_') => '3', // ({_ASIN_|_ISBN_} => {Quantity})
+    Env::get('_ISBN_') => '5'
 ];
 
 // Get response

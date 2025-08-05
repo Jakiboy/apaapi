@@ -13,19 +13,24 @@
 declare(strict_types=1);
 
 include '../../../src/Autoloader.php';
+
 \apaapi\Autoloader::init();
 
 use Apaapi\operations\SearchItems;
 use Apaapi\lib\Request;
 use Apaapi\lib\Response;
+use Apaapi\includes\Env;
+
+Env::load('../../.env');
 
 // Set operation
 $operation = new SearchItems();
-$operation->setPartnerTag('_TAG_')->setKeywords('_KEYWORDS_');
+$operation->setPartnerTag('error');
+$operation->setItemCount(3)->setKeywords(Env::get('_KEYWORDS_'));
 
 // Prapere request
-$request = new Request('_KEY_', '_SECRET_');
-$request->setLocale('_LOCALE_')->setPayload($operation);
+$request = new Request(Env::get('_KEY_'), Env::get('_SECRET_'));
+$request->setLocale(Env::get('_LOCALE_'))->setPayload($operation);
 
 // Get response
 $response = new Response($request);

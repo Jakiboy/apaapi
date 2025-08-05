@@ -13,16 +13,19 @@
 declare(strict_types=1);
 
 include '../../../src/Autoloader.php';
+
 \apaapi\Autoloader::init();
 
 use Apaapi\operations\SearchItems;
 use Apaapi\lib\Request;
 use Apaapi\lib\Response;
 use Apaapi\includes\Client;
+use Apaapi\includes\Env;
+
+Env::load('../../.env');
 
 /**
  * Custom request client class.
- * @deprecated
  */
 class MyClient extends Client
 {
@@ -31,50 +34,29 @@ class MyClient extends Client
 	 *
 	 * @inheritdoc
 	 */
-	public function __construct(string $endpoint, array $params = [])
+	public function __construct(?string $baseUrl = null, array $params = [])
 	{
 		// Enable request client exception
-		parent::__construct($endpoint, $params, true);
+		parent::__construct($baseUrl, $params);
 
-		$this->timeout = 5;      // Custom timeout
-		$this->redirect = 3;      // Custom redirection
-		$this->encoding = 'gzip'; // Custom encoding
-	}
-
-	/**
-	 * Override handler behavior.
-	 *
-	 * @inheritdoc
-	 */
-	protected function setHandler() : void
-	{
-		$this->handler = curl_init();
-		curl_setopt_array($this->handler, [
-			CURLOPT_URL            => $this->endpoint,
-			CURLOPT_HTTPHEADER     => $this->getRequestHeader(),
-			CURLOPT_POSTFIELDS     => $this->getRequestPayload(),
-			CURLOPT_RETURNTRANSFER => true,
-			CURLOPT_POST           => true, // Force POST
-			CURLOPT_SSL_VERIFYPEER => true, // Force SSL
-			CURLOPT_FOLLOWLOCATION => true, // Force follow location
-			CURLOPT_TIMEOUT        => $this->timeout,
-			CURLOPT_ENCODING       => $this->encoding,
-			CURLOPT_MAXREDIRS      => $this->redirect
-		]);
+		$this->setTimeout(5);       // Custom timeout
+		$this->setRedirect(3);      // Custom redirection
+		$this->setEncoding('gzip'); // Custom encoding
 	}
 }
 
 // Set operation
 $operation = new SearchItems();
-$operation->setPartnerTag('_TAG_')->setKeywords('_KEYWORDS_');
+$operation->setPartnerTag(Env::get('_TAG_'));
+$operation->setItemCount(3)->setKeywords(Env::get('_KEYWORDS_'));
 
 // Prapere request
-$request = new Request('_KEY_', '_SECRET_');
-$request->setLocale('_LOCALE_')->setPayload($operation);
+$request = new Request(Env::get('_KEY_'), Env::get('_SECRET_'));
+$request->setLocale(Env::get('_LOCALE_'))->setPayload($operation);
 
 // Set custom client after payload
 $request->setClient(
-	new MyClient($request->getEndpoint(), $request->getParams())
+	new MyClient()
 );
 
 // Get response
