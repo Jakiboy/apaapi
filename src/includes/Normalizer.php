@@ -1352,34 +1352,80 @@ final class Normalizer
 	 */
 	private static function extractAttributes(array $item) : array
 	{
-		$info = $item['ItemInfo']['ManufactureInfo'] ?? [];
-		$atts = $item['ItemInfo']['ProductInfo'] ?? [];
-		$dims = $atts['ItemDimensions'] ?? [];
+		return [
+			...self::extractManufacturingInfo($item),
+			...self::extractProductInfo($item), 
+			...self::extractDimensions($item)
+		];
+	}
 
+	/**
+	 * Extract manufacturing information.
+	 * 
+	 * @access private
+	 * @param array $item
+	 * @return array
+	 */
+	private static function extractManufacturingInfo(array $item): array
+	{
+		$info = $item['ItemInfo']['ManufactureInfo'] ?? [];
 		return [
 			'model'    => $info['Model']['DisplayValue'] ?? '',
-			'warranty' => $info['Warranty']['DisplayValue'] ?? '',
-			'color'    => $atts['Color']['DisplayValue'] ?? '',
-			'size'     => $atts['Size']['DisplayValue'] ?? '',
-			'date'     => $atts['ReleaseDate']['DisplayValue'] ?? '',
-			'count'    => $atts['UnitCount']['DisplayValue'] ?? 1,
-			'adult'    => $atts['IsAdultProduct']['DisplayValue'] ?? false,
-			'height'   => [
-				'value' => $dims['Height']['DisplayValue'] ?? 0,
-				'unit'  => $dims['Height']['Unit'] ?? ''
-			],
-			'length'   => [
-				'value' => $dims['Length']['DisplayValue'] ?? 0,
-				'unit'  => $dims['Length']['Unit'] ?? ''
-			],
-			'weight'   => [
-				'value' => $dims['Weight']['DisplayValue'] ?? 0,
-				'unit'  => $dims['Weight']['Unit'] ?? ''
-			],
-			'width'    => [
-				'value' => $dims['Width']['DisplayValue'] ?? 0,
-				'unit'  => $dims['Width']['Unit'] ?? ''
-			]
+			'warranty' => $info['Warranty']['DisplayValue'] ?? ''
+		];
+	}
+
+	/**
+	 * Extract product information.
+	 * 
+	 * @access private
+	 * @param array $item
+	 * @return array
+	 */
+	private static function extractProductInfo(array $item): array  
+	{
+		$atts = $item['ItemInfo']['ProductInfo'] ?? [];
+		return [
+			'color' => $atts['Color']['DisplayValue'] ?? '',
+			'size'  => $atts['Size']['DisplayValue'] ?? '',
+			'date'  => $atts['ReleaseDate']['DisplayValue'] ?? '',
+			'count' => $atts['UnitCount']['DisplayValue'] ?? 1,
+			'adult' => $atts['IsAdultProduct']['DisplayValue'] ?? false
+		];
+	}
+
+	/**
+	 * Extract dimensions information.
+	 * 
+	 * @access private
+	 * @param array $item
+	 * @return array
+	 */
+	private static function extractDimensions(array $item): array
+	{
+		$dims = $item['ItemInfo']['ProductInfo']['ItemDimensions'] ?? [];
+		$dimensions = ['height', 'length', 'weight', 'width'];
+		
+		$result = [];
+		foreach ($dimensions as $dimension) {
+			$result[$dimension] = self::extractDimensionValue($dims, ucfirst($dimension));
+		}
+		return $result;
+	}
+
+	/**
+	 * Extract single dimension value.
+	 * 
+	 * @access private
+	 * @param array $dims
+	 * @param string $type
+	 * @return array
+	 */
+	private static function extractDimensionValue(array $dims, string $type): array
+	{
+		return [
+			'value' => $dims[$type]['DisplayValue'] ?? 0,
+			'unit'  => $dims[$type]['Unit'] ?? ''
 		];
 	}
 
