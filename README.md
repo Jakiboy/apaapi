@@ -19,6 +19,7 @@ Apaapi is an unofficial PHP library for accessing the Amazon Product Advertising
 * **Response Error Handling** (Including semantic errors with HTTP status code 200).
 * **Keyword Converter** (ASIN, ISBN, EAN, Node, Root).
 * **Caching System** (Basic built-in cache to reduce API calls).
+* **Zero dependencies** (Standalone – No external dependencies required).
 
 ## ⚡ Installing
 
