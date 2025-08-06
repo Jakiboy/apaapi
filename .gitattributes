@@ -1,9 +1,3 @@
-* text=auto
-* text eol=lf
-*.png binary
-*.jpg binary
-*.jpeg binary
-*.gif binary
 /.github export-ignore
 /examples export-ignore
 /tests export-ignore
@@ -11,4 +5,3 @@
 .gitattributes export-ignore
 _config.yml export-ignore
 *.code-workspacel export-ignore
-* !text !filter !merge !diff
