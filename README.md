@@ -1,6 +1,6 @@
 # APAAPI
 
-[![Amazon Product Advertising API PHP](./.static/banner.png)](#)
+[![Amazon Product Advertising API PHP](assets/banner.png)](#)
 
 Apaapi is an unofficial PHP library for accessing the Amazon Product Advertising API (PAAPI) V5.0, without relying on the **Amazon SDK**. It is lightweight (~250 KB) and simplifies interaction with the [Amazon PAAPI V5.0](https://webservices.amazon.com/paapi5/documentation/index.html), making it easier to integrate Amazon product data into PHP applications.
 
@@ -63,7 +63,7 @@ include('apaapi-main/src/Autoloader.php');
 
 **Recommended** using *Apaapi Builder* or *Apaapi Product* (Scraped data) if you dont have API credentials.
 
-[![Product](./.static/product.png)](#Quickstart)
+[![Product](assets/product.png)](#Quickstart)
 
 #### Builder:
 
@@ -112,7 +112,7 @@ $data = $product->get(); // Array
 
 Get customer reviews of product as average rating and count (Scraped data).
 
-[![Rating](./.static/rating.png)](#Rating)
+[![Rating](assets/rating.png)](#Rating)
 
 ```php
 
@@ -130,7 +130,7 @@ $data = $rating->get(); // Array
 
 Get affiliate cart URL.
 
-[![Cart](./.static/cart.png)](#Cart)
+[![Cart](assets/cart.png)](#Cart)
 
 ```php
 
