@@ -37,7 +37,7 @@ composer require jakiboy/apaapi
 
 ```
 include('apaapi-main/src/Autoloader.php');
-\apaapi\Autoloader::init();
+\Apaapi\Autoloader::init();
 ```
 
 * **4** - Use the [Quickstart examples](#quickstart).

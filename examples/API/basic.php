@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 include '../../src/Autoloader.php';
 
-\apaapi\Autoloader::init();
+\Apaapi\Autoloader::init();
 
 use Apaapi\operations\SearchItems;
 use Apaapi\lib\Request;
