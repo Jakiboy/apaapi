@@ -157,7 +157,7 @@ final class Curl implements GatewayInterface
      */
     public static function setEncoding(CurlHandle $handle, string $encoding) : bool
     {
-        return self::setOpt($handle, self::TIMEOUT, $encoding);
+        return self::setOpt($handle, self::ENCODING, $encoding);
     }
 
     /**
