@@ -15,10 +15,11 @@ namespace Apaapi\resources;
 use Apaapi\lib\Resource;
 
 /**
- * Apaapi <OffersV2> : High level resource.
+ * Apaapi <OffersV2Full> : High level resource with DealDetails.
+ * Full version of OffersV2 including DealDetails (supported only by GetItems).
  * @see https://webservices.amazon.com/paapi5/documentation/offersV2.html
  */
-final class OffersV2 extends Resource
+final class OffersV2Full extends Resource
 {
     /**
      * Set items.
@@ -28,6 +29,7 @@ final class OffersV2 extends Resource
         $this->items = [
             'Listings.Availability',
             'Listings.Condition',
+            'Listings.DealDetails',
             'Listings.IsBuyBoxWinner',
             'Listings.LoyaltyPoints',
             'Listings.MerchantInfo',

@@ -18,7 +18,7 @@ use Apaapi\resources\{
 	Images,
 	ItemInfo,
 	Offers,
-	OffersV2,
+	OffersV2Full,
 	RentalOffers,
 	CustomerReviews,
 	ParentASIN
@@ -48,7 +48,7 @@ final class GetItems extends ItemOperation
 			new BrowseNodeInfo,
 			new Images,
 			new ItemInfo,
-			$isOffersV2 ? new OffersV2 : new Offers,
+			$isOffersV2 ? new OffersV2Full : new Offers,
 			new RentalOffers,
 			new CustomerReviews,
 			new ParentASIN

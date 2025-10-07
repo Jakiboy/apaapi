@@ -18,7 +18,7 @@ use Apaapi\resources\{
 	Images,
 	ItemInfo,
 	Offers,
-	OffersV2,
+	OffersV2Full,
 	RentalOffers,
 	VariationSummary,
 	ParentASIN
@@ -50,7 +50,7 @@ final class GetVariations extends ItemOperation
 			new BrowseNodeInfo,
 			new Images,
 			new ItemInfo,
-			$isOffersV2 ? new OffersV2 : new Offers,
+			$isOffersV2 ? new OffersV2Full : new Offers,
 			new RentalOffers,
 			new VariationSummary,
 			new ParentASIN
