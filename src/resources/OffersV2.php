@@ -20,19 +20,20 @@ use Apaapi\lib\Resource;
  */
 final class OffersV2 extends Resource
 {
-	/**
-	 * Set items.
-	 */
-	public function __construct()
-	{
-		$this->items = [
-			'Listings.Availability',
-			'Listings.Condition',
-			'Listings.IsBuyBoxWinner',
-			'Listings.LoyaltyPoints',
-			'Listings.MerchantInfo',
-			'Listings.Price',
-			'Listings.Type'
-		];
-	}
+    /**
+     * Set items.
+     */
+    public function __construct()
+    {
+        $this->items = [
+            'Listings.Availability',
+            'Listings.Condition',
+            'Listings.DealDetails',
+            'Listings.IsBuyBoxWinner',
+            'Listings.LoyaltyPoints',
+            'Listings.MerchantInfo',
+            'Listings.Price',
+            'Listings.Type'
+        ];
+    }
 }
