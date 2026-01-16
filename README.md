@@ -1,15 +1,20 @@
 # APAAPI
 
-[![Amazon Product Advertising API PHP](assets/banner.png)](#)
-
-Apaapi is an unofficial PHP library for accessing the Amazon Product Advertising API (PAAPI) V5.0, without relying on the **Amazon SDK**. It is lightweight (~250 KB) and simplifies interaction with the [Amazon PAAPI V5.0](https://webservices.amazon.com/paapi5/documentation/index.html), making it easier to integrate Amazon product data into PHP applications.
+[![Amazon Creators API PHP](assets/banner.png)](#)
 
 -- Amazon Affiliate With PHP --
+
+Apaapi is an unofficial PHP library for accessing the Amazon Creators API, without relying on the **Amazon SDK**. It is lightweight (~300 KB) and simplifies interaction with the [Amazon Creators API](https://affiliate-program.amazon.com/creatorsapi/docs/), making it easier to integrate Amazon product data into PHP applications.
+
+> [!CAUTION]
+> Apaapi 2.x exclusively uses the Amazon Creators API.  
+> Support for the Product Advertising API (PA-API v5) has been discontinued!
 
 ## 💡 Features
 
 * **Request Builder** (Easier way to fetch API data).
-* **AWS4 Signature**: Implements AWS4 signature generation.
+* **OAuth 2.0**: Implements OAuth 2.0 authentication.
+* **Dual HTTP Support** (Auto-detects cURL or Stream fallback for maximum compatibility).
 * **Credential-less** (No credentials required using product scraper).
 * **Search Filters** (Using builder).
 * **Geotargeting** (Automatically redirect links based on the visitor's region).
@@ -51,13 +56,14 @@ include('apaapi-main/src/Autoloader.php');
 
 ### Variables:
 
-* "\_KEY\_" : From your Amazon Associates (*your locale*), [More](https://affiliate-program.amazon.com/help/node/topic/GTPNVFFUV2GQ8AZV). 
-* "\_SECRET\_" : From your Amazon Associates (*your locale*), [More](https://affiliate-program.amazon.com/help/node/topic/GTPNVFFUV2GQ8AZV). 
-* "\_TAG\_" : From your Amazon Associates (*your locale*), [More](https://webservices.amazon.com/paapi5/documentation/troubleshooting/sign-up-as-an-associate.html). 
-* "\_LOCALE\_" : **TLD** of the target marketplace to which you are sending requests (*com/fr/co.jp*), [Get TLD](https://webservices.amazon.com/paapi5/documentation/common-request-parameters.html#host-and-region). 
-* "\_KEYWORDS\_" : What you are looking for (*Products*), [More](https://webservices.amazon.com/paapi5/documentation/search-items.html). 
-* "\_ASIN\_" : Accepts (ISBN), Amazon Standard Identification Number (*your locale*), [More](https://webservices.amazon.com/paapi5/documentation/get-items.html#ItemLookup-rp). 
-* "\_NODE\_" : Browse Node ID (*your locale*), [More](https://webservices.amazon.com/paapi5/documentation/use-cases/organization-of-items-on-amazon/browse-nodes/browse-node-properties.html#browse-node-ids). 
+* "_CREDENTIAL_ID_" : From your Amazon Creators API (*your locale*), [More](https://affiliate-program.amazon.com/help/node/topic/GTPNVFFUV2GQ8AZV). 
+* "_CREDENTIAL_SECRET_" : From your Amazon Creators API (*your locale*), [More](https://affiliate-program.amazon.com/help/node/topic/GTPNVFFUV2GQ8AZV). 
+
+* "\_TAG\_" : From your Amazon Associates (*your locale*), [More](https://affiliate-program.amazon.com/creatorsapi/docs/en-us/troubleshooting/sign-up-as-an-associate.html). 
+* "\_LOCALE\_" : **TLD** of the target marketplace to which you are sending requests (*com/fr/co.jp*), [Get TLD](https://affiliate-program.amazon.com/creatorsapi/docs/en-us/common-request-parameters.html#host-and-region). 
+* "\_KEYWORDS\_" : What you are looking for (*Products*), [More](https://affiliate-program.amazon.com/creatorsapi/docs/en-us/search-items.html). 
+* "\_ASIN\_" : Accepts (ISBN), Amazon Standard Identification Number (*your locale*), [More](https://affiliate-program.amazon.com/creatorsapi/docs/en-us/get-items.html#ItemLookup-rp). 
+* "\_NODE\_" : Browse Node ID (*your locale*), [More](https://affiliate-program.amazon.com/creatorsapi/docs/en-us/use-cases/organization-of-items-on-amazon/browse-nodes/browse-node-properties.html#browse-node-ids). 
 
 ### Quickstart
 
@@ -77,7 +83,7 @@ include('apaapi-main/src/Autoloader.php');
 use Apaapi\includes\Builder;
 
 // (1) Init request builder
-$builder = new Builder('_KEY_', '_SECRET_', '_TAG_', '_LOCALE_');
+$builder = new Builder('_CREDENTIAL_ID_', '_CREDENTIAL_SECRET_', '_TAG_', '_LOCALE_');
 
 // (2) Get response (Search)
 $data = $builder->searchOne('Sony Xperia 1 VI'); // Normalized array
@@ -162,7 +168,7 @@ $operation = new SearchItems();
 $operation->setPartnerTag('_TAG_')->setKeywords('_KEYWORDS_');
 
 // (2) Prapere request
-$request = new Request('_KEY_', '_SECRET_');
+$request = new Request('_CREDENTIAL_ID_', '_CREDENTIAL_SECRET_');
 $request->setLocale('_LOCALE_')->setPayload($operation);
 
 // (3) Get response
@@ -188,7 +194,7 @@ $operation = new GetItems();
 $operation->setPartnerTag('_TAG_')->setItemIds(['_ASIN_']);
 
 // Prapere request
-$request = new Request('_KEY_', '_SECRET_');
+$request = new Request('_CREDENTIAL_ID_', '_CREDENTIAL_SECRET_');
 $request->setLocale('_LOCALE_')->setPayload($operation);
 
 // Get response
@@ -243,7 +249,7 @@ $operation = new SearchItems();
 $operation->setPartnerTag('_TAG_')->setKeywords('_KEYWORDS_');
 
 // Set Resources (3)
-$operation->setResources(['Images.Primary.Small', 'ItemInfo.Title', 'Offers.Listings.Price']);
+$operation->setResources(['images.primary.small', 'itemInfo.title', 'offersV2.listings.price']);
 
 ```
 
@@ -266,4 +272,4 @@ $operation->setResources(['Images.Primary.Small', 'ItemInfo.Title', 'Offers.List
 Skip the coffee! If you like the project, a **Star** would mean a lot.
 
 > [!IMPORTANT]  
-> *The **Amazon logo** included in top of this page refers only to the [Amazon Product Advertising API](https://webservices.amazon.com/paapi5/documentation/index.html)*, Amazon Inc. or its affiliates.
+> *The **Amazon logo** included in top of this page refers only to the [Amazon Creators API](https://affiliate-program.amazon.com/creatorsapi/docs/)*, Amazon Inc. or its affiliates.

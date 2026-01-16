@@ -1,9 +1,9 @@
 <?php
 /**
  * @author    : Jakiboy
- * @package   : Amazon Product Advertising API Library (v5)
- * @version   : 1.5.x
- * @copyright : (c) 2019 - 2025 Jihad Sinnaour <mail@jihadsinnaour.com>
+ * @package   : Amazon Creators API Library
+ * @version   : 2.0.x
+ * @copyright : (c) 2019 - 2026 Jihad Sinnaour <me@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
  *
@@ -17,7 +17,7 @@ use Apaapi\includes\{Cache, Geotargeting, Normalizer};
 
 /**
  * Basic Apaapi response wrapper class.
- * @see https://webservices.amazon.com/paapi5/scratchpad/index.html
+ * @see https://affiliate-program.amazon.com/creatorsapi/docs/
  */
 class Response implements ResponseInterface
 {
@@ -88,17 +88,22 @@ class Response implements ResponseInterface
 	 */
 	public function hasError() : bool
 	{
-		if ( !$this->code || $this->code >= 400 ) {
+		// HTTP errors (400+) or cURL errors (code not 200)
+		if ( !$this->code || $this->code >= 400 || $this->code != 200 ) {
 			return true;
 		}
 
 		if ( $this->code == 200 ) {
-			// Check for both old and new error formats
+			// Check for old PA-API error format
 			if ( strpos($this->body, '#ErrorData') !== false ) {
 				return true;
 			}
-			// Check for new error format with __type and Errors fields
+			// Check for PA-API error format with __type and Errors fields
 			if ( strpos($this->body, '__type') !== false && strpos($this->body, 'Errors') !== false ) {
+				return true;
+			}
+			// Check for Creators API error format with message/type fields
+			if ( strpos($this->body, '"message"') !== false && strpos($this->body, '"type"') !== false ) {
 				return true;
 			}
 		}

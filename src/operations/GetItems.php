@@ -1,9 +1,9 @@
 <?php
 /**
  * @author    : Jakiboy
- * @package   : Amazon Product Advertising API Library (v5)
- * @version   : 1.5.x
- * @copyright : (c) 2019 - 2025 Jihad Sinnaour <mail@jihadsinnaour.com>
+ * @package   : Amazon Creators API Library
+ * @version   : 2.0.x
+ * @copyright : (c) 2019 - 2026 Jihad Sinnaour <me@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
  *
@@ -17,9 +17,7 @@ use Apaapi\resources\{
 	BrowseNodeInfo,
 	Images,
 	ItemInfo,
-	Offers,
 	OffersV2,
-	RentalOffers,
 	CustomerReviews,
 	ParentASIN
 };
@@ -27,7 +25,7 @@ use Apaapi\includes\Parser;
 
 /**
  * Apaapi <GetItems> operation.
- * @see https://webservices.amazon.com/paapi5/documentation/get-items.html
+ * @see https://affiliate-program.amazon.com/creatorsapi/docs/en-us/get-items.html
  */
 final class GetItems extends ItemOperation
 {
@@ -42,14 +40,13 @@ final class GetItems extends ItemOperation
 	/**
 	 * Set resources.
 	 */
-	public function __construct(bool $isOffersV2 = false)
+	public function __construct()
 	{
 		$this->resources = Parser::convert([
 			new BrowseNodeInfo,
 			new Images,
 			new ItemInfo,
-			$isOffersV2 ? new OffersV2 : new Offers,
-			new RentalOffers,
+			new OffersV2,
 			new CustomerReviews,
 			new ParentASIN
 		]);

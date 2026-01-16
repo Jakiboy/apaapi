@@ -1,9 +1,9 @@
 <?php
 /**
  * @author    : Jakiboy
- * @package   : Amazon Product Advertising API Library (v5)
- * @version   : 1.5.x
- * @copyright : (c) 2019 - 2025 Jihad Sinnaour <mail@jihadsinnaour.com>
+ * @package   : Amazon Creators API Library
+ * @version   : 2.0.x
+ * @copyright : (c) 2019 - 2026 Jihad Sinnaour <me@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
  *
@@ -24,8 +24,9 @@ final class Builder
 {
     /**
      * @access private
-     * @var string $key, API key
-     * @var string $secret, API secret
+     * @var string $credentialID, API credential ID
+     * @var string $credentialSecret, API credential secret
+     * @var string $version, API version (auto-detected from locale)
      * @var string $tag, API tag
      * @var string $customTag, API custom tag
      * @var string $locale, API locale|region
@@ -36,10 +37,11 @@ final class Builder
      * @var bool $cache, API response cache
      * @var array $redirect, Geotargeting args
      * @var mixed $order, Response order
-     * @var array resources, Default resources
+     * @var array $resources, Default resources
      */
-    private $key;
-    private $secret;
+    private $credentialID;
+    private $credentialSecret;
+    private $version;
     private $tag;
     private $customTag;
     private $locale;
@@ -52,22 +54,20 @@ final class Builder
     private $order = ['title', 'price'];
 
     private const RESOURCES = [
-        'BrowseNodeInfo.BrowseNodes.Ancestor',
-        'Images.Primary.Large',
-        'Images.Variants.Large',
-        'ItemInfo.ByLineInfo',
-        'ItemInfo.ExternalIds',
-        'ItemInfo.Features',
-        'ItemInfo.ManufactureInfo',
-        'ItemInfo.Title',
-        'Offers.Listings.Availability.Message',
-        'Offers.Listings.Condition',
-        'Offers.Listings.DeliveryInfo.IsAmazonFulfilled',
-        'Offers.Listings.DeliveryInfo.IsFreeShippingEligible',
-        'Offers.Listings.DeliveryInfo.IsPrimeEligible',
-        'Offers.Listings.Price',
-        'Offers.Listings.Promotions',
-        'Offers.Listings.SavingBasis',
+        'browseNodeInfo.browseNodes.ancestor',
+        'images.primary.large',
+        'images.variants.large',
+        'itemInfo.byLineInfo',
+        'itemInfo.externalIds',
+        'itemInfo.features',
+        'itemInfo.manufactureInfo',
+        'itemInfo.title',
+        'offersV2.listings.availability',
+        'offersV2.listings.condition',
+        'offersV2.listings.merchantInfo',
+        'offersV2.listings.price',
+        'offersV2.listings.dealDetails',
+        'parentASIN',
     ];
 
     /**
@@ -79,16 +79,18 @@ final class Builder
     /**
      * Set request authentication.
      *
-     * @param string $key
-     * @param string $secret
+     * @param string $credentialID
+     * @param string $credentialSecret
      * @param string $tag
      * @param string $locale
+     * @param string $version
      */
-    public function __construct(string $key, string $secret, string $tag, string $locale)
+    public function __construct(string $credentialID, string $credentialSecret, string $tag, string $locale, ?string $version = null)
     {
-        $this->key = $key;
-        $this->secret = $secret;
+        $this->credentialID = $credentialID;
+        $this->credentialSecret = $credentialSecret;
         $this->tag = $tag;
+        $this->version = $version;
         $this->locale = $locale;
         $this->setResources();
     }
@@ -116,7 +118,7 @@ final class Builder
     {
         $this->setup('search');
 
-        $this->operation->setResources(['ItemInfo.Title']);
+        $this->operation->setResources(['itemInfo.title']);
         $this->operation->setItemCount(1)->setKeywords('amazon');
 
         $this->prepare();
@@ -748,7 +750,7 @@ final class Builder
     {
         $resources = [];
         if ( isset($filter['rank']) && $filter['rank'] === true ) {
-            $resources[] = 'BrowseNodeInfo.BrowseNodes.SalesRank';
+            $resources[] = 'browseNodeInfo.browseNodes.salesRank';
         }
         return $resources;
     }
@@ -916,7 +918,7 @@ final class Builder
      */
     private function prepare() : self
     {
-        $this->request = new Request((string)$this->key, (string)$this->secret);
+        $this->request = new Request((string)$this->credentialID, (string)$this->credentialSecret, (string)$this->version);
         $this->request->setLocale($this->locale)->setPayload($this->operation);
         return $this;
     }

@@ -1,9 +1,9 @@
 <?php
 /**
  * @author    : Jakiboy
- * @package   : Amazon Product Advertising API Library (v5)
- * @version   : 1.5.x
- * @copyright : (c) 2019 - 2025 Jihad Sinnaour <mail@jihadsinnaour.com>
+ * @package   : Amazon Creators API Library
+ * @version   : 2.0.x
+ * @copyright : (c) 2019 - 2026 Jihad Sinnaour <me@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
  *
@@ -27,7 +27,7 @@ interface NormalizationServiceInterface
      * @return array
      */
     public function normalize(array $data, string $operation) : array;
-    
+
     /**
      * Format single ID.
      *
@@ -35,7 +35,7 @@ interface NormalizationServiceInterface
      * @return string
      */
     public function formatId(string $id) : string;
-    
+
     /**
      * Format keywords.
      *
@@ -43,7 +43,7 @@ interface NormalizationServiceInterface
      * @return string
      */
     public function formatKeywords(mixed $keywords) : string;
-    
+
     /**
      * Format IDs.
      *

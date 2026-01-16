@@ -1,9 +1,9 @@
 <?php
 /**
  * @author    : Jakiboy
- * @package   : Amazon Product Advertising API Library (v5)
- * @version   : 1.5.x
- * @copyright : (c) 2019 - 2025 Jihad Sinnaour <mail@jihadsinnaour.com>
+ * @package   : Amazon Creators API Library
+ * @version   : 2.0.x
+ * @copyright : (c) 2019 - 2026 Jihad Sinnaour <me@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
  *
@@ -22,15 +22,16 @@ use Apaapi\includes\Env;
 Env::load('../.env');
 
 // Prepare request
-$builder = new Builder(Env::get('_KEY_'), Env::get('_SECRET_'), Env::get('_TAG_'), Env::get('_LOCALE_'));
+$builder = new Builder(Env::get('_CREDENTIAL_ID_'), Env::get('_CREDENTIAL_SECRET_'), Env::get('_TAG_'), Env::get('_LOCALE_'));
 
 // Get response
 $data = $builder->search(Env::get('_KEYWORDS_')); // Normalized Array
 
 // Handle response error
 if ( $builder->hasError() ) {
-    echo $builder->getError(); // String
+    echo "Error: " . $builder->getError() . PHP_EOL; // String
 }
+
 var_dump($data);
 
 // Any PR is welcome!

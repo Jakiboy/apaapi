@@ -1,9 +1,9 @@
 <?php
 /**
  * @author    : Jakiboy
- * @package   : Amazon Product Advertising API Library (v5)
- * @version   : 1.5.x
- * @copyright : (c) 2019 - 2025 Jihad Sinnaour <mail@jihadsinnaour.com>
+ * @package   : Amazon Creators API Library
+ * @version   : 2.0.x
+ * @copyright : (c) 2019 - 2026 Jihad Sinnaour <me@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
  *
@@ -18,7 +18,7 @@ use Apaapi\includes\{Provider, Normalizer};
 
 /**
  * Basic Apaapi cart wrapper class.
- * @see https://webservices.amazon.com/paapi5/documentation/add-to-cart-form.html
+ * @see https://affiliate-program.amazon.com/creatorsapi/docs/en-us/add-to-cart-form.html
  */
 class Cart implements CartInterface
 {

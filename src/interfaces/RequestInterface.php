@@ -1,9 +1,9 @@
 <?php
 /**
  * @author    : Jakiboy
- * @package   : Amazon Product Advertising API Library (v5)
- * @version   : 1.5.x
- * @copyright : (c) 2019 - 2025 Jihad Sinnaour <mail@jihadsinnaour.com>
+ * @package   : Amazon Creators API Library
+ * @version   : 2.0.x
+ * @copyright : (c) 2019 - 2026 Jihad Sinnaour <me@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
  *
@@ -19,7 +19,7 @@ interface RequestInterface
 {
     /**
      * Prepare request.
-     * @see https://webservices.amazon.com/paapi5/scratchpad/index.html
+     * @see https://affiliate-program.amazon.com/creatorsapi/docs/
      *
      * @param string $accessKeyID
      * @param string $secretAccessKey
@@ -93,7 +93,7 @@ interface RequestInterface
 
     /**
      * Set request locale.
-     * @see https://webservices.amazon.fr/paapi5/documentation/locale-reference.html
+     * @see https://affiliate-program.amazon.com/creatorsapi/docs/en-us/locale-reference.html
      *
      * @param string $locale
      * @return object

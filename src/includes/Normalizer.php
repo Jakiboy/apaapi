@@ -1,9 +1,9 @@
 <?php
 /**
  * @author    : Jakiboy
- * @package   : Amazon Product Advertising API Library (v5)
- * @version   : 1.5.x
- * @copyright : (c) 2019 - 2025 Jihad Sinnaour <mail@jihadsinnaour.com>
+ * @package   : Amazon Creators API Library
+ * @version   : 2.0.x
+ * @copyright : (c) 2019 - 2026 Jihad Sinnaour <me@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
  *
@@ -436,16 +436,38 @@ final class Normalizer
 
 		if ( ($data = self::decode($body)) ) {
 
-			$error = $data['Errors'][0]['Message'] ?? '';
-			$error = self::removeRegex('/\s(?<![A-Z0-9])[A-Z0-9]{20}(?![A-Z0-9])/', $error);
-			$error = self::removeRegex('/\sPlease visit associate(s|) central at.*/', $error);
-			$error = self::removeRegex('/\sPlease sign up for Product Advertising API at.*/', $error);
-			$error = self::removeRegex('/\sPlease verify the number of requests made per second to.*/', $error);
-			$error = self::removeRegex('/\sIf you are using an AWS SDK.*/', $error);
-			$error = self::removeRegex('/\sRefer https.*/', $error);
-			$error = self::removeRegex('/\s\[.*\]/', $error);
-			$error = self::replaceRegex('/ItemId .*? provided/', 'ItemId provided', $error);
-			$error = self::replaceRegex('/value .*? provided/', 'value provided', $error);
+			// Creators API error format: {message, reason, type}
+			if ( isset($data['message']) ) {
+				$error = $data['message'];
+
+				// Add reason if available for more context
+				if ( isset($data['reason']) && $data['reason'] ) {
+					$error .= " (Reason: {$data['reason']})";
+				}
+
+				// Add type if available
+				if ( isset($data['type']) && $data['type'] ) {
+					$error .= " [Type: {$data['type']}]";
+				}
+			}
+			// PA-API error format: Errors[0].Message
+			elseif ( isset($data['Errors'][0]['Message']) ) {
+				$error = $data['Errors'][0]['Message'];
+				$error = self::removeRegex('/\s(?<![A-Z0-9])[A-Z0-9]{20}(?![A-Z0-9])/', $error);
+				$error = self::removeRegex('/\sPlease visit associate(s|) central at.*/', $error);
+				$error = self::removeRegex('/\sPlease sign up for Product Advertising API at.*/', $error);
+				$error = self::removeRegex('/\sPlease verify the number of requests made per second to.*/', $error);
+				$error = self::removeRegex('/\sIf you are using an AWS SDK.*/', $error);
+				$error = self::removeRegex('/\sRefer https.*/', $error);
+				$error = self::removeRegex('/\s\[.*\]/', $error);
+				$error = self::replaceRegex('/ItemId .*? provided/', 'ItemId provided', $error);
+				$error = self::replaceRegex('/value .*? provided/', 'value provided', $error);
+			}
+			// Other error formats
+			else {
+				$error = json_encode($data);
+			}
+
 			$error = rtrim($error, '.');
 
 		} else {
@@ -1158,14 +1180,14 @@ final class Normalizer
 	 */
 	private static function extractPrice(array $item) : float
 	{
-		$listing = $item['Offers']['Listings'][0] 
-		?? $item['OffersV2']['Listings'][0] ?? [];
-		
+		$listing = $item['Offers']['Listings'][0]
+			?? $item['OffersV2']['Listings'][0] ?? [];
+
 		// OffersV2 format: Price.Money.Amount
 		if ( isset($listing['Price']['Money']['Amount']) ) {
 			return $listing['Price']['Money']['Amount'];
 		}
-		
+
 		// Original format: Price.Amount
 		return $listing['Price']['Amount'] ?? 0;
 	}
@@ -1179,14 +1201,14 @@ final class Normalizer
 	 */
 	private static function extractCurrency(array $item) : string
 	{
-		$listing = $item['Offers']['Listings'][0] 
-		?? $item['OffersV2']['Listings'][0] ?? [];
-		
+		$listing = $item['Offers']['Listings'][0]
+			?? $item['OffersV2']['Listings'][0] ?? [];
+
 		// OffersV2 format: Price.Money.Currency
 		if ( isset($listing['Price']['Money']['Currency']) ) {
 			return $listing['Price']['Money']['Currency'];
 		}
-		
+
 		// Original format: Price.Currency
 		return $listing['Price']['Currency'] ?? '';
 	}
@@ -1200,14 +1222,14 @@ final class Normalizer
 	 */
 	private static function extractDiscount(array $item) : float
 	{
-		$listing = $item['Offers']['Listings'][0] 
-		?? $item['OffersV2']['Listings'][0] ?? [];
-		
+		$listing = $item['Offers']['Listings'][0]
+			?? $item['OffersV2']['Listings'][0] ?? [];
+
 		// OffersV2 format: Price.Savings.Money.Amount
 		if ( isset($listing['Price']['Savings']['Money']['Amount']) ) {
 			return $listing['Price']['Savings']['Money']['Amount'];
 		}
-		
+
 		// Original format: Price.Savings.Amount
 		return $listing['Price']['Savings']['Amount'] ?? 0;
 	}
@@ -1221,9 +1243,9 @@ final class Normalizer
 	 */
 	private static function extractPercent(array $item) : float
 	{
-		$listing = $item['Offers']['Listings'][0] 
-		?? $item['OffersV2']['Listings'][0] ?? [];
-		
+		$listing = $item['Offers']['Listings'][0]
+			?? $item['OffersV2']['Listings'][0] ?? [];
+
 		// Both formats use the same path: Price.Savings.Percentage
 		return $listing['Price']['Savings']['Percentage'] ?? 0;
 	}
@@ -1237,14 +1259,14 @@ final class Normalizer
 	 */
 	private static function extractDiscounted(array $item) : float
 	{
-		$listing = $item['Offers']['Listings'][0] 
-		?? $item['OffersV2']['Listings'][0] ?? [];
-		
+		$listing = $item['Offers']['Listings'][0]
+			?? $item['OffersV2']['Listings'][0] ?? [];
+
 		// OffersV2 format: Price.SavingBasis.Money.Amount (original price)
 		if ( isset($listing['Price']['SavingBasis']['Money']['Amount']) ) {
 			return round($listing['Price']['SavingBasis']['Money']['Amount'], 2);
 		}
-		
+
 		// Fallback: calculate from current price + discount
 		$discounted = self::extractPrice($item) + self::extractDiscount($item);
 		return round($discounted, 2);
@@ -1259,9 +1281,9 @@ final class Normalizer
 	 */
 	private static function extractShipping(array $item) : array
 	{
-		$listing = $item['Offers']['Listings'][0] 
-		?? $item['OffersV2']['Listings'][0] ?? [];
-		
+		$listing = $item['Offers']['Listings'][0]
+			?? $item['OffersV2']['Listings'][0] ?? [];
+
 		// Both formats use the same DeliveryInfo structure
 		return [
 			'fulfilled' => $listing['DeliveryInfo']['IsAmazonFulfilled'] ?? false,
@@ -1279,14 +1301,14 @@ final class Normalizer
 	 */
 	private static function extractAvailability(array $item) : string
 	{
-		$listing = $item['Offers']['Listings'][0] 
-		?? $item['OffersV2']['Listings'][0] ?? [];
-		
+		$listing = $item['Offers']['Listings'][0]
+			?? $item['OffersV2']['Listings'][0] ?? [];
+
 		// OffersV2 format: Availability.Type
 		if ( isset($listing['Availability']['Type']) ) {
 			return $listing['Availability']['Type'];
 		}
-		
+
 		// Original format: Availability.Message
 		return $listing['Availability']['Message'] ?? '';
 	}
@@ -1354,7 +1376,7 @@ final class Normalizer
 	{
 		return [
 			...self::extractManufacturingInfo($item),
-			...self::extractProductInfo($item), 
+			...self::extractProductInfo($item),
 			...self::extractDimensions($item)
 		];
 	}
@@ -1366,7 +1388,7 @@ final class Normalizer
 	 * @param array $item
 	 * @return array
 	 */
-	private static function extractManufacturingInfo(array $item): array
+	private static function extractManufacturingInfo(array $item) : array
 	{
 		$info = $item['ItemInfo']['ManufactureInfo'] ?? [];
 		return [
@@ -1382,7 +1404,7 @@ final class Normalizer
 	 * @param array $item
 	 * @return array
 	 */
-	private static function extractProductInfo(array $item): array  
+	private static function extractProductInfo(array $item) : array
 	{
 		$atts = $item['ItemInfo']['ProductInfo'] ?? [];
 		return [
@@ -1401,11 +1423,11 @@ final class Normalizer
 	 * @param array $item
 	 * @return array
 	 */
-	private static function extractDimensions(array $item): array
+	private static function extractDimensions(array $item) : array
 	{
 		$dims = $item['ItemInfo']['ProductInfo']['ItemDimensions'] ?? [];
 		$dimensions = ['height', 'length', 'weight', 'width'];
-		
+
 		$result = [];
 		foreach ($dimensions as $dimension) {
 			$result[$dimension] = self::extractDimensionValue($dims, ucfirst($dimension));
@@ -1421,7 +1443,7 @@ final class Normalizer
 	 * @param string $type
 	 * @return array
 	 */
-	private static function extractDimensionValue(array $dims, string $type): array
+	private static function extractDimensionValue(array $dims, string $type) : array
 	{
 		return [
 			'value' => $dims[$type]['DisplayValue'] ?? 0,

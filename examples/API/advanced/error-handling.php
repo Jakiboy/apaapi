@@ -1,9 +1,9 @@
 <?php
 /**
  * @author    : Jakiboy
- * @package   : Amazon Product Advertising API Library (v5)
- * @version   : 1.5.x
- * @copyright : (c) 2019 - 2025 Jihad Sinnaour <mail@jihadsinnaour.com>
+ * @package   : Amazon Creators API Library
+ * @version   : 2.0.x
+ * @copyright : (c) 2019 - 2026 Jihad Sinnaour <me@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
  *
@@ -29,7 +29,7 @@ $operation->setPartnerTag('error');
 $operation->setItemCount(3)->setKeywords(Env::get('_KEYWORDS_'));
 
 // Prapere request
-$request = new Request(Env::get('_KEY_'), Env::get('_SECRET_'));
+$request = new Request(Env::get('_CREDENTIAL_ID_'), Env::get('_CREDENTIAL_SECRET_'));
 $request->setLocale(Env::get('_LOCALE_'))->setPayload($operation);
 
 // Get response

@@ -1,9 +1,9 @@
 <?php
 /**
  * @author    : Jakiboy
- * @package   : Amazon Product Advertising API Library (v5)
- * @version   : 1.5.x
- * @copyright : (c) 2019 - 2025 Jihad Sinnaour <mail@jihadsinnaour.com>
+ * @package   : Amazon Creators API Library
+ * @version   : 2.0.x
+ * @copyright : (c) 2019 - 2026 Jihad Sinnaour <me@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
  *
@@ -17,7 +17,7 @@ namespace Apaapi\includes;
 /**
  * Normalizer configuration class.
  */
-final class NormalizerConfig 
+final class NormalizerConfig
 {
     /**
      * Constructor.
@@ -29,11 +29,12 @@ final class NormalizerConfig
      */
     public function __construct(
         public readonly int $limit = 5,
-        public readonly bool $format = true, 
+        public readonly bool $format = true,
         public readonly bool $error = true,
         public readonly bool $order = true
-    ) {}
-    
+    ) {
+    }
+
     /**
      * Create new config with updated limit.
      *
@@ -44,7 +45,7 @@ final class NormalizerConfig
     {
         return new self($limit, $this->format, $this->error, $this->order);
     }
-    
+
     /**
      * Create new config without format.
      *
@@ -54,7 +55,7 @@ final class NormalizerConfig
     {
         return new self($this->limit, false, $this->error, $this->order);
     }
-    
+
     /**
      * Create new config without error formatting.
      *
@@ -64,7 +65,7 @@ final class NormalizerConfig
     {
         return new self($this->limit, $this->format, false, $this->order);
     }
-    
+
     /**
      * Create new config without ordering.
      *

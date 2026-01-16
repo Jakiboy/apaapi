@@ -1,9 +1,9 @@
 <?php
 /**
  * @author    : Jakiboy
- * @package   : Amazon Product Advertising API Library (v5)
- * @version   : 1.5.x
- * @copyright : (c) 2019 - 2025 Jihad Sinnaour <mail@jihadsinnaour.com>
+ * @package   : Amazon Creators API Library
+ * @version   : 2.0.x
+ * @copyright : (c) 2019 - 2026 Jihad Sinnaour <me@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
  *
@@ -26,8 +26,10 @@ final class NormalizationService implements NormalizationServiceInterface
      *
      * @param NormalizerConfig $config
      */
-    public function __construct(private readonly NormalizerConfig $config) {}
-    
+    public function __construct(private readonly NormalizerConfig $config)
+    {
+    }
+
     /**
      * @inheritdoc
      * @todo Implement normalization logic
@@ -36,7 +38,7 @@ final class NormalizationService implements NormalizationServiceInterface
     {
         return Normalizer::get($data, $operation);
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -44,7 +46,7 @@ final class NormalizationService implements NormalizationServiceInterface
     {
         return Normalizer::formatId($id);
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -52,7 +54,7 @@ final class NormalizationService implements NormalizationServiceInterface
     {
         return Normalizer::formatKeywords($keywords);
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -60,7 +62,7 @@ final class NormalizationService implements NormalizationServiceInterface
     {
         return Normalizer::formatIds($ids);
     }
-    
+
     /**
      * Get configuration.
      *

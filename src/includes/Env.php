@@ -1,9 +1,9 @@
 <?php
 /**
  * @author    : Jakiboy
- * @package   : Amazon Product Advertising API Library (v5)
- * @version   : 1.5.x
- * @copyright : (c) 2019 - 2025 Jihad Sinnaour <mail@jihadsinnaour.com>
+ * @package   : Amazon Creators API Library
+ * @version   : 2.0.x
+ * @copyright : (c) 2019 - 2026 Jihad Sinnaour <me@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
  *
@@ -36,25 +36,25 @@ final class Env
      */
     public static function load($filePath = '.env', $override = false)
     {
-        if (!file_exists($filePath)) {
+        if ( !file_exists($filePath) ) {
             return false;
         }
 
         $lines = file($filePath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-        
-        if ($lines === false) {
+
+        if ( $lines === false ) {
             return false;
         }
 
         foreach ($lines as $line) {
             // Skip comments and empty lines
             $line = trim($line);
-            if (empty($line) || strpos($line, '#') === 0) {
+            if ( empty($line) || strpos($line, '#') === 0 ) {
                 continue;
             }
 
             // Parse key=value pairs
-            if (strpos($line, '=') !== false) {
+            if ( strpos($line, '=') !== false ) {
                 list($key, $value) = explode('=', $line, 2);
                 $key = trim($key);
                 $value = self::parseValue(trim($value));
@@ -63,7 +63,7 @@ final class Env
                 self::$variables[$key] = $value;
 
                 // Set in PHP's environment if not exists or override is true
-                if ($override || getenv($key) === false) {
+                if ( $override || getenv($key) === false ) {
                     putenv("$key=$value");
                     $_ENV[$key] = $value;
                     $_SERVER[$key] = $value;
@@ -85,22 +85,22 @@ final class Env
     public static function get($key, $default = null)
     {
         // Check our internal storage first
-        if (isset(self::$variables[$key])) {
+        if ( isset(self::$variables[$key]) ) {
             return self::$variables[$key];
         }
 
         // Fallback to PHP's environment
         $value = getenv($key);
-        if ($value !== false) {
+        if ( $value !== false ) {
             return $value;
         }
 
         // Check $_ENV and $_SERVER superglobals
-        if (isset($_ENV[$key])) {
+        if ( isset($_ENV[$key]) ) {
             return $_ENV[$key];
         }
 
-        if (isset($_SERVER[$key])) {
+        if ( isset($_SERVER[$key]) ) {
             return $_SERVER[$key];
         }
 
@@ -116,7 +116,7 @@ final class Env
      */
     public static function set($key, $value)
     {
-        $value = (string) $value;
+        $value = (string)$value;
         self::$variables[$key] = $value;
         putenv("$key=$value");
         $_ENV[$key] = $value;
@@ -175,30 +175,32 @@ final class Env
     private static function parseValue($value)
     {
         // Remove comments from end of line
-        if (strpos($value, '#') !== false) {
+        if ( strpos($value, '#') !== false ) {
             $value = trim(explode('#', $value)[0]);
         }
 
         // Handle quoted strings
-        if ((strpos($value, '"') === 0 && strrpos($value, '"') === strlen($value) - 1) ||
-            (strpos($value, "'") === 0 && strrpos($value, "'") === strlen($value) - 1)) {
+        if (
+            (strpos($value, '"') === 0 && strrpos($value, '"') === strlen($value) - 1) ||
+            (strpos($value, "'") === 0 && strrpos($value, "'") === strlen($value) - 1)
+        ) {
             return substr($value, 1, -1);
         }
 
         // Handle boolean values
         $lower = strtolower($value);
-        if (in_array($lower, ['true', 'false'])) {
+        if ( in_array($lower, ['true', 'false']) ) {
             return $lower === 'true';
         }
 
         // Handle null
-        if (in_array($lower, ['null', 'nil', ''])) {
+        if ( in_array($lower, ['null', 'nil', '']) ) {
             return null;
         }
 
         // Handle numbers
-        if (is_numeric($value)) {
-            return strpos($value, '.') !== false ? (float) $value : (int) $value;
+        if ( is_numeric($value) ) {
+            return strpos($value, '.') !== false ? (float)$value : (int)$value;
         }
 
         return $value;

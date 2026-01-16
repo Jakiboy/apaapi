@@ -1,9 +1,9 @@
 <?php
 /**
  * @author    : Jakiboy
- * @package   : Amazon Product Advertising API Library (v5)
- * @version   : 1.5.x
- * @copyright : (c) 2019 - 2025 Jihad Sinnaour <mail@jihadsinnaour.com>
+ * @package   : Amazon Creators API Library
+ * @version   : 2.0.x
+ * @copyright : (c) 2019 - 2026 Jihad Sinnaour <me@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
  *
@@ -61,6 +61,9 @@ final class Parser
         $wrapper = [];
         foreach ($resources as $resource) {
             $parent = self::getName($resource);
+            // Convert to lowerCamelCase for Creators API
+            $parent = lcfirst($parent);
+
             if ( is_array($resource->items) ) {
                 foreach ($resource->items as $item) {
                     $wrapper[] = "{$parent}.{$item}";
@@ -85,7 +88,8 @@ final class Parser
         $wrapper = [];
         foreach ($operation as $key => $value) {
             if ( $value ) {
-                $wrapper[ucfirst($key)] = $value;
+                // Creators API uses lowerCamelCase for parameters, not PascalCase
+                $wrapper[$key] = $value;
             }
         }
         return json_encode($wrapper);

@@ -1,9 +1,9 @@
 <?php
 /**
  * @author    : Jakiboy
- * @package   : Amazon Product Advertising API Library (v5)
- * @version   : 1.5.x
- * @copyright : (c) 2019 - 2025 Jihad Sinnaour <mail@jihadsinnaour.com>
+ * @package   : Amazon Creators API Library
+ * @version   : 2.0.x
+ * @copyright : (c) 2019 - 2026 Jihad Sinnaour <me@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
  *
@@ -18,14 +18,17 @@ use Apaapi\exceptions\RequestException;
 
 /**
  * Apaapi request wrapper class.
+ * @see https://affiliate-program.amazon.com/creatorsapi/docs/
  */
-final class Request extends Signature implements RequestInterface
+final class Request extends OAuth implements RequestInterface
 {
     /**
      * @access public
-     * @var string HOST, API Host
+     * @var string HOST, API Host (Creators API)
+     * @var string VERSION, Library version
      */
-    public const HOST = 'webservices.amazon';
+    public const HOST    = 'creatorsapi.amazon';
+    public const VERSION = '2.0.x';
 
     /**
      * @access private
@@ -42,15 +45,14 @@ final class Request extends Signature implements RequestInterface
     /**
      * @inheritdoc
      */
-    public function __construct(string $accessKeyID, string $secretAccessKey)
+    public function __construct(string $credentialID, string $credentialSecret, ?string $version = null)
     {
-        $this->accessKeyID = $accessKeyID;
-        $this->secretAccessKey = $secretAccessKey;
+        $this->credentialID = $credentialID;
+        $this->credentialSecret = $credentialSecret;
+        $this->version = $version;
 
-        $this->setTimeStamp();
-        $this->setDate();
-        $this->setRequestHeader('content-encoding', 'amz-1.0');
         $this->setRequestHeader('content-type', 'application/json; charset=utf-8');
+        $this->setRequestHeader('user-agent', $this->getUserAgent());
     }
 
     /**
@@ -67,10 +69,9 @@ final class Request extends Signature implements RequestInterface
         $this->setPath();
         $this->setTarget();
 
-        // Setup header
+        // Setup headers
         $this->setRequestHeader('host', $this->host);
-        $this->setRequestHeader('x-amz-target', $this->target);
-        $this->setRequestHeader('x-amz-date', $this->timestamp);
+        $this->setRequestHeader('x-marketplace', $this->getMarketplace());
 
         $this->params = [
             'method' => Client::POST,
@@ -90,24 +91,6 @@ final class Request extends Signature implements RequestInterface
                 $this->getParams()
             );
         }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function setTimeStamp(?string $timestamp = null) : object
-    {
-        $this->timestamp = $timestamp ?: gmdate('Ymd\THis\Z');
-        return $this;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function setDate(?string $date = null) : object
-    {
-        $this->currentDate = $date ?: gmdate('Ymd');
-        return $this;
     }
 
     /**
@@ -159,7 +142,8 @@ final class Request extends Signature implements RequestInterface
      */
     public function setPath() : void
     {
-        $this->path .= strtolower($this->operation);
+        $operationName = lcfirst($this->operation);
+        $this->path .= '/' . $operationName;
     }
 
     /**
@@ -167,7 +151,7 @@ final class Request extends Signature implements RequestInterface
      */
     public function setTarget() : void
     {
-        $this->target = "{$this->target}.{$this->operation}";
+        $this->target = strtolower($this->operation);
     }
 
     /**
@@ -175,7 +159,7 @@ final class Request extends Signature implements RequestInterface
      */
     public function setHost() : void
     {
-        $this->host = self::HOST . ".{$this->locale}";
+        $this->host = self::HOST;
     }
 
     /**
@@ -187,11 +171,25 @@ final class Request extends Signature implements RequestInterface
     }
 
     /**
-     * @inheritdoc
+     * Get marketplace identifier from locale.
+     *
+     * @access private
+     * @return string
      */
-    public function setRequestHeader(string $name, $value) : void
+    private function getMarketplace() : string
     {
-        $this->headers[$name] = $value;
+        return "www.amazon.{$this->locale}";
+    }
+
+    /**
+     * Get user agent string for API requests.
+     *
+     * @access private
+     * @return string
+     */
+    private function getUserAgent() : string
+    {
+        return 'apaapi-php-lib/' . self::VERSION;
     }
 
     /**
@@ -200,12 +198,15 @@ final class Request extends Signature implements RequestInterface
     public function setLocale(string $locale) : object
     {
         $this->locale = Normalizer::formatLocale($locale);
-        $this->region = Provider::getRegion($locale);
 
         if ( !$this->locale ) {
             throw new RequestException(
                 RequestException::invalidLocale($locale)
             );
+        }
+
+        if ( !$this->version ) {
+            $this->version = Provider::getVersion($this->locale);
         }
 
         return $this;

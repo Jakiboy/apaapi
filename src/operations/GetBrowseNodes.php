@@ -1,9 +1,9 @@
 <?php
 /**
  * @author    : Jakiboy
- * @package   : Amazon Product Advertising API Library (v5)
- * @version   : 1.5.x
- * @copyright : (c) 2019 - 2025 Jihad Sinnaour <mail@jihadsinnaour.com>
+ * @package   : Amazon Creators API Library
+ * @version   : 2.0.x
+ * @copyright : (c) 2019 - 2026 Jihad Sinnaour <me@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
  *
@@ -18,7 +18,7 @@ use Apaapi\includes\Parser;
 
 /**
  * Apaapi <GetBrowseNodes> operation.
- * @see https://webservices.amazon.com/paapi5/documentation/getbrowsenodes.html
+ * @see https://affiliate-program.amazon.com/creatorsapi/docs/en-us/getbrowsenodes.html
  */
 final class GetBrowseNodes extends Operation
 {

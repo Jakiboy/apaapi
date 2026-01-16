@@ -1,9 +1,9 @@
 <?php
 /**
  * @author    : Jakiboy
- * @package   : Amazon Product Advertising API Library (v5)
- * @version   : 1.5.x
- * @copyright : (c) 2019 - 2025 Jihad Sinnaour <mail@jihadsinnaour.com>
+ * @package   : Amazon Creators API Library
+ * @version   : 2.0.x
+ * @copyright : (c) 2019 - 2026 Jihad Sinnaour <me@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
  *
@@ -382,11 +382,11 @@ abstract class Scraper
 		return $data;
 	}
 
-	private function processSubSelectors(DOMXPath $xPath, array $subSelectors) : array
+	private function processSubSelectors(DOMXPath $xPath, array $subSelectors, $context = null) : array
 	{
 		$sub = [];
 		foreach ($subSelectors as $subKey => $subSelector) {
-			$nodes = $xPath->query($subSelector);
+			$nodes = $context ? $xPath->query($subSelector, $context) : $xPath->query($subSelector);
 			if ( $nodes instanceof DOMNodeList && $nodes->length > 0 ) {
 				$node = $nodes->item(0);
 				$value = (string)$node->nodeValue;
@@ -402,11 +402,12 @@ abstract class Scraper
 	 * @access protected
 	 * @param DOMXPath $xPath
 	 * @param string $selector
+	 * @param mixed $context
 	 * @return string
 	 */
-	private function processSelector(DOMXPath $xPath, string $selector) : string
+	private function processSelector(DOMXPath $xPath, string $selector, $context = null) : string
 	{
-		$nodes = $xPath->query($selector);
+		$nodes = $context ? $xPath->query($selector, $context) : $xPath->query($selector);
 		if ( $nodes instanceof DOMNodeList && $nodes->length > 0 ) {
 			if ( substr($selector, -4) === '//li' ) {
 				return $this->processListNodes($nodes);

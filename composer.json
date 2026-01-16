@@ -1,8 +1,8 @@
 {
   "name": "jakiboy/apaapi",
-  "version": "1.5.1",
+  "version": "2.0.0",
   "type": "library",
-  "description": "Easily integrate with the Amazon Affiliate Program using the lightweight APAAPI library for Amazon Product Advertising API v5 (With Credential-less)",
+  "description": "Easily integrate with the Amazon Affiliate Program using the lightweight APAAPI library for Amazon Creators API (With OAuth 2.0 & Credential-less)",
   "keywords": [
     "php",
     "amazon",
@@ -10,7 +10,7 @@
     "product",
     "api",
     "apaapi",
-    "paapi5"
+    "creators-api"
   ],
   "homepage": "https://jakiboy.github.io/apaapi/",
   "license": "MIT",

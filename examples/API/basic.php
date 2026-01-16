@@ -1,9 +1,9 @@
 <?php
 /**
  * @author    : Jakiboy
- * @package   : Amazon Product Advertising API Library (v5)
- * @version   : 1.5.x
- * @copyright : (c) 2019 - 2025 Jihad Sinnaour <mail@jihadsinnaour.com>
+ * @package   : Amazon Creators API Library
+ * @version   : 2.0.x
+ * @copyright : (c) 2019 - 2026 Jihad Sinnaour <me@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
  *
@@ -19,9 +19,23 @@ include '../../src/Autoloader.php';
 use Apaapi\operations\SearchItems;
 use Apaapi\lib\Request;
 use Apaapi\lib\Response;
+use Apaapi\includes\Client;
 use Apaapi\includes\Env;
 
 Env::load('../.env');
+
+/**
+ * Custom client with SSL disabled for local dev
+ */
+class NoSslClient extends Client
+{
+    public function __construct(?string $baseUrl = null, array $params = [])
+    {
+        // Override SSL parameter to force disable
+        $params['ssl'] = false;
+        parent::__construct($baseUrl, $params);
+    }
+}
 
 // Set operation
 $operation = new SearchItems();
@@ -29,13 +43,22 @@ $operation->setPartnerTag(Env::get('_TAG_'));
 $operation->setItemCount(3)->setKeywords(Env::get('_KEYWORDS_'));
 
 // Prepare request
-$request = new Request(Env::get('_KEY_'), Env::get('_SECRET_'));
+$request = new Request(Env::get('_CREDENTIAL_ID_'), Env::get('_CREDENTIAL_SECRET_'), Env::get('_VERSION_'));
 $request->setLocale(Env::get('_LOCALE_'))->setPayload($operation);
+
+// Set custom client with SSL disabled for local development
+$request->setClient(new NoSslClient());
 
 // Get response
 $response = new Response($request);
 
 $body = $response->getBody(); // String
+
+// Check error
+if ( $response->hasError() ) {
+    echo 'Error: ' . $response->getError() . PHP_EOL;
+    exit;
+}
 
 $data = $response->get(); // Array
 var_dump($data);

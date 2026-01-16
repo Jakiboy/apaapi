@@ -1,9 +1,9 @@
 <?php
 /**
  * @author    : Jakiboy
- * @package   : Amazon Product Advertising API Library (v5)
- * @version   : 1.5.x
- * @copyright : (c) 2019 - 2025 Jihad Sinnaour <mail@jihadsinnaour.com>
+ * @package   : Amazon Creators API Library
+ * @version   : 2.0.x
+ * @copyright : (c) 2019 - 2026 Jihad Sinnaour <me@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
  *
@@ -25,19 +25,19 @@ final class RentalOffers extends Resource
 	public function __construct()
 	{
 		$this->items = [
-			'Listings.BasePrice',
-			'Listings.Condition',
-			'Listings.Availability.MaxOrderQuantity',
-			'Listings.Availability.MinOrderQuantity',
-			'Listings.Availability.Type',
-			'Listings.Availability.Message',
-			'Listings.Condition.ConditionNote',
-			'Listings.Condition.SubCondition',
-			'Listings.DeliveryInfo.IsAmazonFulfilled',
-			'Listings.DeliveryInfo.IsFreeShippingEligible',
-			'Listings.DeliveryInfo.IsPrimeEligible',
-			'Listings.DeliveryInfo.ShippingCharges',
-			'Listings.MerchantInfo'
+			'listings.basePrice',
+			'listings.condition',
+			'listings.availability.maxOrderQuantity',
+			'listings.availability.minOrderQuantity',
+			'listings.availability.type',
+			'listings.availability.message',
+			'listings.condition.conditionNote',
+			'listings.condition.subCondition',
+			'listings.deliveryInfo.isAmazonFulfilled',
+			'listings.deliveryInfo.isFreeShippingEligible',
+			'listings.deliveryInfo.isPrimeEligible',
+			'listings.deliveryInfo.shippingCharges',
+			'listings.merchantInfo'
 		];
 	}
 }
