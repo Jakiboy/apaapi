@@ -93,7 +93,14 @@ class Response implements ResponseInterface
 		}
 
 		if ( $this->code == 200 ) {
-			return strpos($this->body, '#ErrorData') !== false;
+			// Check for both old and new error formats
+			if ( strpos($this->body, '#ErrorData') !== false ) {
+				return true;
+			}
+			// Check for new error format with __type and Errors fields
+			if ( strpos($this->body, '__type') !== false && strpos($this->body, 'Errors') !== false ) {
+				return true;
+			}
 		}
 
 		return false;
@@ -111,6 +118,15 @@ class Response implements ResponseInterface
 		$key = Cache::getKey($request);
 		if ( ($cached = Cache::get($key)) ) {
 			$this->body = $cached;
+
+			// If cached response is an error, invalidate and resend
+			if ( $this->hasError() ) {
+				// Delete the cached error
+				$this->send($request);
+				if ( !$this->hasError() ) {
+					Cache::set($key, $this->body);
+				}
+			}
 
 		} else {
 			$this->send($request);
