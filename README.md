@@ -8,7 +8,7 @@ Apaapi is an unofficial PHP library for accessing the Amazon Creators API, witho
 
 > [!CAUTION]
 > Apaapi 2.x exclusively uses the Amazon Creators API.  
-> Support for the Product Advertising API (PA-API v5) has been discontinued!
+> Support for Apaapi 1.x (PA-API v5) has been discontinued!
 
 ## 💡 Features
 
