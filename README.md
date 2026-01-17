@@ -258,11 +258,6 @@ $operation->setResources(['images.primary.small', 'itemInfo.title', 'offersV2.li
 > [!Note]  
 > *See all available resources used by setResources() at [/wiki/Resources](https://github.com/Jakiboy/apaapi/wiki/Resources)*
 
-## 🔧 Incoming
-
-* [Integrated design](https://github.com/Jakiboy/rapaapi) (PHP, TypeScript)
-* [apaapi.js](https://github.com/Jakiboy/appapi.js) React.js component (TypeScript)
-
 ## Authors
 
 * [Jakiboy](https://github.com/Jakiboy) (*Initial work*)
