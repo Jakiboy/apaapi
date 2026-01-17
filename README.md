@@ -14,8 +14,8 @@ Apaapi is an unofficial PHP library for accessing the Amazon Creators API, witho
 
 * **Request Builder** (Easier way to fetch API data).
 * **OAuth 2.0**: Implements OAuth 2.0 authentication.
-* **Dual HTTP Support** (Auto-detects cURL or Stream fallback for maximum compatibility).
 * **Credential-less** (No credentials required using product scraper).
+* **Dual HTTP Support** (Auto-detects cURL or Stream fallback for maximum compatibility).
 * **Search Filters** (Using builder).
 * **Geotargeting** (Automatically redirect links based on the visitor's region).
 * **Cart Generator** (Add to cart URL).
