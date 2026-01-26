@@ -61,6 +61,13 @@ $request->setClient(
 
 // Get response
 $response = new Response($request);
+
+// Check error
+if ( $response->hasError() ) {
+	echo 'Error: ' . $response->getError() . PHP_EOL; // String
+	exit;
+}
+
 $data = $response->get(); // Array
 var_dump($data);
 

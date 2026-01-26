@@ -432,92 +432,43 @@ final class Normalizer
 	 */
 	public static function formatError(string $body) : string
 	{
-		$error = 'Unknown error';
+		// Empty or whitespace-only body
+		if ( empty($body) || trim($body) === '' ) {
+			return 'Empty error response from API';
+		}
 
-		if ( ($data = self::decode($body)) ) {
+		$trimmed = trim($body);
+
+		// Check for empty JSON objects/arrays before decoding
+		if ( $trimmed === '{}' || $trimmed === '[]' ) {
+			return 'Invalid credentials';
+		}
+
+		// Decode JSON response
+		$data = self::decode($body);
+
+		// Valid JSON with data
+		if ( !empty($data) ) {
 
 			// Creators API error format: {message, reason, type}
 			if ( isset($data['message']) ) {
-				$error = $data['message'];
-
-				// Add reason if available for more context
-				if ( isset($data['reason']) && $data['reason'] ) {
-					$error .= " (Reason: {$data['reason']})";
-				}
-
-				// Add type if available
-				if ( isset($data['type']) && $data['type'] ) {
-					$error .= " [Type: {$data['type']}]";
-				}
-			}
-			// PA-API error format: Errors[0].Message
-			elseif ( isset($data['Errors'][0]['Message']) ) {
-				$error = $data['Errors'][0]['Message'];
-				$error = self::removeRegex('/\s(?<![A-Z0-9])[A-Z0-9]{20}(?![A-Z0-9])/', $error);
-				$error = self::removeRegex('/\sPlease visit associate(s|) central at.*/', $error);
-				$error = self::removeRegex('/\sPlease sign up for Product Advertising API at.*/', $error);
-				$error = self::removeRegex('/\sPlease verify the number of requests made per second to.*/', $error);
-				$error = self::removeRegex('/\sIf you are using an AWS SDK.*/', $error);
-				$error = self::removeRegex('/\sRefer https.*/', $error);
-				$error = self::removeRegex('/\s\[.*\]/', $error);
-				$error = self::replaceRegex('/ItemId .*? provided/', 'ItemId provided', $error);
-				$error = self::replaceRegex('/value .*? provided/', 'value provided', $error);
-			}
-			// Other error formats
-			else {
-				$error = json_encode($data);
+				return rtrim($data['message'], '.');
 			}
 
-			$error = rtrim($error, '.');
-
-		} else {
-
-			$error = self::stripTags($body);
-			$error = self::stripSpace($error, ' ');
-			$error = self::replaceRegex('/webservices.amazon.*/', 'Amazon server', $error);
-			$error = self::removeRegex('/Not Found/', $error);
-			$error = self::removeRegex('/[0-9]/', $error);
-			$error = rtrim(trim($error), '.');
+			// Non-standard JSON error format
+			return json_encode($data);
 		}
 
-		if ( self::$error ) {
+		// Non-JSON response (HTML, plain text, etc.)
+		$error = self::stripTags($body);
+		$error = self::stripSpace($error, ' ');
+		$error = self::removeRegex('/Not Found/', $error);
+		$error = self::removeRegex('/[0-9]/', $error);
+		$error = rtrim(trim($error), '.');
 
-			$search = [
-				'The Access Key ID or security token included in the request is invalid',
-				'Your access key is not mapped to Primary of approved associate store',
-				'The request was denied due to request throttling',
-				'The partner tag is not mapped to a valid associate store with your access key',
-				'PartnerTag should be provided',
-				'The value provided in the request for ItemIds is invalid',
-				'The ItemId provided in the request is invalid',
-				'The value provided in the request for ASIN is invalid',
-				'The value provided in the request for BrowseNodeIds is invalid',
-				'The value provided in the request for BrowseNodeId is invalid',
-				'The value provided in the request for Merchant is invalid',
-				'The value provided in the request for SearchIndex is invalid',
-				'The value provided in the request for Condition is invalid',
-				'The value provided in the request for SortBy is invalid',
-				'The value provided in the request for DeliveryFlags is invalid',
-			];
-			$format = [
-				'The API key or secret key is incorrect',
-				'The API key is not associated with the specified store',
-				'The request was refused due to Amazon API limitation',
-				'The partner tag is invalid',
-				'The partner tag is required',
-				'The provided value is not a valid ASIN or ISBN',
-				'The provided value is not a valid ASIN or ISBN',
-				'The provided value is not a valid ASIN',
-				'The provided value is not a valid node Id',
-				'The provided value is not a valid node Id',
-				'The provided value is not a valid merchant',
-				'The provided value is not a valid category',
-				'The provided value is not a valid condition',
-				'The provided value is not a valid sort parameter',
-				'The provided value is not a valid delivery parameter',
-			];
-			$error = self::replaceString($search, $format, $error);
-
+		// If all cleaning resulted in empty string
+		if ( empty($error) ) {
+			return 'Request failed - check credentials or API endpoint';
 		}
 
 		return $error;
@@ -915,11 +866,11 @@ final class Normalizer
 	private static function normalizeNode(array $data) : array
 	{
 		$node = [];
-		if ( ($id = $data['Id'] ?? false) ) {
+		if ( ($id = $data['id'] ?? false) ) {
 			$node = [
 				'id'       => $id,
-				'name'     => $data['ContextFreeName'] ?? '',
-				'root'     => $data['IsRoot'] ?? false,
+				'name'     => $data['contextFreeName'] ?? '',
+				'root'     => $data['isRoot'] ?? false,
 				'url'      => Provider::getNodeUrl($id),
 				'ancestor' => self::parseAncestor($data),
 				'children' => self::parseChildren($data)
@@ -939,10 +890,10 @@ final class Normalizer
 	{
 		$categories = [];
 		foreach ($data as $category) {
-			if ( ($id = $category['Id'] ?? false) ) {
+			if ( ($id = $category['id'] ?? false) ) {
 				$categories[] = [
 					'id'   => $id,
-					'name' => $category['DisplayName'] ?? ''
+					'name' => $category['displayName'] ?? ''
 				];
 			}
 		}
@@ -958,7 +909,7 @@ final class Normalizer
 	 */
 	private static function parseNode(array $data) : array
 	{
-		$data = $data['BrowseNodesResult']['BrowseNodes'][0] ?? [];
+		$data = $data['browseNodesResult']['browseNodes'][0] ?? [];
 		return ['node' => $data];
 	}
 
@@ -971,7 +922,7 @@ final class Normalizer
 	 */
 	private static function parseItem(array $data) : array
 	{
-		return $data['ItemsResult']['Items'] ?? [];
+		return $data['itemsResult']['items'] ?? [];
 	}
 
 	/**
@@ -984,13 +935,13 @@ final class Normalizer
 	private static function parseSearch(array $data) : array
 	{
 		if ( Builder::$isCategory ) {
-			if ( isset($data['SearchResult']['SearchRefinements']) ) {
-				$data = $data['SearchResult']['SearchRefinements'];
-				$data = $data['SearchIndex']['Bins'] ?? [];
+			if ( isset($data['searchResult']['searchRefinements']) ) {
+				$data = $data['searchResult']['searchRefinements'];
+				$data = $data['searchIndex']['bins'] ?? [];
 				return ['category' => $data];
 			}
 		}
-		return $data['SearchResult']['Items'] ?? [];
+		return $data['searchResult']['items'] ?? [];
 	}
 
 	/**
@@ -1002,7 +953,7 @@ final class Normalizer
 	 */
 	private static function parseVariation(array $data) : array
 	{
-		return $data['VariationsResult']['Items'] ?? [];
+		return $data['variationsResult']['items'] ?? [];
 	}
 
 	/**
@@ -1015,10 +966,10 @@ final class Normalizer
 	private static function parseAncestor(array $item) : array
 	{
 		$ancestor = [];
-		if ( ($id = $item['Ancestor']['Id'] ?? false) ) {
+		if ( ($id = $item['ancestor']['id'] ?? false) ) {
 			$ancestor = [
 				'id'   => $id,
-				'name' => $item['Ancestor']['ContextFreeName'] ?? '',
+				'name' => $item['ancestor']['contextFreeName'] ?? '',
 				'url'  => Provider::getNodeUrl($id)
 			];
 		}
@@ -1035,12 +986,12 @@ final class Normalizer
 	private static function parseChildren(array $item) : array
 	{
 		$children = [];
-		$item = $item['Children'] ?? [];
+		$item = $item['children'] ?? [];
 		foreach ($item as $child) {
-			if ( ($id = $child['Id']) ) {
+			if ( ($id = $child['id']) ) {
 				$children[] = [
 					'id'   => $id,
-					'name' => $child['ContextFreeName'] ?? '',
+					'name' => $child['contextFreeName'] ?? '',
 					'url'  => Provider::getNodeUrl($id)
 				];
 			}
@@ -1057,7 +1008,7 @@ final class Normalizer
 	 */
 	private static function extractEAN(array $item) : string
 	{
-		return $item['ItemInfo']['ExternalIds']['EANs']['DisplayValues'][0] ?? '';
+		return $item['itemInfo']['externalIds']['eans']['displayValues'][0] ?? '';
 	}
 
 	/**
@@ -1069,7 +1020,7 @@ final class Normalizer
 	 */
 	private static function extractASIN(array $item) : string
 	{
-		return $item['ASIN'] ?? '';
+		return $item['asin'] ?? '';
 	}
 
 	/**
@@ -1081,7 +1032,7 @@ final class Normalizer
 	 */
 	private static function extractTitle(array $item) : string
 	{
-		$title = $item['ItemInfo']['Title']['DisplayValue'] ?? '';
+		$title = $item['itemInfo']['title']['displayValue'] ?? '';
 		return self::formatString($title);
 	}
 
@@ -1094,7 +1045,7 @@ final class Normalizer
 	 */
 	private static function extractUrl(array $item) : string
 	{
-		return $item['DetailPageURL'] ?? '';
+		return $item['detailPageURL'] ?? '';
 	}
 
 	/**
@@ -1106,7 +1057,7 @@ final class Normalizer
 	 */
 	private static function extractImage(array $item) : string
 	{
-		return $item['Images']['Primary']['Large']['URL'] ?? '';
+		return $item['images']['primary']['large']['url'] ?? '';
 	}
 
 	/**
@@ -1118,13 +1069,13 @@ final class Normalizer
 	 */
 	private static function extractCategory(array $item) : string
 	{
-		$node = $item['BrowseNodeInfo']['BrowseNodes'][0] ?? [];
+		$node = $item['browseNodeInfo']['browseNodes'][0] ?? [];
 		$count = count($node);
 		for ($i = 0; $i < $count; $i++) {
-			if ( !isset($node['Ancestor']) ) break;
-			$node = $node['Ancestor'];
+			if ( !isset($node['ancestor']) ) break;
+			$node = $node['ancestor'];
 		}
-		return $node['ContextFreeName'] ?? '';
+		return $node['contextFreeName'] ?? '';
 	}
 
 	/**
@@ -1136,8 +1087,8 @@ final class Normalizer
 	 */
 	private static function extractNode(array $item) : string
 	{
-		$node = $item['BrowseNodeInfo']['BrowseNodes'][0] ?? [];
-		return $node['Id'] ?? '';
+		$node = $item['browseNodeInfo']['browseNodes'][0] ?? [];
+		return $node['id'] ?? '';
 	}
 
 	/**
@@ -1149,13 +1100,13 @@ final class Normalizer
 	 */
 	private static function extractRoot(array $item) : string
 	{
-		$node = $item['BrowseNodeInfo']['BrowseNodes'][0] ?? [];
+		$node = $item['browseNodeInfo']['browseNodes'][0] ?? [];
 		$count = count($node);
 		for ($i = 0; $i < $count; $i++) {
-			if ( !isset($node['Ancestor']) ) break;
-			$node = $node['Ancestor'];
+			if ( !isset($node['ancestor']) ) break;
+			$node = $node['ancestor'];
 		}
-		return $node['Id'] ?? '';
+		return $node['id'] ?? '';
 	}
 
 	/**
@@ -1167,8 +1118,8 @@ final class Normalizer
 	 */
 	private static function extractRank(array $item) : int
 	{
-		$node = $item['BrowseNodeInfo']['BrowseNodes'][0] ?? [];
-		return $node['SalesRank'] ?? 0;
+		$node = $item['browseNodeInfo']['browseNodes'][0] ?? [];
+		return $node['salesRank'] ?? 0;
 	}
 
 	/**
@@ -1180,16 +1131,8 @@ final class Normalizer
 	 */
 	private static function extractPrice(array $item) : float
 	{
-		$listing = $item['Offers']['Listings'][0]
-			?? $item['OffersV2']['Listings'][0] ?? [];
-
-		// OffersV2 format: Price.Money.Amount
-		if ( isset($listing['Price']['Money']['Amount']) ) {
-			return $listing['Price']['Money']['Amount'];
-		}
-
-		// Original format: Price.Amount
-		return $listing['Price']['Amount'] ?? 0;
+		$listing = $item['offersV2']['listings'][0] ?? [];
+		return $listing['price']['money']['amount'] ?? 0;
 	}
 
 	/**
@@ -1201,16 +1144,8 @@ final class Normalizer
 	 */
 	private static function extractCurrency(array $item) : string
 	{
-		$listing = $item['Offers']['Listings'][0]
-			?? $item['OffersV2']['Listings'][0] ?? [];
-
-		// OffersV2 format: Price.Money.Currency
-		if ( isset($listing['Price']['Money']['Currency']) ) {
-			return $listing['Price']['Money']['Currency'];
-		}
-
-		// Original format: Price.Currency
-		return $listing['Price']['Currency'] ?? '';
+		$listing = $item['offersV2']['listings'][0] ?? [];
+		return $listing['price']['money']['currency'] ?? '';
 	}
 
 	/**
@@ -1222,16 +1157,8 @@ final class Normalizer
 	 */
 	private static function extractDiscount(array $item) : float
 	{
-		$listing = $item['Offers']['Listings'][0]
-			?? $item['OffersV2']['Listings'][0] ?? [];
-
-		// OffersV2 format: Price.Savings.Money.Amount
-		if ( isset($listing['Price']['Savings']['Money']['Amount']) ) {
-			return $listing['Price']['Savings']['Money']['Amount'];
-		}
-
-		// Original format: Price.Savings.Amount
-		return $listing['Price']['Savings']['Amount'] ?? 0;
+		$listing = $item['offersV2']['listings'][0] ?? [];
+		return $listing['price']['savings']['money']['amount'] ?? 0;
 	}
 
 	/**
@@ -1243,11 +1170,8 @@ final class Normalizer
 	 */
 	private static function extractPercent(array $item) : float
 	{
-		$listing = $item['Offers']['Listings'][0]
-			?? $item['OffersV2']['Listings'][0] ?? [];
-
-		// Both formats use the same path: Price.Savings.Percentage
-		return $listing['Price']['Savings']['Percentage'] ?? 0;
+		$listing = $item['offersV2']['listings'][0] ?? [];
+		return $listing['price']['savings']['percentage'] ?? 0;
 	}
 
 	/**
@@ -1259,12 +1183,11 @@ final class Normalizer
 	 */
 	private static function extractDiscounted(array $item) : float
 	{
-		$listing = $item['Offers']['Listings'][0]
-			?? $item['OffersV2']['Listings'][0] ?? [];
+		$listing = $item['offersV2']['listings'][0] ?? [];
 
-		// OffersV2 format: Price.SavingBasis.Money.Amount (original price)
-		if ( isset($listing['Price']['SavingBasis']['Money']['Amount']) ) {
-			return round($listing['Price']['SavingBasis']['Money']['Amount'], 2);
+		// Original price
+		if ( isset($listing['price']['savingBasis']['money']['amount']) ) {
+			return round($listing['price']['savingBasis']['money']['amount'], 2);
 		}
 
 		// Fallback: calculate from current price + discount
@@ -1281,14 +1204,12 @@ final class Normalizer
 	 */
 	private static function extractShipping(array $item) : array
 	{
-		$listing = $item['Offers']['Listings'][0]
-			?? $item['OffersV2']['Listings'][0] ?? [];
+		$listing = $item['offersV2']['listings'][0] ?? [];
 
-		// Both formats use the same DeliveryInfo structure
 		return [
-			'fulfilled' => $listing['DeliveryInfo']['IsAmazonFulfilled'] ?? false,
-			'free'      => $listing['DeliveryInfo']['IsFreeShippingEligible'] ?? false,
-			'prime'     => $listing['DeliveryInfo']['IsPrimeEligible'] ?? false
+			'fulfilled' => $listing['deliveryInfo']['isAmazonFulfilled'] ?? false,
+			'free'      => $listing['deliveryInfo']['isFreeShippingEligible'] ?? false,
+			'prime'     => $listing['deliveryInfo']['isPrimeEligible'] ?? false
 		];
 	}
 
@@ -1301,16 +1222,8 @@ final class Normalizer
 	 */
 	private static function extractAvailability(array $item) : string
 	{
-		$listing = $item['Offers']['Listings'][0]
-			?? $item['OffersV2']['Listings'][0] ?? [];
-
-		// OffersV2 format: Availability.Type
-		if ( isset($listing['Availability']['Type']) ) {
-			return $listing['Availability']['Type'];
-		}
-
-		// Original format: Availability.Message
-		return $listing['Availability']['Message'] ?? '';
+		$listing = $item['offersV2']['listings'][0] ?? [];
+		return $listing['availability']['type'] ?? '';
 	}
 
 	/**
@@ -1322,7 +1235,7 @@ final class Normalizer
 	 */
 	private static function extractBrand(array $item) : string
 	{
-		return $item['ItemInfo']['ByLineInfo']['Brand']['DisplayValue'] ?? '';
+		return $item['itemInfo']['byLineInfo']['brand']['displayValue'] ?? '';
 	}
 
 	/**
@@ -1334,7 +1247,7 @@ final class Normalizer
 	 */
 	private static function extractFeatures(array $item) : array
 	{
-		$features = $item['ItemInfo']['Features']['DisplayValues'] ?? [];
+		$features = $item['itemInfo']['features']['displayValues'] ?? [];
 		if ( self::$limit ) {
 			$features = array_slice($features, 0, self::$limit);
 		}
@@ -1355,9 +1268,9 @@ final class Normalizer
 	private static function extractGallery(array $item) : array
 	{
 		$gallery = [];
-		$variants = $item['Images']['Variants'] ?? [];
+		$variants = $item['images']['variants'] ?? [];
 		foreach ($variants as $variant) {
-			$gallery[] = $variant['Large']['URL'];
+			$gallery[] = $variant['large']['url'];
 		}
 		if ( self::$limit ) {
 			$gallery = array_slice($gallery, 0, self::$limit);
@@ -1390,10 +1303,10 @@ final class Normalizer
 	 */
 	private static function extractManufacturingInfo(array $item) : array
 	{
-		$info = $item['ItemInfo']['ManufactureInfo'] ?? [];
+		$info = $item['itemInfo']['manufactureInfo'] ?? [];
 		return [
-			'model'    => $info['Model']['DisplayValue'] ?? '',
-			'warranty' => $info['Warranty']['DisplayValue'] ?? ''
+			'model'    => $info['model']['displayValue'] ?? '',
+			'warranty' => $info['warranty']['displayValue'] ?? ''
 		];
 	}
 
@@ -1406,13 +1319,13 @@ final class Normalizer
 	 */
 	private static function extractProductInfo(array $item) : array
 	{
-		$atts = $item['ItemInfo']['ProductInfo'] ?? [];
+		$atts = $item['itemInfo']['productInfo'] ?? [];
 		return [
-			'color' => $atts['Color']['DisplayValue'] ?? '',
-			'size'  => $atts['Size']['DisplayValue'] ?? '',
-			'date'  => $atts['ReleaseDate']['DisplayValue'] ?? '',
-			'count' => $atts['UnitCount']['DisplayValue'] ?? 1,
-			'adult' => $atts['IsAdultProduct']['DisplayValue'] ?? false
+			'color' => $atts['color']['displayValue'] ?? '',
+			'size'  => $atts['size']['displayValue'] ?? '',
+			'date'  => $atts['releaseDate']['displayValue'] ?? '',
+			'count' => $atts['unitCount']['displayValue'] ?? 1,
+			'adult' => $atts['isAdultProduct']['displayValue'] ?? false
 		];
 	}
 
@@ -1425,12 +1338,12 @@ final class Normalizer
 	 */
 	private static function extractDimensions(array $item) : array
 	{
-		$dims = $item['ItemInfo']['ProductInfo']['ItemDimensions'] ?? [];
+		$dims = $item['itemInfo']['productInfo']['itemDimensions'] ?? [];
 		$dimensions = ['height', 'length', 'weight', 'width'];
 
 		$result = [];
 		foreach ($dimensions as $dimension) {
-			$result[$dimension] = self::extractDimensionValue($dims, ucfirst($dimension));
+			$result[$dimension] = self::extractDimensionValue($dims, $dimension);
 		}
 		return $result;
 	}
@@ -1446,8 +1359,8 @@ final class Normalizer
 	private static function extractDimensionValue(array $dims, string $type) : array
 	{
 		return [
-			'value' => $dims[$type]['DisplayValue'] ?? 0,
-			'unit'  => $dims[$type]['Unit'] ?? ''
+			'value' => $dims[$type]['displayValue'] ?? 0,
+			'unit'  => $dims[$type]['unit'] ?? ''
 		];
 	}
 

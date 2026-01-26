@@ -30,6 +30,7 @@ $data = $builder->search(Env::get('_KEYWORDS_')); // Normalized Array
 // Handle response error
 if ( $builder->hasError() ) {
     echo "Error: " . $builder->getError() . PHP_EOL; // String
+    exit;
 }
 
 var_dump($data);

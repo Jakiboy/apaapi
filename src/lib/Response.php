@@ -94,17 +94,11 @@ class Response implements ResponseInterface
 		}
 
 		if ( $this->code == 200 ) {
-			// Check for old PA-API error format
-			if ( strpos($this->body, '#ErrorData') !== false ) {
-				return true;
-			}
-			// Check for PA-API error format with __type and Errors fields
-			if ( strpos($this->body, '__type') !== false && strpos($this->body, 'Errors') !== false ) {
-				return true;
-			}
-			// Check for Creators API error format with message/type fields
-			if ( strpos($this->body, '"message"') !== false && strpos($this->body, '"type"') !== false ) {
-				return true;
+			// Check for Creators API error format
+			if ( $decoded = Normalizer::decode($this->body) ) {
+				if ( isset($decoded['message']) && isset($decoded['type']) ) {
+					return true;
+				}
 			}
 		}
 

@@ -37,6 +37,12 @@ $request->setLocale(Env::get('_LOCALE_'))->setPayload($operation);
 
 // Get response
 $response = new Response($request, Response::NORMALIZE);
+
+// Handle response error
+if ( $response->hasError() ) {
+    echo 'Error: ' . $response->getError() . PHP_EOL; // String
+}
+
 $data = $response->get(); // Normalized Array
 var_dump($data);
 

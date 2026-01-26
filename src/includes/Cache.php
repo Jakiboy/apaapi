@@ -84,7 +84,12 @@ final class Cache
 	{
 		$params = $request->getParams();
 		$payload = $params['payload'] ?? $params['body'] ?? '';
-		return self::generateKey((string)$payload);
+		$headers = $params['header'] ?? [];
+
+		// Include headers (which contain authorization) in cache key
+		$headersString = is_array($headers) ? json_encode($headers) : (string)$headers;
+		$cacheData = $payload . $headersString;
+		return self::generateKey($cacheData);
 	}
 
 	/**

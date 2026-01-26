@@ -34,12 +34,13 @@ $request->setLocale(Env::get('_LOCALE_'))->setPayload($operation);
 
 // Get response
 $response = new Response($request);
-$data = $response->get(); // Array
 
 // Handle response error
 if ( $response->hasError() ) {
-	echo $response->getError(); // String
+	echo 'Error: ' . $response->getError() . PHP_EOL; // String
 }
+
+$data = $response->get(); // Array
 var_dump($data);
 
 // Any PR is welcome!

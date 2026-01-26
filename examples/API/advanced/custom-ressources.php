@@ -30,9 +30,9 @@ $operation->setItemCount(3)->setKeywords(Env::get('_KEYWORDS_'));
 
 // Set resources (3)
 $operation->setResources([
-    'Images.Primary.Small',
-    'ItemInfo.Title',
-    'Offers.Listings.Price'
+    'images.primary.small',
+    'itemInfo.title',
+    'offersV2.listings.price'
 ]);
 
 // Prapere request
@@ -41,6 +41,13 @@ $request->setLocale(Env::get('_LOCALE_'))->setPayload($operation);
 
 // Get response
 $response = new Response($request);
+
+// Check error
+if ( $response->hasError() ) {
+    echo 'Error: ' . $response->getError() . PHP_EOL; // String
+    exit;
+}
+
 $data = $response->get(); // Array
 var_dump($data);
 
