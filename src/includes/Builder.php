@@ -511,7 +511,7 @@ final class Builder
 
         $this->operation->setResources(
             $this->getDefaultResources([
-                'BrowseNodeInfo.BrowseNodes.SalesRank'
+                'browseNodeInfo.websiteSalesRank'
             ])
         );
 
@@ -554,7 +554,7 @@ final class Builder
 
         $this->operation->setResources(
             $this->getDefaultResources([
-                'BrowseNodeInfo.BrowseNodes.SalesRank'
+                'browseNodeInfo.websiteSalesRank'
             ])
         );
 
