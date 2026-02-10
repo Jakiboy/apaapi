@@ -1,6 +1,6 @@
 {
   "name": "jakiboy/apaapi",
-  "version": "2.0.0",
+  "version": "2.0.2",
   "type": "library",
   "description": "Easily integrate with the Amazon Affiliate Program using the lightweight APAAPI library for Amazon Creators API (With OAuth 2.0 & Credential-less)",
   "keywords": [
