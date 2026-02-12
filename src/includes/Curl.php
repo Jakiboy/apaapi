@@ -44,6 +44,7 @@ final class Curl implements GatewayInterface
     public const MAXREDIRS      = CURLOPT_MAXREDIRS;
     public const ENCODING       = CURLOPT_ENCODING;
     public const USERAGENT      = CURLOPT_USERAGENT;
+    public const HTTP_VERSION   = CURLOPT_HTTP_VERSION;
 
     /**
      * @access private
@@ -427,6 +428,7 @@ final class Curl implements GatewayInterface
         // Set options
         self::setHeader($handle, $header);
         self::setTimeout($handle, $timeout);
+        self::setOpt($handle, self::HTTP_VERSION, CURL_HTTP_VERSION_1_1);
 
         if ( $encoding ) {
             self::setEncoding($handle, $encoding);
