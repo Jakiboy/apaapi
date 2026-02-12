@@ -165,12 +165,6 @@ abstract class OAuth
         $curlError = curl_error($ch);
         curl_close($ch);
 
-        // Debug logging
-        error_log("OAuth Token Request: {$endpoint}");
-        error_log("OAuth Response Code: {$httpCode}");
-        if ( $response ) {
-            error_log("OAuth Response: " . substr($response, 0, 200));
-        }
         if ( $curlError ) {
             error_log("OAuth cURL Error: {$curlError}");
         }
