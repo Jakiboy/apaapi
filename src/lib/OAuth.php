@@ -162,12 +162,7 @@ abstract class OAuth
 
         $response = curl_exec($ch);
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        $curlError = curl_error($ch);
         curl_close($ch);
-
-        if ( $curlError ) {
-            error_log("OAuth cURL Error: {$curlError}");
-        }
 
         if ( $httpCode === 200 && $response ) {
             $data = json_decode($response, true);
@@ -177,11 +172,12 @@ abstract class OAuth
                 // Set expiration time with a 30-second buffer to match official SDK
                 $expiresIn = isset($data['expires_in']) ? (int)$data['expires_in'] : 3600;
                 $this->tokenExpiry = time() + $expiresIn - 30;
+            } else {
+                $this->clearToken();
             }
         } else {
             // Clear existing token on failure (official SDK pattern)
             $this->clearToken();
-            error_log("OAuth Error: Failed to get access token. HTTP Code: {$httpCode}");
         }
     }
 

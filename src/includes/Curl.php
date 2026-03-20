@@ -44,7 +44,7 @@ final class Curl implements GatewayInterface
     public const MAXREDIRS      = CURLOPT_MAXREDIRS;
     public const ENCODING       = CURLOPT_ENCODING;
     public const USERAGENT      = CURLOPT_USERAGENT;
-    public const HTTP_VERSION   = CURLOPT_HTTP_VERSION;
+    // public const HTTP_VERSION   = CURLOPT_HTTP_VERSION;
 
     /**
      * @access private
@@ -428,7 +428,7 @@ final class Curl implements GatewayInterface
         // Set options
         self::setHeader($handle, $header);
         self::setTimeout($handle, $timeout);
-        self::setOpt($handle, self::HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+        // self::setOpt($handle, self::HTTP_VERSION, CURL_HTTP_VERSION_1_1);
 
         if ( $encoding ) {
             self::setEncoding($handle, $encoding);
@@ -442,6 +442,9 @@ final class Curl implements GatewayInterface
             self::verifyHost($handle, false);
             self::verifyPeer($handle, false);
         }
+
+        // Force HTTP/1.1 to avoid HTTP/2 stream protocol errors
+        self::setOpt($handle, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
 
         if ( $method == Client::POST ) {
             self::setPost($handle);
