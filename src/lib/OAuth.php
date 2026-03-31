@@ -27,6 +27,7 @@ abstract class OAuth
      * @var string $path, API path
      * @var string $locale, API region locale
      * @var string $target, API request target
+     * @var string $version, OAuth credential version
      * @var array $headers, HTTP request Headers
      * @var string $payload, HTTP request payload
      * @var string $credentialID, Amazon credential ID
@@ -43,17 +44,10 @@ abstract class OAuth
     protected $credentialSecret;
     protected $accessToken;
     protected $tokenExpiry = 0;
-    protected $version = '2.2'; // Default version for EU
-
-    /**
-     * @access private
-     * @var string $method, HTTP request method
-     */
-    private $method = 'POST';
+    protected $version = '2.2'; // EU
 
     /**
      * Get regional OAuth token endpoint based on credential version.
-     * Version 2.1 = NA, 2.2 = EU, 2.3 = FE
      *
      * @access private
      * @return string
@@ -61,18 +55,34 @@ abstract class OAuth
     private function getTokenEndpoint() : string
     {
         $endpoints = [
+            // Cognito (v2.x)
             '2.1' => 'https://creatorsapi.auth.us-east-1.amazoncognito.com/oauth2/token',
             '2.2' => 'https://creatorsapi.auth.eu-south-2.amazoncognito.com/oauth2/token',
-            '2.3' => 'https://creatorsapi.auth.us-west-2.amazoncognito.com/oauth2/token'
+            '2.3' => 'https://creatorsapi.auth.us-west-2.amazoncognito.com/oauth2/token',
+            // LWA (v3.x)
+            '3.1' => 'https://api.amazon.com/auth/o2/token',
+            '3.2' => 'https://api.amazon.co.uk/auth/o2/token',
+            '3.3' => 'https://api.amazon.co.jp/auth/o2/token'
         ];
 
         if ( !isset($endpoints[$this->version]) ) {
             throw new \InvalidArgumentException(
-                "Unsupported version: {$this->version}. Supported versions are: 2.1, 2.2, 2.3"
+                "Unsupported version: {$this->version}. Supported versions are: 2.1, 2.2, 2.3, 3.1, 3.2, 3.3"
             );
         }
 
         return $endpoints[$this->version];
+    }
+
+    /**
+     * Check if the current version uses LWA (v3.x) authentication.
+     *
+     * @access private
+     * @return bool
+     */
+    private function isLwa() : bool
+    {
+        return str_starts_with($this->version, '3.');
     }
 
     /**
@@ -106,9 +116,15 @@ abstract class OAuth
             $this->refreshAccessToken();
         }
 
-        // Set OAuth 2.0 Bearer token with Version
+        // Set OAuth 2.0 Bearer token
         if ( $this->accessToken ) {
-            $this->headers['Authorization'] = "Bearer {$this->accessToken}, Version {$this->version}";
+            if ( $this->isLwa() ) {
+                // LWA (v3.x)
+                $this->headers['Authorization'] = "Bearer {$this->accessToken}";
+            } else {
+                // Cognito (v2.x)
+                $this->headers['Authorization'] = "Bearer {$this->accessToken}, Version {$this->version}";
+            }
         }
 
         return $this->headers;
@@ -126,8 +142,8 @@ abstract class OAuth
             return false;
         }
 
-        // Check if token has expired (with 30 second buffer to match official SDK)
-        return time() < ($this->tokenExpiry - 30);
+        // Check if token has expired (30s buffer applied at storage time)
+        return time() < $this->tokenExpiry;
     }
 
     /**
@@ -140,16 +156,26 @@ abstract class OAuth
     {
         $endpoint = $this->getTokenEndpoint();
 
-        $headers = [
-            "Content-Type: application/x-www-form-urlencoded"
-        ];
+        // LWA (v3.x)
+        if ( $this->isLwa() ) {
+            $headers = ["Content-Type: application/json"];
+            $body = json_encode([
+                'grant_type'    => 'client_credentials',
+                'client_id'     => $this->credentialID,
+                'client_secret' => $this->credentialSecret,
+                'scope'         => 'creatorsapi::default'
+            ]);
 
-        $body = http_build_query([
-            'grant_type'    => 'client_credentials',
-            'client_id'     => $this->credentialID,
-            'client_secret' => $this->credentialSecret,
-            'scope'         => 'creatorsapi/default'
-        ]);
+        } else {
+            // Cognito (v2.x)
+            $headers = ["Content-Type: application/x-www-form-urlencoded"];
+            $body = http_build_query([
+                'grant_type'    => 'client_credentials',
+                'client_id'     => $this->credentialID,
+                'client_secret' => $this->credentialSecret,
+                'scope'         => 'creatorsapi/default'
+            ]);
+        }
 
         // Use cURL to get token
         $ch = curl_init($endpoint);
@@ -157,8 +183,8 @@ abstract class OAuth
         curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Disable for local dev
-        curl_setopt($ch, CURLOPT_TIMEOUT, 10); // Add timeout
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
 
         $response = curl_exec($ch);
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -169,14 +195,14 @@ abstract class OAuth
 
             if ( isset($data['access_token']) ) {
                 $this->accessToken = $data['access_token'];
-                // Set expiration time with a 30-second buffer to match official SDK
                 $expiresIn = isset($data['expires_in']) ? (int)$data['expires_in'] : 3600;
                 $this->tokenExpiry = time() + $expiresIn - 30;
+
             } else {
                 $this->clearToken();
             }
+
         } else {
-            // Clear existing token on failure (official SDK pattern)
             $this->clearToken();
         }
     }
