@@ -232,4 +232,53 @@ abstract class OAuth
         $name = strtolower($name);
         $this->headers[$name] = $value;
     }
+
+    /**
+     * OAuth version helper.
+     *
+     * @access public
+     * @param string $version
+     * @return string
+     */
+    public static function getOAuthVersion(string $version)
+    {
+        $supported = ['2.1', '2.2', '2.3', '3.1', '3.2', '3.3'];
+        $na = ['US', 'CA', 'MX', 'BR'];
+
+        // Use only the saved API version key.
+        $version = trim($version);
+        if ( preg_match('/([23]\.\d)/', $version, $match) ) {
+            $version = $match[1];
+        }
+
+        if ( in_array($version, $supported, true) ) {
+            return $version;
+        }
+
+        $region = strtoupper((string)($credentials['region'] ?? ''));
+        $key = (string)($credentials['key'] ?? '');
+        $isLwa = str_starts_with($key, 'amzn1.application-');
+
+        if ( $isLwa ) {
+            if ( in_array($region, $na, true) ) {
+                return '3.1';
+            }
+
+            if ( $region === 'JP' ) {
+                return '3.3';
+            }
+
+            return '3.2';
+        }
+
+        if ( $region === 'JP' || in_array($region, ['AU', 'SG', 'IN'], true) ) {
+            return '2.3';
+        }
+
+        if ( in_array($region, $na, true) ) {
+            return '2.1';
+        }
+
+        return '2.2';
+    }
 }
