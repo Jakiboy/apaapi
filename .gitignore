@@ -16,3 +16,4 @@ coverage/
 dist/
 test-output/
 Thumbs.db
+.github/temp
