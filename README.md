@@ -58,14 +58,13 @@ include('apaapi-main/src/Autoloader.php');
 
 ### Variables:
 
-* "CREDENTIAL_ID" : From your Amazon Creators API (*your locale*), [More](https://affiliate-program.amazon.com/help/node/topic/GTPNVFFUV2GQ8AZV). 
-* "CREDENTIAL_SECRET" : From your Amazon Creators API (*your locale*), [More](https://affiliate-program.amazon.com/help/node/topic/GTPNVFFUV2GQ8AZV). 
-
-* "TAG" : From your Amazon Associates (*your locale*), [More](https://affiliate-program.amazon.com/creatorsapi/docs/en-us/troubleshooting/sign-up-as-an-associate.html). 
-* "LOCALE" : **TLD** of the target marketplace to which you are sending requests (*com/fr/co.jp*), [Get TLD](https://affiliate-program.amazon.com/creatorsapi/docs/en-us/common-request-parameters.html#host-and-region). 
-* "KEYWORDS" : What you are looking for (*Products*), [More](https://affiliate-program.amazon.com/creatorsapi/docs/en-us/search-items.html). 
-* "ASIN" : Accepts (ISBN), Amazon Standard Identification Number (*your locale*), [More](https://affiliate-program.amazon.com/creatorsapi/docs/en-us/get-items.html#ItemLookup-rp). 
-* "NODE" : Browse Node ID (*your locale*), [More](https://affiliate-program.amazon.com/creatorsapi/docs/en-us/use-cases/organization-of-items-on-amazon/browse-nodes/browse-node-properties.html#browse-node-ids). 
+* "CREDENTIAL_ID" : From your Amazon Creators API (*your locale*), [More](https://affiliate-program.amazon.com/creatorsapi/docs/en-us/onboarding/register-for-creators-api). 
+* "CREDENTIAL_SECRET" : From your Amazon Creators API (*your locale*), [More](https://affiliate-program.amazon.com/creatorsapi/docs/en-us/onboarding/register-for-creators-api). 
+* "TAG" : From your Amazon Associates (*your locale*), [More](https://affiliate-program.amazon.com/creatorsapi/docs/en-us/onboarding/sign-up-as-an-amazon-associate). 
+* "LOCALE" : **TLD** of the target marketplace to which you are sending requests (*com/fr/co.jp*), [Get TLD](https://affiliate-program.amazon.com/creatorsapi/docs/en-us/locale-reference). 
+* "KEYWORDS" : What you are looking for (*Products*), [More](https://affiliate-program.amazon.com/creatorsapi/docs/en-us/api-reference/resources/search-refinements). 
+* "ASIN" : Accepts (ISBN), Amazon Standard Identification Number (*your locale*), [More](https://affiliate-program.amazon.com/creatorsapi/docs/en-us/api-reference/resources/item-info). 
+* "NODE" : Browse Node ID (*your locale*), [More](https://affiliate-program.amazon.com/creatorsapi/docs/en-us/api-reference/resources/browse-nodes). 
 
 ### Quickstart
 
