@@ -2,7 +2,7 @@
 /**
  * @author    : Jakiboy
  * @package   : Amazon Creators API Library
- * @version   : 2.0.x
+ * @version   : 2.1.x
  * @copyright : (c) 2019 - 2026 Jihad Sinnaour <me@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
@@ -18,7 +18,7 @@ use Apaapi\exceptions\{RequestException, ScraperException};
 use DOMDocument, DOMNodeList, DOMXPath;
 
 /**
- * Apaapi data scraper.
+ * Apaapi data scraper (Credential-less).
  */
 abstract class Scraper
 {
@@ -51,6 +51,8 @@ abstract class Scraper
 	protected $selectors = [];
 	protected $searchSelectors = [];
 	protected $item;
+	protected $lastResponse = '';
+	protected $debug = [];
 
 	/**
 	 * Init scraper.
@@ -129,6 +131,25 @@ abstract class Scraper
 	}
 
 	/**
+	 * Override scraper runtime configuration.
+	 *
+	 * @access public
+	 * @param array $config
+	 * @param bool $replace
+	 * @return self
+	 */
+	public function setConfig(array $config, bool $replace = false) : self
+	{
+		if ( $replace ) {
+			ScraperConfig::replace($config);
+		} else {
+			ScraperConfig::set($config);
+		}
+
+		return $this;
+	}
+
+	/**
 	 * Generate request header.
 	 *
 	 * @access public
@@ -138,18 +159,23 @@ abstract class Scraper
 	public static function generateHeader(string $locale = 'com') : array
 	{
 		$currency = self::generateCurrency($locale);
+		$language = self::generateLanguage($locale);
+		$acceptLanguage = self::buildAcceptLanguage($language);
+
 		$time = self::generateTime();
 		$id = self::generateId();
 
 		$cookie = [
 			"i18n-prefs={$currency}",
+			"lc-main={$language}",
 			"session-id={$id}",
 			"session-id-time={$time}"
 		];
 
 		return [
-			'Cookie'     => implode('; ', $cookie),
-			'Connection' => 'close'
+			'Cookie'          => implode('; ', $cookie),
+			'Connection'      => 'close',
+			'Accept-Language' => $acceptLanguage
 		];
 	}
 
@@ -183,6 +209,7 @@ abstract class Scraper
 		if ( !($data = Cache::get($key)) ) {
 
 			$response = $this->request($url, $status);
+			$this->lastResponse = $response;
 			if ( $status == 200 ) {
 				$data = $this->process($response);
 				$data = $this->format($data);
@@ -193,6 +220,17 @@ abstract class Scraper
 		}
 
 		return $data ?: $default;
+	}
+
+	/**
+	 * Get last raw HTML response.
+	 *
+	 * @access protected
+	 * @return string
+	 */
+	protected function getLastResponse() : string
+	{
+		return $this->lastResponse;
 	}
 
 	/**
@@ -226,17 +264,35 @@ abstract class Scraper
 	 */
 	protected function request(string $url, ?int &$status = null) : string
 	{
-		$header = self::generateHeader($this->locale);
-		$client = new Client($url, [
-			'header'  => $header,
-			'timeout' => 15
-		]);
+		$client = new Client($url, $this->getClientOptions());
 
 		$client->setEncoding()->get();
 		$response = $client->getBody();
 		$status = $client->getStatusCode();
+		$this->debug[] = "Credential-less request status: {$status}";
 
 		return $response;
+	}
+
+	/**
+	 * Build credential-less HTTP client options from runtime configuration.
+	 *
+	 * @access private
+	 * @return array
+	 */
+	private function getClientOptions() : array
+	{
+		$config = ScraperConfig::all();
+
+		return [
+			'header'     => self::generateHeader($this->locale),
+			'timeout'    => (int)($config['timeout'] ?? 15),
+			'follow'     => (bool)($config['followRedirects'] ?? true),
+			'redirect'   => (int)($config['maxRedirects'] ?? 5),
+			'retries'    => (int)($config['maxRetries'] ?? 3),
+			'retryDelay' => (int)($config['retryDelay'] ?? 2),
+			'scraper'    => (bool)($config['stealthEnabled'] ?? true)
+		];
 	}
 
 	/**
@@ -439,6 +495,121 @@ abstract class Scraper
 	}
 
 	/**
+	 * Get debug messages.
+	 *
+	 * @access public
+	 * @return array
+	 */
+	public function getDebug() : array
+	{
+		return $this->debug;
+	}
+
+	/**
+	 * Reset debug messages.
+	 *
+	 * @access public
+	 * @return void
+	 */
+	public function clearDebug() : void
+	{
+		$this->debug = [];
+	}
+
+	/**
+	 * Save HTML snapshot for debugging.
+	 *
+	 * @access protected
+	 * @param string $html
+	 * @param string $suffix
+	 * @return string
+	 */
+	protected function saveDebugHtml(string $html, string $suffix = 'debug') : string
+	{
+		$path = sys_get_temp_dir();
+		$file = "apaapi-{$this->item}-{$this->locale}-{$suffix}.html";
+		$filePath = Normalizer::formatPath("{$path}/{$file}");
+		@file_put_contents($filePath, $html);
+		$this->debug[] = "Saved debug HTML: {$filePath}";
+		return $filePath;
+	}
+
+	/**
+	 * Extract text from raw HTML using regex patterns.
+	 *
+	 * @access protected
+	 * @param string $html
+	 * @param array $patterns
+	 * @param array $filters
+	 * @return ?string
+	 */
+	protected function extractText(string $html, array $patterns, array $filters = []) : ?string
+	{
+		foreach ($patterns as $pattern) {
+			if ( preg_match($pattern, $html, $matches) ) {
+				$text = html_entity_decode(strip_tags(trim((string)($matches[1] ?? ''))), ENT_QUOTES, 'UTF-8');
+				$text = preg_replace('/\s+/', ' ', $text);
+				$text = trim((string)$text);
+
+				if ( empty($text) ) {
+					continue;
+				}
+
+				$valid = true;
+				foreach ($filters as $filter) {
+					if ( stripos($text, $filter) !== false ) {
+						$valid = false;
+						break;
+					}
+				}
+
+				if ( $valid ) {
+					return $text;
+				}
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Extract URL from raw HTML using regex patterns.
+	 *
+	 * @access protected
+	 * @param string $html
+	 * @param array $patterns
+	 * @param array $validators
+	 * @return ?string
+	 */
+	protected function extractUrl(string $html, array $patterns, array $validators = []) : ?string
+	{
+		foreach ($patterns as $pattern) {
+			if ( preg_match($pattern, $html, $matches) ) {
+				$url = trim((string)($matches[1] ?? ''));
+				if ( empty($url) ) {
+					continue;
+				}
+
+				if ( strpos($url, '//') === 0 ) {
+					$url = "https:{$url}";
+				}
+
+				if ( empty($validators) ) {
+					return $url;
+				}
+
+				foreach ($validators as $validator) {
+					if ( stripos($url, $validator) !== false ) {
+						return $url;
+					}
+				}
+			}
+		}
+
+		return null;
+	}
+
+	/**
 	 * Generate currency.
 	 *
 	 * @access private
@@ -452,6 +623,46 @@ abstract class Scraper
 			$currency = Provider::getCurrency($locale)[0] ?? $currency;
 		}
 		return $currency;
+	}
+
+	/**
+	 * Generate marketplace language code used for lc-main cookie.
+	 *
+	 * @access private
+	 * @param string $locale
+	 * @return string
+	 */
+	private static function generateLanguage(string $locale = 'com') : string
+	{
+		if ( $locale === 'com' ) {
+			return 'en_US';
+		}
+
+		return Provider::getLanguages($locale)[0] ?? 'en_US';
+	}
+
+	/**
+	 * Build Accept-Language header from a locale language code.
+	 *
+	 * @access private
+	 * @param string $language
+	 * @return string
+	 */
+	private static function buildAcceptLanguage(string $language) : string
+	{
+		$language = trim($language);
+		if ( $language === '' ) {
+			return 'en-US,en;q=0.9';
+		}
+
+		$tag = str_replace('_', '-', $language);
+		$base = strtolower((string)strtok($tag, '-'));
+
+		if ( $base === 'en' ) {
+			return "{$tag},en;q=0.9";
+		}
+
+		return "{$tag},{$base};q=0.9,en-US;q=0.8,en;q=0.7";
 	}
 
 	/**

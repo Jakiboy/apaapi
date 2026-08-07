@@ -2,7 +2,7 @@
 /**
  * @author    : Jakiboy
  * @package   : Amazon Creators API Library
- * @version   : 2.0.x
+ * @version   : 2.1.x
  * @copyright : (c) 2019 - 2026 Jihad Sinnaour <me@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
@@ -20,11 +20,11 @@ namespace Apaapi\includes;
 final class Rating extends Scraper
 {
     public const SELECTORS = [
-        'value' => "//div[contains(@class,'AverageCustomerReviews')]",
-        'count' => "//div[contains(@class,'averageStarRatingNumerical')]"
+        'value' => "(//span[@id='acrPopover']/@title|//span[contains(@class,'a-icon-alt')]|//i[contains(@class,'a-icon-star')]//span[contains(@class,'a-icon-alt')])[1]",
+        'count' => "(//span[@id='acrCustomerReviewText']|//span[@data-hook='total-review-count'])[1]"
     ];
     public const PATTERN   = [
-        'count' => '/\D/'
+        'amount' => '/[0-9]+(?:[\.,][0-9]+)?/u'
     ];
 
     /**
@@ -52,17 +52,73 @@ final class Rating extends Scraper
     protected function format(array $data) : array
     {
         // Format rating value
-        $element = $data['value'] ?? '';
-        $element = explode(' ', $element);
-        $element = $element[0] ?? '';
-        $data['value'] = Normalizer::toFloat($element);
+        $data['value'] = $this->normalizeAmount((string)($data['value'] ?? ''));
 
         // Format rating count
-        $pattern = self::PATTERN['count'];
-        $element = $data['count'] ?? '';
-        $element = Normalizer::removeRegex($pattern, $element);
-        $data['count'] = Normalizer::toInt($element);
+        $element = (string)($data['count'] ?? '');
+        $element = preg_replace('/\D/u', '', $element);
+        $count = Normalizer::toInt($element ?: '0');
+
+        if ( $count === 0 ) {
+            $count = $this->extractCountFromHtml($this->getLastResponse());
+        }
+
+        $data['count'] = $count;
 
         return $data;
+    }
+
+    /**
+     * Normalize localized rating amount into float.
+     *
+     * @access private
+     * @param string $value
+     * @return float
+     */
+    private function normalizeAmount(string $value) : float
+    {
+        $pattern = self::PATTERN['amount'];
+        if ( !preg_match($pattern, $value, $matches) ) {
+            return 0.0;
+        }
+
+        $amount = str_replace(',', '.', (string)($matches[0] ?? '0'));
+        return (float)$amount;
+    }
+
+    /**
+     * Extract reviews count from raw HTML as fallback.
+     *
+     * @access private
+     * @param string $html
+     * @return int
+     */
+    private function extractCountFromHtml(string $html) : int
+    {
+        if ( trim($html) === '' ) {
+            return 0;
+        }
+
+        $patterns = [
+            '/id="acrCustomerReviewText"[^>]*>([^<]+)</u',
+            '/data-hook="total-review-count"[^>]*>([^<]+)</u',
+            '/"acrCustomerReviewText"[^\n\r]{0,120}/u'
+        ];
+
+        foreach ($patterns as $pattern) {
+            if ( !preg_match($pattern, $html, $matches) ) {
+                continue;
+            }
+
+            $text = html_entity_decode((string)($matches[1] ?? $matches[0] ?? ''), ENT_QUOTES, 'UTF-8');
+            $digits = preg_replace('/\D/u', '', $text);
+            $count = Normalizer::toInt($digits ?: '0');
+
+            if ( $count > 0 ) {
+                return $count;
+            }
+        }
+
+        return 0;
     }
 }

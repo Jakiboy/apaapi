@@ -58,14 +58,14 @@ include('apaapi-main/src/Autoloader.php');
 
 ### Variables:
 
-* "_CREDENTIAL_ID_" : From your Amazon Creators API (*your locale*), [More](https://affiliate-program.amazon.com/help/node/topic/GTPNVFFUV2GQ8AZV). 
-* "_CREDENTIAL_SECRET_" : From your Amazon Creators API (*your locale*), [More](https://affiliate-program.amazon.com/help/node/topic/GTPNVFFUV2GQ8AZV). 
+* "CREDENTIAL_ID" : From your Amazon Creators API (*your locale*), [More](https://affiliate-program.amazon.com/help/node/topic/GTPNVFFUV2GQ8AZV). 
+* "CREDENTIAL_SECRET" : From your Amazon Creators API (*your locale*), [More](https://affiliate-program.amazon.com/help/node/topic/GTPNVFFUV2GQ8AZV). 
 
-* "\_TAG\_" : From your Amazon Associates (*your locale*), [More](https://affiliate-program.amazon.com/creatorsapi/docs/en-us/troubleshooting/sign-up-as-an-associate.html). 
-* "\_LOCALE\_" : **TLD** of the target marketplace to which you are sending requests (*com/fr/co.jp*), [Get TLD](https://affiliate-program.amazon.com/creatorsapi/docs/en-us/common-request-parameters.html#host-and-region). 
-* "\_KEYWORDS\_" : What you are looking for (*Products*), [More](https://affiliate-program.amazon.com/creatorsapi/docs/en-us/search-items.html). 
-* "\_ASIN\_" : Accepts (ISBN), Amazon Standard Identification Number (*your locale*), [More](https://affiliate-program.amazon.com/creatorsapi/docs/en-us/get-items.html#ItemLookup-rp). 
-* "\_NODE\_" : Browse Node ID (*your locale*), [More](https://affiliate-program.amazon.com/creatorsapi/docs/en-us/use-cases/organization-of-items-on-amazon/browse-nodes/browse-node-properties.html#browse-node-ids). 
+* "TAG" : From your Amazon Associates (*your locale*), [More](https://affiliate-program.amazon.com/creatorsapi/docs/en-us/troubleshooting/sign-up-as-an-associate.html). 
+* "LOCALE" : **TLD** of the target marketplace to which you are sending requests (*com/fr/co.jp*), [Get TLD](https://affiliate-program.amazon.com/creatorsapi/docs/en-us/common-request-parameters.html#host-and-region). 
+* "KEYWORDS" : What you are looking for (*Products*), [More](https://affiliate-program.amazon.com/creatorsapi/docs/en-us/search-items.html). 
+* "ASIN" : Accepts (ISBN), Amazon Standard Identification Number (*your locale*), [More](https://affiliate-program.amazon.com/creatorsapi/docs/en-us/get-items.html#ItemLookup-rp). 
+* "NODE" : Browse Node ID (*your locale*), [More](https://affiliate-program.amazon.com/creatorsapi/docs/en-us/use-cases/organization-of-items-on-amazon/browse-nodes/browse-node-properties.html#browse-node-ids). 
 
 ### Quickstart
 
@@ -85,7 +85,7 @@ include('apaapi-main/src/Autoloader.php');
 use Apaapi\includes\Builder;
 
 // (1) Init request builder
-$builder = new Builder('_CREDENTIAL_ID_', '_CREDENTIAL_SECRET_', '_TAG_', '_LOCALE_');
+$builder = new Builder('CREDENTIAL_ID', 'CREDENTIAL_SECRET', 'TAG', 'LOCALE');
 
 // (2) Get response (Search)
 $data = $builder->searchOne('Sony Xperia 1 VI'); // Normalized array
@@ -167,11 +167,11 @@ use Apaapi\lib\Response;
 
 // (1) Set operation
 $operation = new SearchItems();
-$operation->setPartnerTag('_TAG_')->setKeywords('_KEYWORDS_');
+$operation->setPartnerTag('TAG')->setKeywords('KEYWORDS');
 
 // (2) Prapere request
-$request = new Request('_CREDENTIAL_ID_', '_CREDENTIAL_SECRET_');
-$request->setLocale('_LOCALE_')->setPayload($operation);
+$request = new Request('CREDENTIAL_ID', 'CREDENTIAL_SECRET');
+$request->setLocale('LOCALE')->setPayload($operation);
 
 // (3) Get response
 $response = new Response($request);
@@ -193,11 +193,11 @@ use Apaapi\lib\Response;
 
 // Set operation
 $operation = new GetItems();
-$operation->setPartnerTag('_TAG_')->setItemIds(['_ASIN_']);
+$operation->setPartnerTag('TAG')->setItemIds(['ASIN']);
 
 // Prapere request
-$request = new Request('_CREDENTIAL_ID_', '_CREDENTIAL_SECRET_');
-$request->setLocale('_LOCALE_')->setPayload($operation);
+$request = new Request('CREDENTIAL_ID', 'CREDENTIAL_SECRET');
+$request->setLocale('LOCALE')->setPayload($operation);
 
 // Get response
 $response = new Response($request);
@@ -218,23 +218,23 @@ use Apaapi\operations\GetBrowseNodes;
 
 // (1) GetItems
 $operation = new GetItems();
-$operation->setPartnerTag('_TAG_');
-$operation->setItemIds(['_ASIN_']); // Array
+$operation->setPartnerTag('TAG');
+$operation->setItemIds(['ASIN']); // Array
 
 // (2) SearchItems
 $operation = new SearchItems();
-$operation->setPartnerTag('_TAG_');
-$operation->setKeywords('_KEYWORDS_'); // String
+$operation->setPartnerTag('TAG');
+$operation->setKeywords('KEYWORDS'); // String
 
 // (3) GetVariations
 $operation = new GetVariations();
-$operation->setPartnerTag('_TAG_');
-$operation->setASIN('_ASIN_'); // String
+$operation->setPartnerTag('TAG');
+$operation->setASIN('ASIN'); // String
 
 // (4) GetBrowseNodes
 $operation = new GetBrowseNodes();
-$operation->setPartnerTag('_TAG_');
-$operation->setBrowseNodeIds(['_NODE_']); // Array
+$operation->setPartnerTag('TAG');
+$operation->setBrowseNodeIds(['NODE']); // Array
 
 ```
 
@@ -248,7 +248,7 @@ use Apaapi\operations\SearchItems;
 
 // Set Operation
 $operation = new SearchItems();
-$operation->setPartnerTag('_TAG_')->setKeywords('_KEYWORDS_');
+$operation->setPartnerTag('TAG')->setKeywords('KEYWORDS');
 
 // Set Resources (3)
 $operation->setResources(['images.primary.small', 'itemInfo.title', 'offersV2.listings.price']);

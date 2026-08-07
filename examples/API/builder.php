@@ -2,7 +2,7 @@
 /**
  * @author    : Jakiboy
  * @package   : Amazon Creators API Library
- * @version   : 2.0.x
+ * @version   : 2.1.x
  * @copyright : (c) 2019 - 2026 Jihad Sinnaour <me@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
@@ -22,10 +22,10 @@ use Apaapi\includes\Env;
 Env::load('../.env');
 
 // Prepare request
-$builder = new Builder(Env::get('_CREDENTIAL_ID_'), Env::get('_CREDENTIAL_SECRET_'), Env::get('_TAG_'), Env::get('_LOCALE_'));
+$builder = new Builder(Env::get('CREDENTIAL_ID'), Env::get('CREDENTIAL_SECRET'), Env::get('TAG'), Env::get('LOCALE'));
 
 // Get response
-$data = $builder->search(Env::get('_KEYWORDS_')); // Normalized Array
+$data = $builder->search(Env::get('KEYWORDS')); // Normalized Array
 
 // Handle response error
 if ( $builder->hasError() ) {

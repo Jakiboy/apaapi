@@ -2,7 +2,7 @@
 /**
  * @author    : Jakiboy
  * @package   : Amazon Creators API Library
- * @version   : 2.0.x
+ * @version   : 2.1.x
  * @copyright : (c) 2019 - 2026 Jihad Sinnaour <me@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
@@ -36,6 +36,52 @@ final class Cache
 	private static $ttl;
 	private static $salt;
 	private static $ext;
+	private static $enabled = true;
+
+	/**
+	 * Enable or disable cache globally for current process.
+	 *
+	 * @access public
+	 * @param bool $enabled
+	 * @return void
+	 */
+	public static function setEnabled(bool $enabled = true) : void
+	{
+		self::$enabled = $enabled;
+	}
+
+	/**
+	 * Disable cache globally for current process.
+	 *
+	 * @access public
+	 * @return void
+	 */
+	public static function disable() : void
+	{
+		self::setEnabled(false);
+	}
+
+	/**
+	 * Enable cache globally for current process.
+	 *
+	 * @access public
+	 * @return void
+	 */
+	public static function enable() : void
+	{
+		self::setEnabled(true);
+	}
+
+	/**
+	 * Check if cache is enabled.
+	 *
+	 * @access public
+	 * @return bool
+	 */
+	public static function isEnabled() : bool
+	{
+		return self::$enabled === true;
+	}
 
 	/**
 	 * Set custom cache TTL.
@@ -115,6 +161,10 @@ final class Cache
 	 */
 	public static function get(string $key) : mixed
 	{
+		if ( !self::isEnabled() ) {
+			return false;
+		}
+
 		if ( self::isCached($key) ) {
 			$file = self::getFile($key);
 			$value = @file_get_contents($file);
@@ -133,6 +183,10 @@ final class Cache
 	 */
 	public static function set(string $key, $value) : bool
 	{
+		if ( !self::isEnabled() ) {
+			return false;
+		}
+
 		self::init();
 		if ( $key == self::$salt ) {
 			return false;

@@ -2,7 +2,7 @@
 /**
  * @author    : Jakiboy
  * @package   : Amazon Creators API Library
- * @version   : 2.0.x
+ * @version   : 2.1.x
  * @copyright : (c) 2019 - 2026 Jihad Sinnaour <me@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
@@ -26,12 +26,12 @@ Env::load('../.env');
 
 // Set operation
 $operation = new SearchItems();
-$operation->setPartnerTag(Env::get('_TAG_'));
-$operation->setItemCount(3)->setKeywords(Env::get('_KEYWORDS_'));
+$operation->setPartnerTag(Env::get('TAG'));
+$operation->setItemCount(3)->setKeywords(Env::get('KEYWORDS'));
 
 // Prepare request
-$request = new Request(Env::get('_CREDENTIAL_ID_'), Env::get('_CREDENTIAL_SECRET_'), Env::get('_VERSION_'));
-$request->setLocale(Env::get('_LOCALE_'))->setPayload($operation);
+$request = new Request(Env::get('CREDENTIAL_ID'), Env::get('CREDENTIAL_SECRET'), Env::get('VERSION'));
+$request->setLocale(Env::get('LOCALE'))->setPayload($operation);
 
 // Get response
 $response = new Response($request);

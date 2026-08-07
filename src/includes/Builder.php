@@ -2,7 +2,7 @@
 /**
  * @author    : Jakiboy
  * @package   : Amazon Creators API Library
- * @version   : 2.0.x
+ * @version   : 2.1.x
  * @copyright : (c) 2019 - 2026 Jihad Sinnaour <me@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
@@ -79,16 +79,22 @@ final class Builder
     /**
      * Set request authentication.
      *
-     * @param string $credentialID
-     * @param string $credentialSecret
+     * @param string|null $credentialID
+     * @param string|null $credentialSecret
      * @param string $tag
      * @param string $locale
      * @param string $version
      */
-    public function __construct(string $credentialID, string $credentialSecret, string $tag, string $locale, ?string $version = null)
+    public function __construct(?string $credentialID, ?string $credentialSecret, string $tag, string $locale, ?string $version = null)
     {
-        $this->credentialID = $credentialID;
-        $this->credentialSecret = $credentialSecret;
+        $this->credentialID = $this->resolveCredential(
+            $credentialID,
+            'APAAPI_CREDENTIAL_ID'
+        );
+        $this->credentialSecret = $this->resolveCredential(
+            $credentialSecret,
+            'APAAPI_CREDENTIAL_SECRET'
+        );
         $this->tag = $tag;
         $this->version = $version;
         $this->locale = $locale;
@@ -918,7 +924,7 @@ final class Builder
      */
     private function prepare() : self
     {
-        $this->request = new Request((string)$this->credentialID, (string)$this->credentialSecret, (string)$this->version);
+        $this->request = new Request($this->credentialID, $this->credentialSecret, $this->version);
         $this->request->setLocale($this->locale)->setPayload($this->operation);
         return $this;
     }
@@ -952,5 +958,28 @@ final class Builder
         }
 
         return $data;
+    }
+
+    /**
+     * Resolve credential from constructor value first, then Env.
+     *
+     * @access private
+     * @param string|null $value
+     * @param string $envKey
+     * @return string
+     */
+    private function resolveCredential(?string $value, string $envKey) : string
+    {
+        $value = trim((string)$value);
+        if ( $value !== '' ) {
+            return $value;
+        }
+
+        $envValue = Env::get($envKey);
+        if ( $envValue === null ) {
+            return '';
+        }
+
+        return trim((string)$envValue);
     }
 }

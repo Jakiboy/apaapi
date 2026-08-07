@@ -2,7 +2,7 @@
 /**
  * @author    : Jakiboy
  * @package   : Amazon Creators API Library
- * @version   : 2.0.x
+ * @version   : 2.1.x
  * @copyright : (c) 2019 - 2026 Jihad Sinnaour <me@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
@@ -34,7 +34,7 @@ final class Env
      * @param bool $override
      * @return bool
      */
-    public static function load($filePath = '.env', $override = false)
+    public static function load(string $filePath = '.env', bool $override = false)
     {
         if ( !file_exists($filePath) ) {
             return false;
@@ -71,6 +71,7 @@ final class Env
             }
         }
 
+        self::applyRuntimeFlags();
         self::$loaded = true;
         return true;
     }
@@ -84,24 +85,25 @@ final class Env
      */
     public static function get($key, $default = null)
     {
-        // Check our internal storage first
-        if ( isset(self::$variables[$key]) ) {
-            return self::$variables[$key];
-        }
+        $keys = self::resolveKeys((string)$key);
 
-        // Fallback to PHP's environment
-        $value = getenv($key);
-        if ( $value !== false ) {
-            return $value;
-        }
+        foreach ($keys as $name) {
+            if ( isset(self::$variables[$name]) ) {
+                return self::$variables[$name];
+            }
 
-        // Check $_ENV and $_SERVER superglobals
-        if ( isset($_ENV[$key]) ) {
-            return $_ENV[$key];
-        }
+            $value = getenv($name);
+            if ( $value !== false ) {
+                return $value;
+            }
 
-        if ( isset($_SERVER[$key]) ) {
-            return $_SERVER[$key];
+            if ( isset($_ENV[$name]) ) {
+                return $_ENV[$name];
+            }
+
+            if ( isset($_SERVER[$name]) ) {
+                return $_SERVER[$name];
+            }
         }
 
         return $default;
@@ -121,6 +123,8 @@ final class Env
         putenv("$key=$value");
         $_ENV[$key] = $value;
         $_SERVER[$key] = $value;
+
+        self::applyRuntimeFlags();
     }
 
     /**
@@ -131,7 +135,15 @@ final class Env
      */
     public static function has($key)
     {
-        return isset(self::$variables[$key]) || getenv($key) !== false || isset($_ENV[$key]) || isset($_SERVER[$key]);
+        $keys = self::resolveKeys((string)$key);
+
+        foreach ($keys as $name) {
+            if ( isset(self::$variables[$name]) || getenv($name) !== false || isset($_ENV[$name]) || isset($_SERVER[$name]) ) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -204,5 +216,97 @@ final class Env
         }
 
         return $value;
+    }
+
+    /**
+     * Apply runtime feature flags from environment values.
+     *
+     * @return void
+     */
+    private static function applyRuntimeFlags()
+    {
+        $raw = self::getExact('DISABLE_CACHE');
+
+        if ( $raw === null ) {
+            return;
+        }
+
+        $isDisabled = false;
+
+        if ( is_bool($raw) ) {
+            $isDisabled = $raw;
+        } else {
+            $value = strtolower(trim((string)$raw));
+            $isDisabled = in_array($value, ['1', 'true', 'yes', 'on'], true);
+        }
+
+        if ( $isDisabled ) {
+            Cache::disable();
+        } else {
+            Cache::enable();
+        }
+    }
+
+    /**
+     * Get exact key value without alias expansion.
+     *
+     * @param string $key
+     * @return mixed
+     */
+    private static function getExact(string $key) : mixed
+    {
+        if ( array_key_exists($key, self::$variables) ) {
+            return self::$variables[$key];
+        }
+
+        $value = getenv($key);
+        if ( $value !== false ) {
+            return $value;
+        }
+
+        if ( array_key_exists($key, $_ENV) ) {
+            return $_ENV[$key];
+        }
+
+        if ( array_key_exists($key, $_SERVER) ) {
+            return $_SERVER[$key];
+        }
+
+        return null;
+    }
+
+    /**
+     * Resolve possible aliases for an env key.
+     * Supports plain, underscored, and APAAPI-prefixed variations.
+     *
+     * @param string $key
+     * @return array
+     */
+    private static function resolveKeys(string $key)
+    {
+        $key = trim($key);
+        $base = trim($key, '_');
+
+        $keys = [$key];
+
+        if ( $base !== '' ) {
+            $keys[] = $base;
+            $keys[] = "_{$base}_";
+
+            if ( strpos($base, 'APAAPI_') === 0 ) {
+                $short = substr($base, strlen('APAAPI_'));
+                if ( !empty($short) ) {
+                    $keys[] = $short;
+                    $keys[] = "_{$short}_";
+                }
+            } else {
+                $prefixed = "APAAPI_{$base}";
+                $keys[] = $prefixed;
+                $keys[] = "_{$prefixed}_";
+            }
+        }
+
+        $keys = array_filter($keys, fn($item) => !empty($item));
+        return array_values(array_unique($keys));
     }
 }

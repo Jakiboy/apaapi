@@ -2,7 +2,7 @@
 /**
  * @author    : Jakiboy
  * @package   : Amazon Creators API Library
- * @version   : 2.0.x
+ * @version   : 2.1.x
  * @copyright : (c) 2019 - 2026 Jihad Sinnaour <me@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
@@ -28,7 +28,7 @@ final class Request extends OAuth implements RequestInterface
      * @var string VERSION, Library version
      */
     public const HOST    = 'creatorsapi.amazon';
-    public const VERSION = '2.0.x';
+    public const VERSION = '2.1.x';
 
     /**
      * @access private

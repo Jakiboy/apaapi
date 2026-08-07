@@ -2,7 +2,7 @@
 /**
  * @author    : Jakiboy
  * @package   : Amazon Creators API Library
- * @version   : 2.0.x
+ * @version   : 2.1.x
  * @copyright : (c) 2019 - 2026 Jihad Sinnaour <me@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
@@ -415,93 +415,204 @@ final class Curl implements GatewayInterface
         $params = Client::getParams($params);
         extract($params);
 
-        // Set body
-        if ( $body && $method !== Client::POST ) {
-            if ( is_array($body) ) {
-                $url = Client::getQuery($body, $url);
+        $scraper = (bool)($params['scraper'] ?? false);
+        $config = $scraper ? ScraperConfig::all() : [];
+        $maxRetries = $scraper
+            ? max(1, (int)($params['retries'] ?? ($config['maxRetries'] ?? 3)))
+            : 1;
+        $retryDelay = max(0, (int)($params['retryDelay'] ?? ($config['retryDelay'] ?? 2)));
+        $minDelay = (float)($config['minDelay'] ?? 0.0);
+        $maxDelay = (float)($config['maxDelay'] ?? 0.0);
+
+        $result = [
+            'error'  => true,
+            'status' => ['code' => 500, 'message' => Status::getMessage(500)],
+            'header' => [],
+            'body'   => Status::getMessage(500)
+        ];
+
+        $cookieJar = null;
+        $preflightUrl = null;
+
+        if ( $scraper ) {
+            $cookieJar = tempnam(sys_get_temp_dir(), 'apaapi-scraper-') ?: null;
+            $preflightUrl = self::buildScraperWarmupUrl($url);
+        }
+
+        for ($attempt = 1; $attempt <= $maxRetries; $attempt++) {
+
+            self::reset();
+
+            // Set body
+            $requestUrl = $url;
+            if ( $body && $method !== Client::POST ) {
+                if ( is_array($body) ) {
+                    $requestUrl = Client::getQuery($body, $requestUrl);
+                }
+            }
+
+            // Init cURL
+            $handle = self::init($requestUrl);
+
+            if ( $scraper && $cookieJar && $attempt === 1 && !empty($preflightUrl) ) {
+                $warmup = self::init($preflightUrl);
+                if ( $warmup ) {
+                    self::setHeader($warmup, $header);
+                    self::setTimeout($warmup, max(10, (int)$timeout));
+
+                    if ( $encoding !== null ) {
+                        self::setEncoding($warmup, $encoding);
+                    }
+
+                    if ( $ua ) {
+                        self::setUserAgent($warmup, $ua);
+                    }
+
+                    self::setOpt($warmup, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+                    self::setOpt($warmup, CURLOPT_AUTOREFERER, true);
+                    self::setOpt($warmup, CURLOPT_COOKIEJAR, $cookieJar);
+                    self::setOpt($warmup, CURLOPT_COOKIEFILE, $cookieJar);
+
+                    self::follow($warmup);
+                    self::setRedirect($warmup, 3);
+                    self::return($warmup);
+                    self::exec($warmup);
+                    self::close($warmup);
+
+                    usleep(mt_rand(1200000, 3000000));
+                }
+            }
+
+            $requestHeader = $header;
+            if ( $scraper && !empty($preflightUrl) ) {
+                $requestHeader = self::upsertHeader($requestHeader, 'Referer', (string)$preflightUrl);
+                $requestHeader = self::upsertHeader($requestHeader, 'Sec-Fetch-Site', 'same-origin');
+            }
+
+            // Set options
+            self::setHeader($handle, $requestHeader);
+            self::setTimeout($handle, $timeout);
+
+            if ( $scraper && $cookieJar ) {
+                self::setOpt($handle, CURLOPT_COOKIEJAR, $cookieJar);
+                self::setOpt($handle, CURLOPT_COOKIEFILE, $cookieJar);
+            }
+
+            if ( $encoding !== null ) {
+                self::setEncoding($handle, $encoding);
+            }
+
+            if ( $ua ) {
+                self::setUserAgent($handle, $ua);
+            }
+
+            if ( $ssl === false ) {
+                self::verifyHost($handle, false);
+                self::verifyPeer($handle, false);
+            }
+
+            // Force HTTP/1.1 to avoid HTTP/2 stream protocol errors
+            self::setOpt($handle, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+
+            if ( $scraper ) {
+                self::setOpt($handle, CURLOPT_AUTOREFERER, true);
+                if ( defined('CURLOPT_TCP_KEEPALIVE') ) {
+                    self::setOpt($handle, CURLOPT_TCP_KEEPALIVE, 1);
+                }
+            }
+
+            if ( $method == Client::POST ) {
+                self::setPost($handle);
+                self::setPostData($handle, $body);
+
+            } else {
+                self::setMethod($handle, $method);
+            }
+
+            // Allow redirection follow
+            if ( $follow === true ) {
+                self::follow($handle);
+                self::setRedirect($handle, $redirect);
+            }
+
+            // Allow body return
+            if ( $return === true ) {
+                self::return($handle);
+
+            } else {
+                self::setBodyCallback($handle);
+            }
+
+            // Include header response
+            if ( $headerIn === true ) {
+                self::headerIn($handle);
+
+            } else {
+                self::setHeaderCallback($handle);
+            }
+
+            // Get response
+            $error = false;
+            $response = self::exec($handle);
+
+            if ( $response === false ) {
+                $responseHeader = [];
+                $status = self::getError($handle);
+                $responseBody = Status::getMessage(500);
+                $error = true;
+
+            } else {
+                $responseHeader = self::getResponseHeader();
+                $status = self::getResponseStatus();
+                $responseBody = $return ? (string)$response : self::getResponseBody();
+
+                if ( empty($status) ) {
+                    $httpCode = (int)self::getInfo($handle, CURLINFO_HTTP_CODE);
+                    $status = [
+                        'code'    => $httpCode,
+                        'message' => Status::getMessage($httpCode ?: 200)
+                    ];
+                }
+            }
+
+            // Close handle
+            self::close($handle);
+
+            $result = [
+                'error'  => $error,
+                'status' => $status,
+                'header' => $responseHeader,
+                'body'   => $responseBody
+            ];
+
+            if ( !$scraper ) {
+                break;
+            }
+
+            if ( !$error && !self::isBlockedScraperResponse((string)$responseBody) ) {
+                break;
+            }
+
+            if ( $attempt < $maxRetries ) {
+                $backoff = $retryDelay > 0 ? ($retryDelay * $attempt) : 0;
+
+                if ( $maxDelay > 0 && $maxDelay >= $minDelay ) {
+                    $jitter = mt_rand((int)($minDelay * 1000000), (int)($maxDelay * 1000000)) / 1000000;
+                    $backoff += $jitter;
+                }
+
+                if ( $backoff > 0 ) {
+                    usleep((int)($backoff * 1000000));
+                }
             }
         }
 
-        // Init cURL
-        $handle = self::init($url);
-
-        // Set options
-        self::setHeader($handle, $header);
-        self::setTimeout($handle, $timeout);
-        // self::setOpt($handle, self::HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-
-        if ( $encoding ) {
-            self::setEncoding($handle, $encoding);
+        if ( $cookieJar && file_exists($cookieJar) ) {
+            @unlink($cookieJar);
         }
 
-        if ( $ua ) {
-            self::setUserAgent($handle, $ua);
-        }
-
-        if ( $ssl === false ) {
-            self::verifyHost($handle, false);
-            self::verifyPeer($handle, false);
-        }
-
-        // Force HTTP/1.1 to avoid HTTP/2 stream protocol errors
-        self::setOpt($handle, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-
-        if ( $method == Client::POST ) {
-            self::setPost($handle);
-            self::setPostData($handle, $body);
-
-        } else {
-            self::setMethod($handle, $method);
-        }
-
-        // Allow redirection follow
-        if ( $follow === true ) {
-            self::follow($handle);
-            self::setRedirect($handle, $redirect);
-        }
-
-        // Allow body return
-        if ( $return === true ) {
-            self::return($handle);
-
-        } else {
-            self::setBodyCallback($handle);
-        }
-
-        // Include header response
-        if ( $headerIn === true ) {
-            self::headerIn($handle);
-
-        } else {
-            self::setHeaderCallback($handle);
-        }
-
-        // Get response
-        $error = false;
-        $response = self::exec($handle);
-
-        if ( $response === false ) {
-            $header = [];
-            $status = self::getError($handle);
-            $body = Status::getMessage(500);
-            $error = true;
-
-        } else {
-            $header = self::getResponseHeader();
-            $status = self::getResponseStatus();
-            $body = $return ? (string)$response : self::getResponseBody();
-        }
-
-        // Close handle
-        self::close($handle);
-
-        // Return reponse data
-        return [
-            'error'  => $error,
-            'status' => $status,
-            'header' => $header,
-            'body'   => $body
-        ];
+        // Return response data
+        return $result;
     }
 
     /**
@@ -626,5 +737,89 @@ final class Curl implements GatewayInterface
         self::$responseBody = '';
         self::$responseHeader = [];
         self::$responseStatus = [];
+    }
+
+    /**
+     * Detect known anti-bot responses in credential-less scraping.
+     *
+     * @access private
+     * @param string $html
+     * @return bool
+     */
+    private static function isBlockedScraperResponse(string $html) : bool
+    {
+        if ( strlen($html) < 1000 ) {
+            return true;
+        }
+
+        $patterns = [
+            'validatecaptcha',
+            'robot check',
+            'enter the characters you see',
+            'api-services-support@amazon',
+            'automated access to amazon data',
+            'captchacharacters',
+            'unusual traffic',
+            'automated requests',
+            'one more step'
+        ];
+
+        $source = strtolower($html);
+        foreach ($patterns as $pattern) {
+            if ( strpos($source, $pattern) !== false ) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Build a warm-up URL on the same host to establish a browser-like session.
+     *
+     * @access private
+     * @param string $url
+     * @return string
+     */
+    private static function buildScraperWarmupUrl(string $url) : string
+    {
+        $parts = parse_url($url);
+        $scheme = (string)($parts['scheme'] ?? 'https');
+        $host = (string)($parts['host'] ?? 'www.amazon.com');
+        $base = "{$scheme}://{$host}";
+
+        $paths = [
+            '/',
+            '/gp/bestsellers',
+            '/gp/new-releases',
+            '/deals'
+        ];
+
+        return $base . $paths[array_rand($paths)];
+    }
+
+    /**
+     * Insert or replace an HTTP header line by name.
+     *
+     * @access private
+     * @param array $headers
+     * @param string $name
+     * @param string $value
+     * @return array
+     */
+    private static function upsertHeader(array $headers, string $name, string $value) : array
+    {
+        $needle = strtolower($name) . ':';
+        $line = "{$name}: {$value}";
+
+        foreach ($headers as $index => $header) {
+            if ( strpos(strtolower((string)$header), $needle) === 0 ) {
+                $headers[$index] = $line;
+                return $headers;
+            }
+        }
+
+        $headers[] = $line;
+        return $headers;
     }
 }

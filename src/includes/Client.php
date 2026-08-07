@@ -2,7 +2,7 @@
 /**
  * @author    : Jakiboy
  * @package   : Amazon Creators API Library
- * @version   : 2.0.x
+ * @version   : 2.1.x
  * @copyright : (c) 2019 - 2026 Jihad Sinnaour <me@jihadsinnaour.com>
  * @link      : https://jakiboy.github.io/apaapi/
  * @license   : MIT
@@ -25,22 +25,37 @@ class Client implements ClientInterface
     /**
      * @access public
      */
-    public const GET       = 'GET';
-    public const POST      = 'POST';
-    public const HEAD      = 'HEAD';
-    public const TIMEOUT   = 10;
-    public const REDIRECT  = 1;
-    public const PATTERN   = [
+    public const GET                 = 'GET';
+    public const POST                = 'POST';
+    public const HEAD                = 'HEAD';
+    public const TIMEOUT             = 10;
+    public const REDIRECT            = 1;
+    public const PATTERN             = [
         'status'    => '/^\s*HTTP\/\d+(\.\d+)?\s+(?P<code>\d+)\s*(?P<message>.*)?\r?\n?$/',
         'attribute' => '/^\s*(?P<name>[a-zA-Z0-9\-]+)\s*:\s*(?P<value>.*?)\s*(?:\r?\n|$)/'
     ];
-    public const USERAGENT = [
+    public const USERAGENT           = [
         'Mozilla/5.0',
         '(X11; Linux x86_64)',
         'AppleWebKit/537.36',
         '(KHTML, like Gecko)',
         'Chrome/114.0.5735.199',
         'Safari/537.36'
+    ];
+    public const SCRAPER_USERAGENTS  = [
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:133.0) Gecko/20100101 Firefox/133.0',
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 14_7_2) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.2 Safari/605.1.15',
+        'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36',
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Edg/131.0.0.0 Safari/537.36'
+    ];
+    public const SCRAPER_RESOLUTIONS = [
+        ['1920', '1080'],
+        ['1366', '768'],
+        ['1536', '864'],
+        ['1600', '900'],
+        ['1440', '900'],
+        ['1280', '720']
     ];
 
     /**
@@ -229,6 +244,20 @@ class Client implements ClientInterface
     public function setUserAgent(?string $ua = null) : self
     {
         $this->params['ua'] = $ua;
+        return $this;
+    }
+
+    /**
+     * Enable credential-less request profile.
+     * This is opt-in to avoid impacting existing API workflows.
+     *
+     * @access public
+     * @param bool $enabled
+     * @return self
+     */
+    public function setScraper(bool $enabled = true) : self
+    {
+        $this->params['scraper'] = $enabled;
         return $this;
     }
 
@@ -430,18 +459,128 @@ class Client implements ClientInterface
     public static function getParams(array $params = []) : array
     {
         return array_merge([
-            'header'   => [],
-            'body'     => [],
-            'method'   => null,
-            'timeout'  => self::TIMEOUT,
-            'redirect' => self::REDIRECT,
-            'ua'       => self::getUserAgent(),
-            'ssl'      => true,
-            'encoding' => null,
-            'return'   => false,
-            'follow'   => false,
-            'headerIn' => false
+            'header'     => [],
+            'body'       => [],
+            'method'     => null,
+            'timeout'    => self::TIMEOUT,
+            'redirect'   => self::REDIRECT,
+            'ua'         => self::getUserAgent(),
+            'ssl'        => true,
+            'encoding'   => null,
+            'return'     => false,
+            'follow'     => false,
+            'headerIn'   => false,
+            'scraper'    => false,
+            'retries'    => null,
+            'retryDelay' => null
         ], $params);
+    }
+
+    /**
+     * Get random User-Agent dedicated to credential-less scraping.
+     *
+     * @access public
+     * @return string
+     */
+    public static function getRandomUserAgent() : string
+    {
+        $custom = (array)ScraperConfig::get('customUserAgents', []);
+        $rotate = (bool)ScraperConfig::get('rotateUserAgents', true);
+
+        $pool = array_merge(self::SCRAPER_USERAGENTS, $custom);
+        $pool = array_values(array_filter(array_unique(array_map('strval', $pool))));
+
+        if ( empty($pool) ) {
+            return self::getUserAgent();
+        }
+
+        if ( !$rotate ) {
+            return (string)$pool[0];
+        }
+
+        return (string)$pool[array_rand($pool)];
+    }
+
+    /**
+     * Get random viewport resolution for credential-less scraping.
+     *
+     * @access public
+     * @return array
+     */
+    public static function getRandomResolution() : array
+    {
+        $custom = (array)ScraperConfig::get('customResolutions', []);
+        $rotate = (bool)ScraperConfig::get('rotateResolutions', true);
+
+        $pool = array_merge(self::SCRAPER_RESOLUTIONS, $custom);
+        $pool = array_filter($pool, function ($resolution) {
+            return is_array($resolution)
+                && isset($resolution[0], $resolution[1])
+                && is_scalar($resolution[0])
+                && is_scalar($resolution[1]);
+        });
+        $pool = array_values($pool);
+
+        if ( empty($pool) ) {
+            return ['1920', '1080'];
+        }
+
+        if ( !$rotate ) {
+            return [(string)$pool[0][0], (string)$pool[0][1]];
+        }
+
+        $random = $pool[array_rand($pool)];
+        return [(string)$random[0], (string)$random[1]];
+    }
+
+    /**
+     * Check if URL targets US Amazon domain.
+     *
+     * @access public
+     * @param string $url
+     * @return bool
+     */
+    public static function isUSAmazon(string $url) : bool
+    {
+        return strpos($url, 'amazon.com') !== false;
+    }
+
+    /**
+     * Build Accept-Language header value from Amazon URL locale.
+     *
+     * @access private
+     * @param string $url
+     * @return string
+     */
+    private static function buildAcceptLanguageForUrl(string $url) : string
+    {
+        if ( self::isUSAmazon($url) ) {
+            return 'en-US,en;q=0.9';
+        }
+
+        $host = (string)parse_url($url, PHP_URL_HOST);
+        if ( $host === '' ) {
+            return 'en-US,en;q=0.8';
+        }
+
+        if ( preg_match('/amazon\.([a-z.]+)/i', $host, $matches) !== 1 ) {
+            return 'en-US,en;q=0.8';
+        }
+
+        $locale = strtolower((string)$matches[1]);
+        $language = Provider::getLanguages($locale)[0] ?? null;
+        if ( !is_string($language) || trim($language) === '' ) {
+            return 'en-US,en;q=0.8';
+        }
+
+        $tag = str_replace('_', '-', trim($language));
+        $base = strtolower((string)strtok($tag, '-'));
+
+        if ( $base === 'en' ) {
+            return "{$tag},en;q=0.9";
+        }
+
+        return "{$tag},{$base};q=0.9,en-US;q=0.8,en;q=0.7";
     }
 
     /**
@@ -497,20 +636,80 @@ class Client implements ClientInterface
      */
     protected function execute() : void
     {
+        if ( !empty($this->params['scraper']) ) {
+            $this->applyScraperProfile();
+        }
+
         $this->response = $this->gateway::request($this->url, [
-            'method'   => $this->method,
-            'header'   => $this->header,
-            'body'     => $this->body,
-            'timeout'  => $this->params['timeout'],
-            'redirect' => $this->params['redirect'],
-            'encoding' => $this->params['encoding'],
-            'return'   => $this->params['return'],
-            'follow'   => $this->params['follow'],
-            'headerIn' => $this->params['headerIn'],
-            'ua'       => $this->params['ua'],
-            'ssl'      => self::isSsl()
+            'method'     => $this->method,
+            'header'     => $this->header,
+            'body'       => $this->body,
+            'timeout'    => $this->params['timeout'],
+            'redirect'   => $this->params['redirect'],
+            'encoding'   => $this->params['encoding'],
+            'return'     => $this->params['return'],
+            'follow'     => $this->params['follow'],
+            'headerIn'   => $this->params['headerIn'],
+            'ua'         => $this->params['ua'],
+            'ssl'        => self::isSsl(),
+            'scraper'    => $this->params['scraper'] ?? false,
+            'retries'    => $this->params['retries'] ?? null,
+            'retryDelay' => $this->params['retryDelay'] ?? null
         ]);
         $this->params = [];
+    }
+
+    /**
+     * Apply anti-bot oriented request profile for credential-less scraping.
+     *
+     * @access private
+     * @return void
+     */
+    private function applyScraperProfile() : void
+    {
+        $config = ScraperConfig::all();
+
+        if ( empty($this->params['ua']) || $this->params['ua'] === self::getUserAgent() ) {
+            $this->params['ua'] = self::getRandomUserAgent();
+        }
+
+        $resolution = self::getRandomResolution();
+        $host = self::isUSAmazon($this->url) ? 'www.amazon.com' : parse_url($this->url, PHP_URL_HOST);
+
+        $defaults = [
+            'Accept'                    => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+            'Accept-Language'           => self::buildAcceptLanguageForUrl($this->url),
+            'Cache-Control'             => 'max-age=0',
+            'Upgrade-Insecure-Requests' => '1',
+            'Sec-CH-UA-Mobile'          => '?0',
+            'Sec-Fetch-Dest'            => 'document',
+            'Sec-Fetch-Mode'            => 'navigate',
+            'Sec-Fetch-Site'            => 'none',
+            'Sec-Fetch-User'            => '?1',
+            'Viewport-Width'            => (string)$resolution[0],
+            'DPR'                       => '1',
+            'Connection'                => 'keep-alive',
+            'Referer'                   => "https://{$host}/"
+        ];
+
+        $this->header = array_merge($defaults, $this->header);
+
+        if ( !isset($this->params['follow']) || $this->params['follow'] === false ) {
+            $this->params['follow'] = (bool)($config['followRedirects'] ?? true);
+        }
+
+        $configuredRedirect = (int)($config['maxRedirects'] ?? 3);
+        if ( $this->params['redirect'] < $configuredRedirect ) {
+            $this->params['redirect'] = $configuredRedirect;
+        }
+
+        if ( !isset($this->params['retries']) || $this->params['retries'] === null ) {
+            $this->params['retries'] = (int)($config['maxRetries'] ?? 3);
+        }
+
+        if ( !isset($this->params['retryDelay']) || $this->params['retryDelay'] === null ) {
+            $this->params['retryDelay'] = (int)($config['retryDelay'] ?? 2);
+        }
     }
 
     /**
