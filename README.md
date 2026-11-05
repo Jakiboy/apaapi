@@ -66,6 +66,8 @@ include('apaapi-main/src/Autoloader.php');
 * "ASIN" : Accepts (ISBN), Amazon Standard Identification Number (*your locale*), [More](https://affiliate-program.amazon.com/creatorsapi/docs/en-us/api-reference/resources/item-info). 
 * "NODE" : Browse Node ID (*your locale*), [More](https://affiliate-program.amazon.com/creatorsapi/docs/en-us/api-reference/resources/browse-nodes). 
 
+> **Tip:** You can verify your Credential ID, Credential Secret and Tag in the browser with [AMZ Scratchpad](https://amzscratchpad.com/) before using them here.
+
 ### Quickstart
 
 **Recommended** using *Apaapi Builder* or *Apaapi Product* (Scraped data) if you dont have API credentials.
